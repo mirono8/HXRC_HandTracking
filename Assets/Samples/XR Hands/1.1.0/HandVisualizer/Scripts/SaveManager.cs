@@ -26,11 +26,13 @@ public class SaveManager : MonoBehaviour
     
     public class DataWrapper
     {
-        public DataList left;
-        public DataList right;
-
         [JsonProperty("eT")]
         public float elapsedTime;
+
+        public Tasks.Task currentTask;
+
+        public DataList left;
+        public DataList right;
 
         [Serializable]
         public class DataList
@@ -80,6 +82,13 @@ public class SaveManager : MonoBehaviour
         timeSinceLastStamp += Time.deltaTime;
 
         combinedData.elapsedTime += Time.deltaTime;
+
+        if (combinedData.currentTask.isCompleted)
+        {
+            Save();
+            //GEt new task
+            sessionStartTime = data.GetDate();
+        }
     }
 
     public DataBlock BlockMe()
@@ -140,7 +149,7 @@ public class SaveManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Save();
+        Save(); //for now
     }
 
     public void Save()
