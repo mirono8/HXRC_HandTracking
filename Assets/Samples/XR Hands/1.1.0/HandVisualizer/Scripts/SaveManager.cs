@@ -22,6 +22,7 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField]
     float timeSinceLastStamp = 0;
+
     [SerializeField]
     
     public class DataWrapper
@@ -29,6 +30,7 @@ public class SaveManager : MonoBehaviour
         [JsonProperty("eT")]
         public float elapsedTime;
 
+        [JsonProperty("T")]
         public Tasks.Task currentTask;
 
         public DataList left;
@@ -73,6 +75,8 @@ public class SaveManager : MonoBehaviour
         combinedData.left.blocks = new();
         combinedData.right.blocks = new();
 
+        combinedData.currentTask = new Tasks.Task();
+
         sessionStartTime = data.GetDate();
 
     }
@@ -93,12 +97,11 @@ public class SaveManager : MonoBehaviour
 
     public DataBlock BlockMe()
     {
-        if (newBlock != null)
-        {
-            newBlock.handPosition = " "; //new Vector3(0, 0, 0)
-            newBlock.timeStamp = " ";
-            newBlock.collisionEvent = " ";
-        }
+        Debug.Log(newBlock.handPosition + " before");
+        newBlock.handPosition = " "; //new Vector3(0, 0, 0)
+        newBlock.timeStamp = " ";
+        newBlock.collisionEvent = " ";
+        Debug.Log(newBlock.handPosition + " after");
         return newBlock;
     }
 
@@ -113,34 +116,38 @@ public class SaveManager : MonoBehaviour
     public void SaveHandLocation(HandDataOut.Hand hand)
     {
         var block = new DataBlock();
+
         if (timeSinceLastStamp > stampInterval)
         {
             Stamp(block);
             timeSinceLastStamp = 0;
         }
+
         block.handPosition = hand.handPosition.ToString("F5");
 
-       // block.handPosition.ToString("F5");
         if (hand.myHandedness == HandDataOut.Hand.MyHandedness.left)
         {
            combinedData.left.blocks.Add(block);
         }
+
         if (hand.myHandedness == HandDataOut.Hand.MyHandedness.right)
         {
             combinedData.right.blocks.Add(block);
         }
-        
     }
+
 
     public void SaveFingerCollision(HandDataOut.Hand hand, TrackColliders.CollisionEvent collision)
     {
         var block = new DataBlock();
-        block.collisionEvent = new string(hand.myHandedness.ToString().FirstToUpper() + " hand " + collision.collidingFinger.ToLower() + " collided with " + collision.otherCollider + " at " + collision.startTime + ". ");
+
+        block.collisionEvent = new string(hand.myHandedness.ToString().FirstToUpper() + " hand " + collision.collidingFinger.ToLower() + " -> " + collision.otherCollider + " at " + collision.startTime);
 
         if (hand.myHandedness == HandDataOut.Hand.MyHandedness.left)
         {
             combinedData.left.blocks.Add(block);
         }
+
         if (hand.myHandedness == HandDataOut.Hand.MyHandedness.right)
         {
             combinedData.right.blocks.Add(block);
@@ -179,9 +186,11 @@ public class SaveManager : MonoBehaviour
         }
 
         var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
-       // var json = JsonUtility.ToJson(combinedData);
-        var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
-        File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
 
+        // var json = JsonUtility.ToJson(combinedData);
+
+        var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
+
+        File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
     }
 }

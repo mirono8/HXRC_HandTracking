@@ -84,6 +84,8 @@ namespace HandData
             //InitHands();
         }
 
+        
+
         public void TrackLeftHandGeneral(XRHand hand)
         {
             if (hand.isTracked && track)
@@ -231,6 +233,8 @@ namespace HandData
             string dateTime = date + "-" + time;
 
             return dateTime;
+
+            
         }
 
         //------------------------------------------- Track finger positions ------------------------------//

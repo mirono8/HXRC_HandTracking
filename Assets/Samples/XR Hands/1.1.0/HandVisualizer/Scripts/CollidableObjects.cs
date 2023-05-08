@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CollidableObjects : MonoBehaviour
 {
-    [SerializeField]
-    List<GameObject> objects;
+
+    public List<GameObject> objects;
 
     private void Start()
     {

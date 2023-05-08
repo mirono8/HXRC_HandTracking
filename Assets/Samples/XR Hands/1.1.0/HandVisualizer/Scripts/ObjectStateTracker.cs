@@ -9,9 +9,12 @@ public class ObjectStateTracker : MonoBehaviour
     Vector3 initialPosition;
     Quaternion initialRotation;
 
-    [HideInInspector]
+    Vector3 previousPosition;
+
+   [HideInInspector]
     public float timer;
 
+    
     void Start()
     {
         initialPosition = transform.position;
@@ -26,6 +29,13 @@ public class ObjectStateTracker : MonoBehaviour
             ReturnHome();
     }
 
+    private void LateUpdate()
+    {
+        if (Time.frameCount % 2 == 0)
+        {
+            previousPosition = transform.position;
+        }
+    }
     public void ReturnHome()
     {
         timer = 0;
@@ -38,9 +48,22 @@ public class ObjectStateTracker : MonoBehaviour
         if (other.CompareTag("FingerCollider"))
         {
             timer = 0;
-            if(transform.position != initialPosition)
+
+            if (transform.position != previousPosition)
             {
-                other.gameObject.GetComponentInParent<HandDataOut.Hand>().isGrabbing = true;
+                var finger = other.gameObject.GetComponentInParent<TrackColliders>();
+
+                var hand = FindObjectOfType<HandDataOut>();
+
+                if ((int)hand.leftHand.myHandedness == (int)finger.GetMyHandedness(finger))
+                {
+                    hand.leftHand.isGrabbing = true;
+                    
+                }
+                else if((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
+                {
+                    hand.rightHand.isGrabbing = true;
+                }
             }
         }
     }
@@ -49,7 +72,20 @@ public class ObjectStateTracker : MonoBehaviour
     {
         if (other.CompareTag("FingerCollider"))
         {
-            other.gameObject.GetComponentInParent<HandDataOut.Hand>().isGrabbing = false;
+            var finger = other.gameObject.GetComponentInParent<TrackColliders>();
+
+            var hand = FindObjectOfType<HandDataOut>();
+
+            if ((int)hand.leftHand.myHandedness == (int)finger.GetMyHandedness(finger))
+            {
+                hand.leftHand.isGrabbing = false;
+
+            }
+            else if ((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
+            {
+                hand.rightHand.isGrabbing = false;
+            }
+
 
         }
     }
