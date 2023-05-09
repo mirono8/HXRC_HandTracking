@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class RandomButtons : MonoBehaviour
 {
+    public bool setAgain;
     CollidableObjects collidables;
 
-    public List<Transform> originalTransforms = new List<Transform>();
+    public List<Vector3> originalPositions = new List<Vector3>();
 
     public List<int> intersecting = new List<int>();
 
@@ -16,28 +17,37 @@ public class RandomButtons : MonoBehaviour
 
         foreach (GameObject x in collidables.objects) 
         {
-            originalTransforms.Add(x.transform);
+            originalPositions.Add(x.transform.position);
         }
 
         SetRandomPositions();
 
-       LoopingIntersectSetter();
+        StartCoroutine(LoopingIntersectSetter()); 
+        
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log("Space Pressed");
+            for (int i = 0; i < collidables.objects.Count; i++)
+            {
+                CheckBoundIntersection(i);
+            }
+        }
     }
 
     public void SetRandomPositions()
     {
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-            var deviation = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
+            var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
             collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviation;
 
             collidables.objects[i].SetActive(true);
 
-            if (CheckBoundIntersection(i))
-            {
-                intersecting.Add(i);
-            }
+            CheckBoundIntersection(i);
         }
     }
 
@@ -47,48 +57,53 @@ public class RandomButtons : MonoBehaviour
         {
             if (i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
-                /*var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
-                collidables.objects[index].transform.position = originalTransforms[index].position + deviationAgain;
-                Debug.Log("colliders intersect");*/
+                if (!intersecting.Contains(index))
+                {
+                    intersecting.Add(index);
+                }
                 return true;
             }
         }
+        intersecting.Remove(index);
         return false;
     }
 
-    public void LoopingIntersectSetter()
+    public IEnumerator LoopingIntersectSetter()
     {
+
+        while (intersecting.Count > 0)
+        {
+            yield return null;
+            if (CheckBoundIntersection(intersecting[0]))
+                SetIntersectingPositions(0);
+        }
+        
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < collidables.objects.Count; i++)
+        {
+            CheckBoundIntersection(i);
+            
+        }
+        yield return null;
         if (intersecting.Count > 0)
         {
-            for (int i = 0; i < intersecting.Count; i++)
-            {
-               // SetIntersectingPositions(i);
-            }
+            StartCoroutine(LoopingIntersectSetter());
+        }
+        else
+        {
+            Debug.Log("loop end");
+           
         }
     }
 
+
     public void SetIntersectingPositions(int index)
     {
-            var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
-            collidables.objects[intersecting[index]].transform.position = originalTransforms[intersecting[index]].position + deviationAgain;
+        Debug.Log("intersecting set");
+        var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
+        collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
+    }
 
-            
-        /*    if (CheckBoundIntersection(intersecting[index]))
-            {
-                SetIntersectingPositions(index);
-                Debug.Log("loop");
-            }
-            else
-            {
-                intersecting.Remove(intersecting[index]);
-            
-            }*/
-    }
-    
-   //tää pitää saada looppaamaa niin kaua kunnes ei enää törmäile
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //tää pitää saada looppaamaa niin kaua kunnes ei enää törmäile
 }
