@@ -542,6 +542,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin HandsHXRC
       objectReference: {fileID: 0}
+    - target: {fileID: 7249354228339334406, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228370543724, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228657089026, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228764573441, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228814204287, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229388830020, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229815534086, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229931024298, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: FingerCollider
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
 --- !u!135 &320158830 stripped
