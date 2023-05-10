@@ -11,6 +11,9 @@ public class RandomButtons : MonoBehaviour
 
     public List<int> intersecting = new List<int>();
 
+
+    public bool oneByOne;
+
     void Start()
     {
         collidables = GetComponent<CollidableObjects>();
@@ -20,22 +23,26 @@ public class RandomButtons : MonoBehaviour
             originalPositions.Add(x.transform.position);
         }
 
+
         SetRandomPositions();
 
-        StartCoroutine(LoopingIntersectSetter()); 
-        
+        if (!oneByOne)
+        {
+            StartCoroutine(LoopingIntersectSetter());
+        }
+
 
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+       /* if (Input.GetKeyDown(KeyCode.Space)) {
             Debug.Log("Space Pressed");
             for (int i = 0; i < collidables.objects.Count; i++)
             {
                 CheckBoundIntersection(i);
             }
-        }
+        }*/
     }
 
     public void SetRandomPositions()
@@ -45,9 +52,14 @@ public class RandomButtons : MonoBehaviour
             var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
             collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviation;
 
-            collidables.objects[i].SetActive(true);
+            if (!oneByOne)
+            {
+                collidables.objects[i].SetActive(true);
 
-            CheckBoundIntersection(i);
+                CheckBoundIntersection(i);
+            }
+            else if (i == 0)
+                collidables.objects[i].SetActive(true);
         }
     }
 

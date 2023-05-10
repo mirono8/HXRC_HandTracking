@@ -67,6 +67,7 @@ namespace HandData
             }
         }
 
+
         public Hand leftHand;
         public Hand rightHand;
 
@@ -81,6 +82,7 @@ namespace HandData
             leftHand.fingers.trackColliders.PopulateColliderList(leftHand.fingertips);
 
             rightHand.fingers.trackColliders.PopulateColliderList(rightHand.fingertips);
+
             //InitHands();
         }
 
