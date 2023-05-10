@@ -77,4 +77,9 @@ public class TrackColliders : MonoBehaviour
 
         }
     }
+
+    public Hand GetMyHandedness(TrackColliders finger)
+    {
+        return finger.handedness;
+    }
 }

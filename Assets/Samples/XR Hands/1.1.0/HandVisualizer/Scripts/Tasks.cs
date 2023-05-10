@@ -7,7 +7,8 @@ public class Tasks : MonoBehaviour
     public class Task
     {
         public string name;
-        List<GameObject> targets = new List<GameObject>();
+        public List<GameObject> targets = new List<GameObject>();
         public bool isCompleted;
     }
+
 }
