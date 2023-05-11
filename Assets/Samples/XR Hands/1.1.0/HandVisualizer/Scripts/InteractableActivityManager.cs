@@ -20,8 +20,21 @@ public class InteractableActivityManager : MonoBehaviour
 
     public bool interactSuccess;
 
+    public Collider myInteractableCollider;
+
+    float force;
+
+    float upPosition;
+    float downPosition;
+
     void Start()
     {
+        if (type == InteractableType.Button)
+        {
+            upPosition = 0;
+            downPosition = -0.003f;
+        }
+
         collidables = GetComponentInParent<CollidableObjects>();
         randomButtons = GetComponentInParent<RandomButtons>();
 
@@ -33,29 +46,47 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+   /* private void OnTriggerEnter(Collider other)
     {
         if (randomButtons.oneByOne)
         {
-            if (other == GameObject.FindGameObjectWithTag("FingerCollider"))
+            if (other.gameObject == GameObject.FindGameObjectWithTag("FingerCollider"))
             {
+                Debug.Log("we in there");
                 if (other == other.GetComponent<HandDataOut>().leftHand.fingers.trackColliders.sphereColliders[0] ||
                     other.GetComponent<HandDataOut>().rightHand.fingers.trackColliders.sphereColliders[0])
                 {
+                    Debug.Log("interact success");
+                    interactSuccess = true;
+                }
+            }
+        }
+    }*/
+
+    public void ButtonPressed(GameObject whoDunnit)
+    {
+        if (randomButtons.oneByOne)
+        {
+            if (whoDunnit.CompareTag("FingerCollider"))
+            {
+                Debug.Log("we in there");
+                if (whoDunnit.name == "indexL" || whoDunnit.name == "indexR")
+                {
+                    //NEED LOGIC BUTTON PRESSING I.E. PASSING THE FORCE TO BLENDTREE
+                    Debug.Log("interact success");
+                    myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
                     interactSuccess = true;
                 }
             }
         }
     }
-
     private void Update()
     {
         if (interactSuccess)
         {
             if (myOrderIndex != collidables.objects.Count - 1)
             {
-                var next = collidables.objects[myOrderIndex + 1];
-                next.gameObject.SetActive(true);
+                collidables.objects[myOrderIndex + 1].SetActive(true);
             }
             else
                 Debug.Log("All buttons pressed");

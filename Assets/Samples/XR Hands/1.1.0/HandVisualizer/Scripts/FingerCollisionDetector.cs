@@ -27,7 +27,9 @@ public class FingerCollisionDetector : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.transform.GetComponentInParent<CollidableObjects>())
+        
+
+        if (other.gameObject.GetComponentInParent<CollidableObjects>())
         {
             
             if (colliders.handedness == TrackColliders.Hand.left)
@@ -84,6 +86,18 @@ public class FingerCollisionDetector : MonoBehaviour
                 }
             }
 
+            var interactableByType = other.gameObject.GetComponentInParent<InteractableActivityManager>();
+
+
+            if (interactableByType != null)
+            {
+                if (interactableByType.type == InteractableActivityManager.InteractableType.Button)
+                {
+                    Debug.Log("button pressed by " + gameObject.name);
+                    interactableByType.ButtonPressed(gameObject);
+                }
+            }
+
             /*  if (colliders.handedness == TrackColliders.Hand.right)   ----------------OLD----------------------------
               {
                   var collision = handData.rightHand.fingers.trackColliders.tipCollidersLeft.Find(x => gameObject.GetComponent<SphereCollider>() == x);
@@ -108,6 +122,7 @@ public class FingerCollisionDetector : MonoBehaviour
                   }
               }*/
         }
+       
     }
 
     private void OnTriggerExit(Collider other)
