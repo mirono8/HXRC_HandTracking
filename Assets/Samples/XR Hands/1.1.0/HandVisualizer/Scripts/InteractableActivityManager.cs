@@ -10,7 +10,13 @@ public class InteractableActivityManager : MonoBehaviour
         Button, Lever, Switch
     }
 
+    public enum InteractableSize
+    {
+        Small, Medium, Large, Random
+    }
+
     public InteractableType type;
+    public InteractableSize size;
 
     CollidableObjects collidables;
 
@@ -20,14 +26,13 @@ public class InteractableActivityManager : MonoBehaviour
 
     public bool interactSuccess;
 
-    public Collider myInteractableCollider;
-
     Rigidbody myRigidbody;
 
     float upPosition;
     float downPosition;
 
-    float restrictedValue;
+    
+
     void Start()
     {
         if (type == InteractableType.Button)
@@ -50,45 +55,54 @@ public class InteractableActivityManager : MonoBehaviour
         
     }
 
-   /* private void OnTriggerEnter(Collider other)
-    {
-        if (randomButtons.oneByOne)
-        {
-            if (other.gameObject == GameObject.FindGameObjectWithTag("FingerCollider"))
-            {
-                Debug.Log("we in there");
-                if (other == other.GetComponent<HandDataOut>().leftHand.fingers.trackColliders.sphereColliders[0] ||
-                    other.GetComponent<HandDataOut>().rightHand.fingers.trackColliders.sphereColliders[0])
-                {
-                    Debug.Log("interact success");
-                    interactSuccess = true;
-                }
-            }
-        }
-    }*/
+    /* private void OnTriggerEnter(Collider other)
+     {
+         if (randomButtons.oneByOne)
+         {
+             if (other.gameObject == GameObject.FindGameObjectWithTag("FingerCollider"))
+             {
+                 Debug.Log("we in there");
+                 if (other == other.GetComponent<HandDataOut>().leftHand.fingers.trackColliders.sphereColliders[0] ||
+                     other.GetComponent<HandDataOut>().rightHand.fingers.trackColliders.sphereColliders[0])
+                 {
+                     Debug.Log("interact success");
+                     interactSuccess = true;
+                 }
+             }
+         }
+     }*/
 
-    public void ButtonPressed(GameObject whoDunnit)
+    public void SetMySize()
+    {
+        switch (size)
+        {
+            case InteractableSize.Small: gameObject.transform.localScale.Set(2, 2, 2); break;
+            case InteractableSize.Medium: gameObject.transform.localScale.Set(3, 3, 3); break;
+            case InteractableSize.Large: gameObject.transform.localScale.Set(4, 4, 4); break;
+            case InteractableSize.Random: int r = Random.Range(0, 3); size = (InteractableSize)r; SetMySize(); break;
+        }
+    }
+
+
+
+
+    public void ButtonPressed()
     {
         if (randomButtons.oneByOne)
         {
-            if (whoDunnit.CompareTag("FingerCollider"))
+            if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
             {
-                Debug.Log("we in there");
-                if (whoDunnit.name == "indexL" || whoDunnit.name == "indexR")
-                {
-                    if (myRigidbody.gameObject.transform.localPosition.y <= -0.00223f)
-                    {
-                        Debug.Log("interact success");
-                        // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-                        interactSuccess = true;
-                    }
-                }
+                Debug.Log("interact success");
+                // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
+                interactSuccess = true;
             }
         }
     }
+
+
     private void Update()
     {
-        restrictedValue = Mathf.Clamp(myRigidbody.gameObject.transform.localPosition.y, upPosition, downPosition);
+        ButtonPressed();
 
         if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
         {

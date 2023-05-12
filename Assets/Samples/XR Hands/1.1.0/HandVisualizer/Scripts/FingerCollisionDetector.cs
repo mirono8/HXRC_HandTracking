@@ -86,7 +86,7 @@ public class FingerCollisionDetector : MonoBehaviour
                 }
             }
 
-            var interactableByType = other.gameObject.GetComponentInParent<InteractableActivityManager>();
+            /*var interactableByType = other.gameObject.GetComponentInParent<InteractableActivityManager>();
 
 
             if (interactableByType != null)
@@ -96,7 +96,7 @@ public class FingerCollisionDetector : MonoBehaviour
                     Debug.Log("button pressed by " + gameObject.name);
                     interactableByType.ButtonPressed(gameObject);
                 }
-            }
+            }*/
 
             /*  if (colliders.handedness == TrackColliders.Hand.right)   ----------------OLD----------------------------
               {
