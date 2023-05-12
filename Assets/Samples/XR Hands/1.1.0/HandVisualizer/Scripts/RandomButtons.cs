@@ -117,5 +117,4 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
     }
 
-    //tää pitää saada looppaamaa niin kaua kunnes ei enää törmäile
 }

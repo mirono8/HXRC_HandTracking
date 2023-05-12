@@ -22,11 +22,12 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Collider myInteractableCollider;
 
-    float force;
+    Rigidbody myRigidbody;
 
     float upPosition;
     float downPosition;
 
+    float restrictedValue;
     void Start()
     {
         if (type == InteractableType.Button)
@@ -35,6 +36,7 @@ public class InteractableActivityManager : MonoBehaviour
             downPosition = -0.003f;
         }
 
+        myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
         randomButtons = GetComponentInParent<RandomButtons>();
 
@@ -44,6 +46,8 @@ public class InteractableActivityManager : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
+
+        
     }
 
    /* private void OnTriggerEnter(Collider other)
@@ -72,16 +76,30 @@ public class InteractableActivityManager : MonoBehaviour
                 Debug.Log("we in there");
                 if (whoDunnit.name == "indexL" || whoDunnit.name == "indexR")
                 {
-                    //NEED LOGIC BUTTON PRESSING I.E. PASSING THE FORCE TO BLENDTREE
-                    Debug.Log("interact success");
-                    myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-                    interactSuccess = true;
+                    if (myRigidbody.gameObject.transform.localPosition.y <= -0.00223f)
+                    {
+                        Debug.Log("interact success");
+                        // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
+                        interactSuccess = true;
+                    }
                 }
             }
         }
     }
     private void Update()
     {
+        restrictedValue = Mathf.Clamp(myRigidbody.gameObject.transform.localPosition.y, upPosition, downPosition);
+
+        if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition , myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.y < downPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, downPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
         if (interactSuccess)
         {
             if (myOrderIndex != collidables.objects.Count - 1)
