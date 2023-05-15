@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HandData;
+using UnityEngine.UIElements;
 
 public class InteractableActivityManager : MonoBehaviour
 {
@@ -15,8 +16,25 @@ public class InteractableActivityManager : MonoBehaviour
         Small, Medium, Large, Random
     }
 
+    public enum Interactor
+    {
+        Left, Right
+    }
+
     public InteractableType type;
     public InteractableSize size;
+    public Interactor interactor;
+
+
+    HandDataOut handData;
+    SaveManager saveManager;
+    [SerializeField]
+    SaveManager.InteractableEvent interactableEvent;
+
+
+
+    List<string> leftHandPos;
+    List<string> rightHandPos;
 
     CollidableObjects collidables;
 
@@ -31,10 +49,13 @@ public class InteractableActivityManager : MonoBehaviour
     float upPosition;
     float downPosition;
 
-    
+    float myDuration;
 
     void Start()
     {
+        leftHandPos = new();
+        rightHandPos = new();
+
         if (type == InteractableType.Button)
         {
             upPosition = 0;
@@ -52,7 +73,9 @@ public class InteractableActivityManager : MonoBehaviour
             gameObject.SetActive(true);
         }
 
-        
+        handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
+        saveManager = handData.gameObject.GetComponentInChildren<SaveManager>();
+
     }
 
     /* private void OnTriggerEnter(Collider other)
@@ -99,10 +122,103 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
+    public void StartInteractionEvent()
+    {
+        
+        interactableEvent = new SaveManager.InteractableEvent();
 
+        interactableEvent.interactableSize = size.ToString().Substring(0,1);
+        interactableEvent.interactableType = type.ToString().Substring(0,1);
+
+
+    }
+    public void EndInteractionEvent()
+    {
+        interactableEvent.duration = myDuration.ToString();
+        
+
+        if(interactor == Interactor.Left)
+        {
+            interactableEvent.startPoint = leftHandPos[0];
+            interactableEvent.trajectory = leftHandPos;
+            interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
+            interactableEvent.endPoint = leftHandPos[leftHandPos.Count-1];
+
+        }
+        else if(interactor == Interactor.Right)
+        {
+            interactableEvent.startPoint= rightHandPos[0];
+            interactableEvent.trajectory = rightHandPos;
+            interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
+            interactableEvent.endPoint = rightHandPos[rightHandPos.Count - 1];
+        }
+
+        saveManager.combinedData.interactableEvents.events.Add(interactableEvent);
+    }
+    public static Vector3 StringToVector3(string sVector)
+    {
+        // Remove the parentheses
+        if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+        {
+            sVector = sVector.Substring(1, sVector.Length - 2);
+        }
+
+        // split the items
+        string[] sArray = sVector.Split(',');
+
+        // store as a Vector3
+        Vector3 result = new Vector3(
+            float.Parse(sArray[0]),
+            float.Parse(sArray[1]),
+            float.Parse(sArray[2]));
+
+        return result;
+    }
+
+    public void Contraints()
+    {
+        if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.y < downPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, downPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.x > 0 || myRigidbody.gameObject.transform.localPosition.x < 0)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(0, myRigidbody.gameObject.transform.localPosition.y, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.z < 0 || myRigidbody.gameObject.transform.localPosition.z > 0)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, myRigidbody.gameObject.transform.localPosition.y, 0);
+        }
+    }
+    private void OnEnable()
+    {
+        StartInteractionEvent();
+    }
+
+    private void OnDisable()
+    { 
+        EndInteractionEvent();
+    }
+    
     private void Update()
     {
+        myDuration += Time.deltaTime;
         ButtonPressed();
+
+        if(handData.leftHandTracking)
+            leftHandPos.Add(handData.leftHand.handPosition.ToString());
+
+        if(handData.rightHandTracking)
+            rightHandPos.Add(handData.rightHand.handPosition.ToString());
+
+        Contraints();
 
         if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
         {

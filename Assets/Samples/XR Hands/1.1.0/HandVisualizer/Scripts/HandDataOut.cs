@@ -12,6 +12,8 @@ namespace HandData
     public class HandDataOut : MonoBehaviour
     {
         public bool track = true;
+        public bool leftHandTracking;
+        public bool rightHandTracking;
 
         public Transform originTransform;
 
@@ -92,6 +94,7 @@ namespace HandData
         {
             if (hand.isTracked && track)
             {
+                leftHandTracking = true;
                 handLeftXR = hand;
                 leftHand.handPosition = handLeftXR.rootPose.position;
                 leftHand.forward = handLeftXR.rootPose.forward;
@@ -103,17 +106,20 @@ namespace HandData
 
                 saveManager.SaveHandLocation(leftHand);
 
-                
+
 
                 if (track)
                     UpdateFingerPositions(hand);
             }
+            else
+                leftHandTracking = false;
         }
 
         public void TrackRightHandGeneral(XRHand hand)
         {
             if (hand.isTracked && track)
             {
+                rightHandTracking = true;
                 handRightXR = hand;
                 rightHand.handPosition = handRightXR.rootPose.position;
                 rightHand.forward = handRightXR.rootPose.forward;
@@ -131,6 +137,8 @@ namespace HandData
 
                 }
             }
+            else
+                rightHandTracking = false;
         }
 
 
@@ -196,7 +204,7 @@ namespace HandData
             return null;
         }
 
-        //tähän timestamp ku alkaa ja tallentuu vasta ku loppuu, nyt tallentuu joka frame ja tankkaa
+       
 
         public void SendCollisionData(Hand hand, TrackColliders.CollisionEvent collision)
         {
@@ -239,6 +247,10 @@ namespace HandData
             
         }
 
+        public Vector3 GetCurrentPosition(Hand hand)
+        {
+            return hand.handPosition;
+        }
         //------------------------------------------- Track finger positions ------------------------------//
         public bool IndexClosed(XRHand hand)
         {

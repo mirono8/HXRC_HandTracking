@@ -6,7 +6,7 @@ using UnityEngine;
 public class CollidableObjects : MonoBehaviour
 {
 
-    public List<GameObject> objects;
+    public List<GameObject> objects = new();
 
     private void Start()
     {

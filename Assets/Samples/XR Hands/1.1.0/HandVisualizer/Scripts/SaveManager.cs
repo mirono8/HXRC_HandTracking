@@ -24,7 +24,7 @@ public class SaveManager : MonoBehaviour
     float timeSinceLastStamp = 0;
 
     [SerializeField]
-    
+
     public class DataWrapper
     {
         [JsonProperty("eT")]
@@ -33,8 +33,18 @@ public class SaveManager : MonoBehaviour
         [JsonProperty("T")]
         public Tasks.Task currentTask;
 
+        [SerializeField]
+        [JsonProperty("iE")]
+        public EventList interactableEvents;
         public DataList left;
         public DataList right;
+
+        [Serializable]
+        public class EventList
+        {
+            [SerializeField]
+            public List<InteractableEvent> events;
+        }
 
         [Serializable]
         public class DataList
@@ -58,6 +68,28 @@ public class SaveManager : MonoBehaviour
 
     }
 
+    [System.Serializable]
+    public class InteractableEvent
+    {
+        [JsonProperty("sP")]
+        public string startPoint;
+        [JsonProperty("eP")]
+        public string endPoint;
+
+        [JsonProperty("iT")]
+        public string interactableType;
+        [JsonProperty("iS")]
+        public string interactableSize;
+
+        [JsonProperty("di")]
+        public string distance;
+        [JsonProperty("du")]
+        public string duration;
+
+        [JsonProperty("tr")]
+        public List<string> trajectory;
+    }
+
     [HideInInspector]
     public DataBlock newBlock = new();
 
@@ -77,6 +109,8 @@ public class SaveManager : MonoBehaviour
 
         combinedData.currentTask = new Tasks.Task();
 
+        combinedData.interactableEvents = new();
+        combinedData.interactableEvents.events = new();
         sessionStartTime = data.GetDate();
 
     }
@@ -95,13 +129,14 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    
     public DataBlock BlockMe()
     {
-        Debug.Log(newBlock.handPosition + " before");
+
         newBlock.handPosition = " "; //new Vector3(0, 0, 0)
         newBlock.timeStamp = " ";
         newBlock.collisionEvent = " ";
-        Debug.Log(newBlock.handPosition + " after");
+
         return newBlock;
     }
 

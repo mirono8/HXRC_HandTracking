@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5697095740068128856}
   - component: {fileID: 770646891685177805}
   - component: {fileID: 4350578916540956210}
-  - component: {fileID: 6193722318598908917}
   - component: {fileID: 7640300096003773539}
   - component: {fileID: 5988151641436457906}
   m_Layer: 0
@@ -86,27 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &6193722318598908917
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2330220051329629361}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3360ddfd2cb82ad4489d045e01bd938c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!54 &7640300096003773539
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -120,9 +98,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 118
+  m_CollisionDetection: 1
 --- !u!65 &5988151641436457906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -147,7 +125,6 @@ GameObject:
   - component: {fileID: 519546112140656876}
   - component: {fileID: 66860172098681099}
   - component: {fileID: 370326311065493398}
-  - component: {fileID: 3228540781150215754}
   m_Layer: 0
   m_Name: buttonBace_2
   m_TagString: Untagged
@@ -220,19 +197,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3228540781150215754
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6569979456521463730}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.020934187, y: 0.020908175, z: 0.0012050552}
-  m_Center: {x: 0.000013010576, y: -0.00000035771964, z: 0.0003845498}
 --- !u!1 &8485728320283058318
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2506921082894323837
 Transform:
   m_ObjectHideFlags: 0
@@ -259,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 8485728320283058318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5697095740068128856}
@@ -280,5 +244,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  size: 3
+  interactor: 0
+  interactableEvent:
+    startPoint: 
+    endPoint: 
+    interactableType: 
+    interactableSize: 
+    distance: 
+    duration: 
+    trajectory: []
   myOrderIndex: 0
   interactSuccess: 0
