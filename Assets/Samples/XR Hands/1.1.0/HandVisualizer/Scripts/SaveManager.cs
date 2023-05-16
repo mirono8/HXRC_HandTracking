@@ -43,6 +43,7 @@ public class SaveManager : MonoBehaviour
         public class EventList
         {
             [SerializeField]
+            [JsonProperty("e")]
             public List<InteractableEvent> events;
         }
 

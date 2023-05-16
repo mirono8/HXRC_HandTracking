@@ -25,13 +25,11 @@ public class InteractableActivityManager : MonoBehaviour
     public InteractableSize size;
     public Interactor interactor;
 
-
     HandDataOut handData;
     SaveManager saveManager;
+
     [SerializeField]
     SaveManager.InteractableEvent interactableEvent;
-
-
 
     List<string> leftHandPos;
     List<string> rightHandPos;
@@ -51,6 +49,8 @@ public class InteractableActivityManager : MonoBehaviour
 
     float myDuration;
 
+    public Vector3 myRot;
+
     void Start()
     {
         leftHandPos = new();
@@ -60,6 +60,11 @@ public class InteractableActivityManager : MonoBehaviour
         {
             upPosition = 0;
             downPosition = -0.003f;
+        }
+        if(type == InteractableType.Switch)
+        {
+            upPosition = -90f;
+            downPosition = 300f;
         }
 
         myRigidbody = GetComponentInChildren<Rigidbody>();
@@ -95,6 +100,7 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
+    
     public void SetMySize()
     {
         switch (size)
@@ -106,9 +112,7 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
-
-
-
+    #region InteractionCheckByType
     public void ButtonPressed()
     {
         if (randomButtons.oneByOne)
@@ -122,37 +126,91 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
-    public void StartInteractionEvent()
+    public void SwitchPressed()
+    {
+        if (randomButtons.oneByOne)
+        {
+            
+            if(myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
+            {
+                Debug.Log("nintendo switch");
+                interactSuccess = true;
+            }
+        }
+    }
+    #endregion
+
+    #region TransformConstraintsByType
+    public void ButtonContraints()
+    {
+        if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.y < downPosition)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, downPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.x > 0 || myRigidbody.gameObject.transform.localPosition.x < 0)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(0, myRigidbody.gameObject.transform.localPosition.y, myRigidbody.gameObject.transform.localPosition.z);
+        }
+
+        if (myRigidbody.gameObject.transform.localPosition.z < 0 || myRigidbody.gameObject.transform.localPosition.z > 0)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, myRigidbody.gameObject.transform.localPosition.y, 0);
+        }
+
+    }
+
+    public void SwitchContraints()
+    {
+        myRigidbody.gameObject.transform.localPosition = new Vector3(0, 0.007f, 0);
+
+        myRigidbody.gameObject.transform.localEulerAngles = new Vector3(myRigidbody.gameObject.transform.localEulerAngles.x, 180f, 180f);
+
+    }
+    #endregion
+
+    #region JSONDataCollection
+    public void StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten
     {
         
         interactableEvent = new SaveManager.InteractableEvent();
 
-        interactableEvent.interactableSize = size.ToString().Substring(0,1);
-        interactableEvent.interactableType = type.ToString().Substring(0,1);
+        interactableEvent.interactableSize = size.ToString().Substring(0,1).ToLower();
+        interactableEvent.interactableType = type.ToString().Substring(0,1).ToLower();
 
 
     }
     public void EndInteractionEvent()
     {
         interactableEvent.duration = myDuration.ToString();
-        
 
-        if(interactor == Interactor.Left)
+
+        if (interactor == Interactor.Left)
         {
-            interactableEvent.startPoint = leftHandPos[0];
-            interactableEvent.trajectory = leftHandPos;
-            interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
-            interactableEvent.endPoint = leftHandPos[leftHandPos.Count-1];
+            if (leftHandPos.Count > 0)
+            {
+                interactableEvent.startPoint = leftHandPos[0];
+                interactableEvent.trajectory = leftHandPos;
+                interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
+                interactableEvent.endPoint = leftHandPos[leftHandPos.Count - 1];
 
+            }
         }
-        else if(interactor == Interactor.Right)
+        else if (interactor == Interactor.Right)
         {
-            interactableEvent.startPoint= rightHandPos[0];
-            interactableEvent.trajectory = rightHandPos;
-            interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
-            interactableEvent.endPoint = rightHandPos[rightHandPos.Count - 1];
+            if (rightHandPos.Count > 0)
+            {
+                interactableEvent.startPoint = rightHandPos[0];
+                interactableEvent.trajectory = rightHandPos;
+                interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
+                interactableEvent.endPoint = rightHandPos[rightHandPos.Count - 1];
+            }
         }
-
         saveManager.combinedData.interactableEvents.events.Add(interactableEvent);
     }
     public static Vector3 StringToVector3(string sVector)
@@ -174,29 +232,9 @@ public class InteractableActivityManager : MonoBehaviour
 
         return result;
     }
+#endregion
 
-    public void Contraints()
-    {
-        if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
-        }
 
-        if (myRigidbody.gameObject.transform.localPosition.y < downPosition)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, downPosition, myRigidbody.gameObject.transform.localPosition.z);
-        }
-
-        if (myRigidbody.gameObject.transform.localPosition.x > 0 || myRigidbody.gameObject.transform.localPosition.x < 0)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(0, myRigidbody.gameObject.transform.localPosition.y, myRigidbody.gameObject.transform.localPosition.z);
-        }
-
-        if (myRigidbody.gameObject.transform.localPosition.z < 0 || myRigidbody.gameObject.transform.localPosition.z > 0)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, myRigidbody.gameObject.transform.localPosition.y, 0);
-        }
-    }
     private void OnEnable()
     {
         StartInteractionEvent();
@@ -210,25 +248,23 @@ public class InteractableActivityManager : MonoBehaviour
     private void Update()
     {
         myDuration += Time.deltaTime;
-        ButtonPressed();
+
+        if (type == InteractableType.Button)
+        {
+            ButtonPressed();
+            ButtonContraints();
+        }
+        if (type == InteractableType.Switch)
+        {
+            SwitchPressed();
+            SwitchContraints();
+        }
 
         if(handData.leftHandTracking)
             leftHandPos.Add(handData.leftHand.handPosition.ToString());
 
         if(handData.rightHandTracking)
             rightHandPos.Add(handData.rightHand.handPosition.ToString());
-
-        Contraints();
-
-        if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition , myRigidbody.gameObject.transform.localPosition.z);
-        }
-
-        if (myRigidbody.gameObject.transform.localPosition.y < downPosition)
-        {
-            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, downPosition, myRigidbody.gameObject.transform.localPosition.z);
-        }
 
         if (interactSuccess)
         {
@@ -241,5 +277,7 @@ public class InteractableActivityManager : MonoBehaviour
 
             this.gameObject.SetActive(false);
         }
+
+        myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
     }
 }

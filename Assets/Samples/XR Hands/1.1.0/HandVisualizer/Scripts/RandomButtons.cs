@@ -11,6 +11,7 @@ public class RandomButtons : MonoBehaviour
 
     public List<int> intersecting = new List<int>();
 
+    public GameObject panel;
 
     public bool oneByOne;
 
@@ -49,8 +50,10 @@ public class RandomButtons : MonoBehaviour
     {
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-            var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
-            collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviation;
+            // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
+            var deviationInPanel = new Vector3(Random.Range(panel.transform.localScale.x * -0.4f, panel.transform.localScale.x * 0.4f),
+                Random.Range(panel.transform.localScale.y * -0.4f, panel.transform.localScale.y * 0.4f));
+            collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviationInPanel;
 
             if (!oneByOne)
             {
