@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using HandData;
 using System.Diagnostics;
+using UnityEngine.PlayerLoop;
+using UnityEngine.XR.Hands;
 
 public class ObjectStateTracker : MonoBehaviour
 {
@@ -14,7 +16,11 @@ public class ObjectStateTracker : MonoBehaviour
    [HideInInspector]
     public float timer;
 
-    
+    Transform handTransform;
+
+    public bool joystick;
+
+    private bool grabbed;
     void Start()
     {
         initialPosition = transform.position;
@@ -25,7 +31,7 @@ public class ObjectStateTracker : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (transform.position != initialPosition && timer > 5)
+        if (transform.position != initialPosition && timer > 5  && !joystick)
             ReturnHome();
     }
 
@@ -35,6 +41,8 @@ public class ObjectStateTracker : MonoBehaviour
         {
             previousPosition = transform.position;
         }
+
+        GrabbedBy();
     }
     public void ReturnHome()
     {
@@ -58,11 +66,14 @@ public class ObjectStateTracker : MonoBehaviour
                 if ((int)hand.leftHand.myHandedness == (int)finger.GetMyHandedness(finger))
                 {
                     hand.leftHand.isGrabbing = true;
-                    
+                    grabbed = true;
+                    GrabbingNow(other.gameObject.transform.parent.parent);
                 }
                 else if((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
                 {
                     hand.rightHand.isGrabbing = true;
+                    grabbed = true;
+                    GrabbingNow(other.gameObject.transform.parent.parent);
                 }
             }
         }
@@ -79,15 +90,38 @@ public class ObjectStateTracker : MonoBehaviour
             if ((int)hand.leftHand.myHandedness == (int)finger.GetMyHandedness(finger))
             {
                 hand.leftHand.isGrabbing = false;
+                grabbed = false;
+                UnGrab();
 
             }
             else if ((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
             {
                 hand.rightHand.isGrabbing = false;
+                grabbed = false;
+                UnGrab();
             }
 
 
         }
+    }
+
+    private void GrabbingNow(Transform t)
+    {
+        handTransform = t;
+    }
+
+    private void UnGrab()
+    {
+        handTransform = null;
+    }
+
+    public bool IsGrabbed() 
+    {
+        return grabbed;
+    }
+    public Transform GrabbedBy()
+    {
+        return handTransform;
     }
 }
 

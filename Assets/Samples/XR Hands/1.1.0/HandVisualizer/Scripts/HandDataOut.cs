@@ -25,6 +25,8 @@ namespace HandData
         [Serializable]
         public class Hand
         {
+            [HideInInspector]
+            public XRHand handReference;
             public enum MyHandedness
             {
                 left, right
@@ -94,6 +96,7 @@ namespace HandData
         {
             if (hand.isTracked && track)
             {
+                leftHand.handReference = hand;
                 leftHandTracking = true;
                 handLeftXR = hand;
                 leftHand.handPosition = handLeftXR.rootPose.position;
@@ -106,7 +109,7 @@ namespace HandData
 
                 saveManager.SaveHandLocation(leftHand);
 
-
+                
 
                 if (track)
                     UpdateFingerPositions(hand);
@@ -119,6 +122,7 @@ namespace HandData
         {
             if (hand.isTracked && track)
             {
+                rightHand.handReference = hand;
                 rightHandTracking = true;
                 handRightXR = hand;
                 rightHand.handPosition = handRightXR.rootPose.position;
