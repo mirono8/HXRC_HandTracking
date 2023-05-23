@@ -160,6 +160,7 @@ namespace HandData
             hand.GetJoint(XRHandJointID.RingDistal).TryGetPose(out var ringMiddlePose);
             hand.GetJoint(XRHandJointID.LittleDistal).TryGetPose(out var littleMiddlePose);
 
+
             if (hand.handedness == Handedness.Left)
             {
 
