@@ -1,3 +1,5 @@
+using HandData;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,40 +8,66 @@ public class JoystickGrabbing : MonoBehaviour
 {
     ObjectStateTracker stateTracker;
 
-    CapsuleCollider capsuleCollider;
+    Transform grabbedBody;
 
     Vector3 initialPos;
+
+    public Transform followChild;
+
+    bool beingTouched;
+
+    public List<Collider> touchers;
+
+    HandDataOut handDataOut;
+
+
     private void Start()
     {
-        initialPos = transform.position;
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        initialPos = followChild.transform.position;
         stateTracker = GetComponent<ObjectStateTracker>();
+        grabbedBody = GetComponentInChildren<Rigidbody>().transform;
+        handDataOut = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other == null) return;
 
-        if (other.CompareTag("FingerCollider"))
+        beingTouched = true;
+
+        if (other.CompareTag("FingerCollider") && !other.isTrigger)
         {
-            if (stateTracker.GrabbedBy() != null)
+            if (!touchers.Contains(other) )
             {
-                Debug.Log("grabbing");
-                
-                capsuleCollider.enabled = false;
+                touchers.Add(other);
             }
+        }         
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(touchers.Count == 0)
+            beingTouched=false;
+
+        if (touchers.Contains(other))
+        {
+            touchers.Remove(other);
         }
     }
+
     private void Update()
     {
-        if (stateTracker.GrabbedBy() != null)
+        grabbedBody.transform.position = followChild.transform.position;
+
+        if (touchers.Count > 0 && beingTouched)
         {
-            gameObject.transform.position = stateTracker.GrabbedBy().position;
+
+            //followChild.transform.LookAt(touchers[0].transform.position);
+            followChild.transform.position = touchers[0].transform.position; //Vector3.MoveTowards(followChild.transform.position, followChild.forward ,0.05f); 
         }
         else
         {
-            gameObject.transform.position = Vector3.Slerp(transform.position, initialPos, Time.deltaTime);
-            capsuleCollider.enabled=true;
+            followChild.transform.position = Vector3.Slerp(followChild.transform.position, initialPos, Time.deltaTime);
         }
+        
     }
-
 }

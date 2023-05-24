@@ -42,7 +42,6 @@ public class ObjectStateTracker : MonoBehaviour
             previousPosition = transform.position;
         }
 
-        GrabbedBy();
     }
     public void ReturnHome()
     {
@@ -67,13 +66,13 @@ public class ObjectStateTracker : MonoBehaviour
                 {
                     hand.leftHand.isGrabbing = true;
                     grabbed = true;
-                    GrabbingNow(other.gameObject.transform.parent.parent);
+                    
                 }
                 else if((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
                 {
                     hand.rightHand.isGrabbing = true;
                     grabbed = true;
-                    GrabbingNow(other.gameObject.transform.parent.parent);
+                    
                 }
             }
         }
@@ -91,37 +90,18 @@ public class ObjectStateTracker : MonoBehaviour
             {
                 hand.leftHand.isGrabbing = false;
                 grabbed = false;
-                UnGrab();
+                
 
             }
             else if ((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
             {
                 hand.rightHand.isGrabbing = false;
                 grabbed = false;
-                UnGrab();
+               
             }
 
 
         }
-    }
-
-    private void GrabbingNow(Transform t)
-    {
-        handTransform = t;
-    }
-
-    private void UnGrab()
-    {
-        handTransform = null;
-    }
-
-    public bool IsGrabbed() 
-    {
-        return grabbed;
-    }
-    public Transform GrabbedBy()
-    {
-        return handTransform;
     }
 }
 

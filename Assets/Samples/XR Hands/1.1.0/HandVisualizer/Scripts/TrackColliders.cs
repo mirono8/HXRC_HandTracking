@@ -9,7 +9,11 @@ using UnityEngine.XR.Hands;
 
 public class TrackColliders : MonoBehaviour
 {
-    public List<SphereCollider> sphereColliders;
+    public List<SphereCollider> tipSphereColliders;
+
+    public List<SphereCollider> intermediateSphereColliders; //THESE ONLY
+                                                             //USED IN
+    public List<SphereCollider> proximalSphereColliders;     //LEVER GRABBING
 
     [HideInInspector]
     public enum Hand
@@ -20,18 +24,20 @@ public class TrackColliders : MonoBehaviour
     public Hand handedness;
 
     [Serializable]
-    public class FingertipsColliders
+    public class FingerColliders
     {
         [HideInInspector]
         public string fingerName;
 
         public Vector3 fingerTipPosition;
+        public Vector3 fingerIntermediatePosition;
+        public Vector3 fingerProximalPosition;
 
         public bool colliding;
 
         //public List<FingerCollisionDetector> collisionDetector;
 
-        public FingertipsColliders(string n)
+        public FingerColliders(string n)
         {
             this.fingerName = n;
         }
@@ -44,37 +50,21 @@ public class TrackColliders : MonoBehaviour
         public string otherCollider;
     }
 
-    HandDataOut handDataOut;
-
-   // public List<FingertipsColliders> tipColliders;
-   // public List<FingertipsColliders> tipCollidersRight;
-
-    private void Start()
+    public void PopulateColliderList(List<FingerColliders> list)
     {
-        //PopulateColliderList(tipColliders);
-       // PopulateColliderList(tipCollidersRight);
-
-        handDataOut = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
-
-      //  tipColliders = handDataOut.GetFingertips(HandDataOut.Hand.MyHandedness.left);
-
-       // tipCollidersRight = handDataOut.GetFingertips(HandDataOut.Hand.MyHandedness.right);
-    }
-
-    public void PopulateColliderList(List<FingertipsColliders> list)
-    {
-        list.Add(new FingertipsColliders(new string("Index Finger")));
-        list.Add(new FingertipsColliders(new string("Middle Finger")));
-        list.Add(new FingertipsColliders(new string("Ring Finger")));
-        list.Add(new FingertipsColliders(new string("Little Finger")));
+        list.Add(new FingerColliders(new string("Index Finger")));
+        list.Add(new FingerColliders(new string("Middle Finger")));
+        list.Add(new FingerColliders(new string("Ring Finger")));
+        list.Add(new FingerColliders(new string("Little Finger")));
     }
 
     public void ShowColliderPosition(HandDataOut.Hand hand)
     {
-        for (int i = 0; i < hand.fingertips.Count; i++)
+        for (int i = 0; i < hand.fingerColliders.Count; i++)
         {
-            sphereColliders[i].transform.position = hand.fingertips[i].fingerTipPosition;
-
+            tipSphereColliders[i].transform.position = hand.fingerColliders[i].fingerTipPosition;
+            intermediateSphereColliders[i].transform.position = hand.fingerColliders[i].fingerIntermediatePosition;
+            proximalSphereColliders[i].transform.position = hand.fingerColliders[i].fingerProximalPosition;
         }
     }
 

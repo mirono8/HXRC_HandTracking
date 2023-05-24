@@ -22,6 +22,7 @@ namespace HandData
 
         public SaveManager saveManager;
 
+        Vector3 transformedFingerPos = new();
         [Serializable]
         public class Hand
         {
@@ -45,7 +46,9 @@ namespace HandData
             [SerializeField]
             public Fingers fingers;
 
-            public List<TrackColliders.FingertipsColliders> fingertips;
+            public List<TrackColliders.FingerColliders> fingerColliders;
+
+
 
             [Serializable]
             public class Fingers {
@@ -66,7 +69,9 @@ namespace HandData
                 public class Finger
                 {
                     public bool isClosed;
-                    public Vector3 fingerPosition;
+                    public Vector3 fingerTipPosition;
+                    public Vector3 fingerDistalPosition;
+                    public Vector3 fingerProximalPosition;
                 }
             }
         }
@@ -83,9 +88,9 @@ namespace HandData
 
 
             Debug.Log("pop");
-            leftHand.fingers.trackColliders.PopulateColliderList(leftHand.fingertips);
+            leftHand.fingers.trackColliders.PopulateColliderList(leftHand.fingerColliders);
 
-            rightHand.fingers.trackColliders.PopulateColliderList(rightHand.fingertips);
+            rightHand.fingers.trackColliders.PopulateColliderList(rightHand.fingerColliders);
 
             //InitHands();
         }
@@ -155,24 +160,45 @@ namespace HandData
             hand.GetJoint(XRHandJointID.RingTip).TryGetPose(out var ringTipPose);
             hand.GetJoint(XRHandJointID.LittleTip).TryGetPose(out var littleTipPose);
 
-            hand.GetJoint(XRHandJointID.IndexDistal).TryGetPose(out var indexMiddlePose);
+            hand.GetJoint(XRHandJointID.IndexDistal).TryGetPose(out var indexMiddlePose);   //distals have no colliders, only used for finger state tracking
             hand.GetJoint(XRHandJointID.MiddleDistal).TryGetPose(out var middleMiddlePose);
             hand.GetJoint(XRHandJointID.RingDistal).TryGetPose(out var ringMiddlePose);
             hand.GetJoint(XRHandJointID.LittleDistal).TryGetPose(out var littleMiddlePose);
 
+            hand.GetJoint(XRHandJointID.IndexIntermediate).TryGetPose(out var indexIntermediatePose);
+            hand.GetJoint(XRHandJointID.MiddleIntermediate).TryGetPose(out var middleIntermediatePose);
+            hand.GetJoint(XRHandJointID.RingIntermediate).TryGetPose(out var ringIntermediatePose);
+            hand.GetJoint(XRHandJointID.LittleIntermediate).TryGetPose(out var littleIntermediatePose);
+
+            hand.GetJoint(XRHandJointID.IndexProximal).TryGetPose(out var indexProximalPose);
+            hand.GetJoint(XRHandJointID.MiddleProximal).TryGetPose(out var middleProximalPose);
+            hand.GetJoint(XRHandJointID.RingProximal).TryGetPose(out var ringProximalPose);
+            hand.GetJoint(XRHandJointID.LittleProximal).TryGetPose(out var littleProximalPose);
+
+            
 
             if (hand.handedness == Handedness.Left)
             {
 
-                leftHand.fingertips[0].fingerTipPosition = indexTipPose.GetTransformedBy(originPose).position;
-                leftHand.fingertips[1].fingerTipPosition = middleTipPose.GetTransformedBy(originPose).position;
-                leftHand.fingertips[2].fingerTipPosition = ringTipPose.GetTransformedBy(originPose).position;
-                leftHand.fingertips[3].fingerTipPosition = littleTipPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[0].fingerTipPosition = indexTipPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[1].fingerTipPosition = middleTipPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[2].fingerTipPosition = ringTipPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[3].fingerTipPosition = littleTipPose.GetTransformedBy(originPose).position;
 
-                leftHand.fingers.index.fingerPosition = indexMiddlePose.GetTransformedBy(originPose).position;
-                leftHand.fingers.middle.fingerPosition = middleMiddlePose.GetTransformedBy(originPose).position;
-                leftHand.fingers.ring.fingerPosition = ringMiddlePose.GetTransformedBy(originPose).position;
-                leftHand.fingers.little.fingerPosition = littleMiddlePose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[0].fingerIntermediatePosition = indexIntermediatePose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[1].fingerIntermediatePosition = middleIntermediatePose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[2].fingerIntermediatePosition = ringIntermediatePose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[3].fingerIntermediatePosition = littleIntermediatePose.GetTransformedBy(originPose).position;
+
+                leftHand.fingerColliders[0].fingerProximalPosition = indexProximalPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[1].fingerProximalPosition = middleProximalPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[2].fingerProximalPosition = ringProximalPose.GetTransformedBy(originPose).position;
+                leftHand.fingerColliders[3].fingerProximalPosition = littleProximalPose.GetTransformedBy(originPose).position;
+
+                leftHand.fingers.index.fingerTipPosition = indexMiddlePose.GetTransformedBy(originPose).position;
+                leftHand.fingers.middle.fingerTipPosition = middleMiddlePose.GetTransformedBy(originPose).position;
+                leftHand.fingers.ring.fingerTipPosition = ringMiddlePose.GetTransformedBy(originPose).position;
+                leftHand.fingers.little.fingerTipPosition = littleMiddlePose.GetTransformedBy(originPose).position;
 
                 leftHand.fingers.trackColliders.ShowColliderPosition(leftHand);
             }
@@ -180,36 +206,65 @@ namespace HandData
             if (hand.handedness == Handedness.Right)
             {
 
-                rightHand.fingertips[0].fingerTipPosition = indexTipPose.GetTransformedBy(originPose).position;
-                rightHand.fingertips[1].fingerTipPosition = middleTipPose.GetTransformedBy(originPose).position;
-                rightHand.fingertips[2].fingerTipPosition = ringTipPose.GetTransformedBy(originPose).position;
-                rightHand.fingertips[3].fingerTipPosition = littleTipPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[0].fingerTipPosition = indexTipPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[1].fingerTipPosition = middleTipPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[2].fingerTipPosition = ringTipPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[3].fingerTipPosition = littleTipPose.GetTransformedBy(originPose).position;
 
-                rightHand.fingers.index.fingerPosition = indexMiddlePose.GetTransformedBy(originPose).position;
-                rightHand.fingers.middle.fingerPosition = middleMiddlePose.GetTransformedBy(originPose).position;
-                rightHand.fingers.ring.fingerPosition = ringMiddlePose.GetTransformedBy(originPose).position;
-                rightHand.fingers.little.fingerPosition = littleMiddlePose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[0].fingerIntermediatePosition = indexIntermediatePose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[1].fingerIntermediatePosition = middleIntermediatePose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[2].fingerIntermediatePosition = ringIntermediatePose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[3].fingerIntermediatePosition = littleIntermediatePose.GetTransformedBy(originPose).position;
+
+                rightHand.fingerColliders[0].fingerProximalPosition = indexProximalPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[1].fingerProximalPosition = middleProximalPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[2].fingerProximalPosition = ringProximalPose.GetTransformedBy(originPose).position;
+                rightHand.fingerColliders[3].fingerProximalPosition = littleProximalPose.GetTransformedBy(originPose).position;
+
+                rightHand.fingers.index.fingerTipPosition = indexMiddlePose.GetTransformedBy(originPose).position;  //fingertip tarkoitetaan yleens‰ sormen positiota, ei p‰‰t‰
+                rightHand.fingers.middle.fingerTipPosition = middleMiddlePose.GetTransformedBy(originPose).position;
+                rightHand.fingers.ring.fingerTipPosition = ringMiddlePose.GetTransformedBy(originPose).position;
+                rightHand.fingers.little.fingerTipPosition = littleMiddlePose.GetTransformedBy(originPose).position;
 
                 rightHand.fingers.trackColliders.ShowColliderPosition(rightHand);
             }
         }
 
 
-        public List<TrackColliders.FingertipsColliders> GetFingertips(Hand.MyHandedness handedness)
+        public List<TrackColliders.FingerColliders> GetFingertips(Hand.MyHandedness handedness)
         {
             if (handedness == leftHand.myHandedness)
             {
-                return leftHand.fingertips;
+                return leftHand.fingerColliders;
             }
             else if (handedness == rightHand.myHandedness)
             {
-                return rightHand.fingertips;
+                return rightHand.fingerColliders;
             }
 
             return null;
         }
 
-       
+        public Vector3 GetTransformedColliderPosition(Collider c)
+        {
+            var x = leftHand.fingerColliders.Find(x => x.Equals(c));
+
+            if (x == null)
+            {
+                x = rightHand.fingerColliders.Find(x => x.Equals(c));
+                if (x != null)
+                {
+                    return transformedFingerPos = rightHand.fingerColliders.Find(x => x.Equals(c)).fingerIntermediatePosition;
+                }
+
+            }
+            else
+            {
+                return transformedFingerPos = leftHand.fingerColliders.Find(x => x.Equals(c)).fingerIntermediatePosition;
+            }
+
+            return transformedFingerPos;
+        }
 
         public void SendCollisionData(Hand hand, TrackColliders.CollisionEvent collision)
         {

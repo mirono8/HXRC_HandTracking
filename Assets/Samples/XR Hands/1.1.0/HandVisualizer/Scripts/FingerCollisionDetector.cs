@@ -35,24 +35,24 @@ public class FingerCollisionDetector : MonoBehaviour
             if (colliders.handedness == TrackColliders.Hand.left)
             {
                 thisHand = ThisHand.left;
-                var collision = colliders.sphereColliders.Find(x => gameObject.GetComponent<SphereCollider>() == x);
+                var collision = colliders.tipSphereColliders.Find(x => gameObject.GetComponent<SphereCollider>() == x);
 
                 if (collision != null)
                 {
 
-                    for (int i = 0; i < colliders.sphereColliders.Count; i++)
+                    for (int i = 0; i < colliders.tipSphereColliders.Count; i++)
                     {
 
-                        if (handData.leftHand.fingers.trackColliders.sphereColliders[i].Equals(collision))
+                        if (handData.leftHand.fingers.trackColliders.tipSphereColliders[i].Equals(collision))
                         {
                            
                             //handData.leftHand.fingers.trackColliders.tipColliders[i].colliding = true;
-                            handData.leftHand.fingertips[i].colliding = true;
+                            handData.leftHand.fingerColliders[i].colliding = true;
                             //fingerTipColliderTip = colliders.fingertips[i];
                             fingertipListIndex = i;
                             // Debug.Log(fingerTipColliderTip.finger);
                             collisionEvent.startTime = DateTime.Now.ToString("HH-mm-ss");
-                            collisionEvent.collidingFinger = handData.leftHand.fingertips[i].fingerName;
+                            collisionEvent.collidingFinger = handData.leftHand.fingerColliders[i].fingerName;
                             collisionEvent.otherCollider = other.gameObject.name;
                         }
                     }
@@ -62,24 +62,24 @@ public class FingerCollisionDetector : MonoBehaviour
             if (colliders.handedness == TrackColliders.Hand.right)
             {
                 thisHand = ThisHand.right;
-                var collision = colliders.sphereColliders.Find(x => gameObject.GetComponent<SphereCollider>() == x);
+                var collision = colliders.tipSphereColliders.Find(x => gameObject.GetComponent<SphereCollider>() == x);
 
                 if (collision != null)
                 {
 
-                    for (int i = 0; i < colliders.sphereColliders.Count; i++)
+                    for (int i = 0; i < colliders.tipSphereColliders.Count; i++)
                     {
 
-                        if (handData.rightHand.fingers.trackColliders.sphereColliders[i].Equals(collision))
+                        if (handData.rightHand.fingers.trackColliders.tipSphereColliders[i].Equals(collision))
                         {
                            
                             //handData.leftHand.fingers.trackColliders.tipColliders[i].colliding = true;
-                            handData.rightHand.fingertips[i].colliding = true;
+                            handData.rightHand.fingerColliders[i].colliding = true;
                             //fingerTipColliderTip = colliders.fingertips[i];
                             fingertipListIndex = i;
                             // Debug.Log(fingerTipColliderTip.finger);
                             collisionEvent.startTime = DateTime.Now.ToString("HH-mm-ss");
-                            collisionEvent.collidingFinger = handData.leftHand.fingertips[i].fingerName;
+                            collisionEvent.collidingFinger = handData.leftHand.fingerColliders[i].fingerName;
                             collisionEvent.otherCollider = other.gameObject.name;
                         }
                     }
@@ -132,13 +132,13 @@ public class FingerCollisionDetector : MonoBehaviour
             // colliders.tipColliders[fingertipListIndex].colliding = false;
             if ((int)thisHand == (int)handData.leftHand.myHandedness)
             {
-                handData.leftHand.fingertips[fingertipListIndex].colliding = false;
+                handData.leftHand.fingerColliders[fingertipListIndex].colliding = false;
                 handData.SendCollisionData(handData.leftHand,  collisionEvent);
                 CleanCollisionEvent();
             }
             if ((int)thisHand == (int)handData.rightHand.myHandedness)
             {
-                handData.rightHand.fingertips[fingertipListIndex].colliding = false;
+                handData.rightHand.fingerColliders[fingertipListIndex].colliding = false;
                 handData.SendCollisionData(handData.rightHand, collisionEvent);
                 CleanCollisionEvent();
             }

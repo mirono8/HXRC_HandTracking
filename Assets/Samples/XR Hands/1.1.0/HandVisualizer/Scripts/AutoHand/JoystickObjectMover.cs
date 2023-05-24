@@ -12,7 +12,7 @@ public class JoystickObjectMover : JoystickPhysics
 
     ObjectStateTracker stateTracker;
 
-    private void Awake()
+  /*  private void Awake()
     { 
         
         stateTracker = GetComponent<ObjectStateTracker>();
@@ -29,6 +29,6 @@ public class JoystickObjectMover : JoystickPhysics
             move.transform.localPosition += moveAxis;
             //moveAxis =+ stateTracker.GrabbedBy().handPosition;
         }
-    }
+    }*/
 }
 
