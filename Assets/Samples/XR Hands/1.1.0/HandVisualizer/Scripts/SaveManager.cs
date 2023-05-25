@@ -96,7 +96,7 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        data = GetComponentInParent<HandDataOut>();
+        data = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
     }
 
     private void Start()

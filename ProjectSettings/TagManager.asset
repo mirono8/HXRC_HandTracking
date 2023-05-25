@@ -6,6 +6,7 @@ TagManager:
   tags:
   - HandData
   - FingerCollider
+  - Grid
   layers:
   - Default
   - TransparentFX

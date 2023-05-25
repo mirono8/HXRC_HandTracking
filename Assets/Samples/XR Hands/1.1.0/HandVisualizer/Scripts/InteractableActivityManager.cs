@@ -197,7 +197,7 @@ public class InteractableActivityManager : MonoBehaviour
                 interactableEvent.startPoint = leftHandPos[0];
                 interactableEvent.trajectory = leftHandPos;
                 interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
-                interactableEvent.endPoint = leftHandPos[leftHandPos.Count - 1];
+                interactableEvent.endPoint = leftHandPos[^1];
 
             }
         }
@@ -208,7 +208,7 @@ public class InteractableActivityManager : MonoBehaviour
                 interactableEvent.startPoint = rightHandPos[0];
                 interactableEvent.trajectory = rightHandPos;
                 interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
-                interactableEvent.endPoint = rightHandPos[rightHandPos.Count - 1];
+                interactableEvent.endPoint = rightHandPos[^1];
             }
         }
         saveManager.combinedData.interactableEvents.events.Add(interactableEvent);

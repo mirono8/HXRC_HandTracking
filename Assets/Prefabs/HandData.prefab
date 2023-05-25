@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3412815401504475732
+--- !u!1 &3720648182053211157
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3412815401504475734}
-  - component: {fileID: 3412815401504475733}
+  - component: {fileID: 3720648182053211159}
+  - component: {fileID: 3720648182053211156}
   m_Layer: 0
   m_Name: HandData
   m_TagString: HandData
@@ -17,37 +17,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3412815401504475734
+--- !u!4 &3720648182053211159
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3412815401504475732}
+  m_GameObject: {fileID: 3720648182053211157}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.33105212, y: 0.9669182, z: 0.48125476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3412815402155025095}
+  - {fileID: 3720648182778613556}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3412815401504475733
+--- !u!114 &3720648182053211156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3412815401504475732}
+  m_GameObject: {fileID: 3720648182053211157}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecf15d066f2cd0b4d9ca3b3d59bb339b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   track: 1
+  leftHandTracking: 0
+  rightHandTracking: 0
   originTransform: {fileID: 0}
-  saveManager: {fileID: 3412815402155025208}
+  saveManager: {fileID: 0}
   leftHand:
     myHandedness: 0
     handPosition: {x: 0, y: 0, z: 0}
@@ -56,18 +58,26 @@ MonoBehaviour:
     fingers:
       index:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       middle:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       ring:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       little:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       trackColliders: {fileID: 0}
-    fingertips: []
+    fingerColliders: []
   rightHand:
     myHandedness: 0
     handPosition: {x: 0, y: 0, z: 0}
@@ -76,19 +86,27 @@ MonoBehaviour:
     fingers:
       index:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       middle:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       ring:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       little:
         isClosed: 0
-        fingerPosition: {x: 0, y: 0, z: 0}
+        fingerTipPosition: {x: 0, y: 0, z: 0}
+        fingerDistalPosition: {x: 0, y: 0, z: 0}
+        fingerProximalPosition: {x: 0, y: 0, z: 0}
       trackColliders: {fileID: 0}
-    fingertips: []
---- !u!1 &3412815402155025094
+    fingerColliders: []
+--- !u!1 &3720648182778613557
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,44 +114,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3412815402155025095}
-  - component: {fileID: 3412815402155025208}
+  - component: {fileID: 3720648182778613556}
+  - component: {fileID: 3720648182778613559}
   m_Layer: 0
-  m_Name: SaveManager
+  m_Name: WebRequester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3412815402155025095
+--- !u!4 &3720648182778613556
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3412815402155025094}
+  m_GameObject: {fileID: 3720648182778613557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3412815401504475734}
+  m_Father: {fileID: 3720648182053211159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3412815402155025208
+--- !u!114 &3720648182778613559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3412815402155025094}
+  m_GameObject: {fileID: 3720648182778613557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a578244ba56fe5b4eaa75fef1744bc3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 392c5f68ff6cdb044b141fd6afe3c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSinceLastStamp: 0
-  newBlock:
-    timeStamp: 
-    handPosition: 
-    collisionEvent: 
+  timer: 0
+  data:
+    id: 0
+    size: 
+    type: 
+  onSessionStart: {fileID: 0}

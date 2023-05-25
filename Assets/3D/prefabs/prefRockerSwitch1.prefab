@@ -197,6 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2479523497823384506}
+  - component: {fileID: 3458187832603422198}
   m_Layer: 0
   m_Name: prefRockerSwitch1
   m_TagString: Untagged
@@ -221,3 +222,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3458187832603422198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495151707920053039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c724da4043ef3f547a3fa3f1e0c05a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  size: 0
+  interactor: 0
+  interactableEvent:
+    startPoint: 
+    endPoint: 
+    interactableType: 
+    interactableSize: 
+    distance: 
+    duration: 
+    trajectory: []
+  myOrderIndex: 0
+  interactSuccess: 0
+  myRot: {x: 0, y: 0, z: 0}
