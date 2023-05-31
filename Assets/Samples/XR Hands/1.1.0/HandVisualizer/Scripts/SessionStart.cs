@@ -29,20 +29,25 @@ public class SessionStart : MonoBehaviour
         var temp = interactablePrefabs.Find(x => x.name.ToString().ToLower().Contains(type));
         Debug.Log(temp);
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize) Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
+        Debug.Log(sizeAsEnum);
         if (temp != null)
         {
-            temp.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
-
             for (int i = 0; i < 10; i++)
             {
                 if (i != 0)
                 {
-                    Instantiate(temp, grid.transform).SetActive(false);
+                    var x = Instantiate(temp, grid.transform);
+                    //x.SetActive(false);
+                    x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
+                    x.GetComponent<InteractableActivityManager>().SetMySize();
 
                 }
                 else
                 {
-                    Instantiate(temp, grid.transform);
+                    var x = Instantiate(temp, grid.transform);
+                    //x.SetActive(true);
+                    x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
+                    x.GetComponent<InteractableActivityManager>().SetMySize();
                 }
             }
         }

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class JoystickGrabbing : MonoBehaviour
 {
-    ObjectStateTracker stateTracker;
 
     Transform grabbedBody;
 
@@ -18,24 +17,27 @@ public class JoystickGrabbing : MonoBehaviour
 
     public List<Collider> touchers;
 
-    HandDataOut handDataOut;
+    public InteractableActivityManager interactableActivityManager;
 
+    public BoxCollider target;
 
     private void Start()
     {
         initialPos = followChild.transform.position;
-        stateTracker = GetComponent<ObjectStateTracker>();
         grabbedBody = GetComponentInChildren<Rigidbody>().transform;
-        handDataOut = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        beingTouched = true;
+        if(other == target)
+        {
+            Debug.Log("we're done here");
+            interactableActivityManager.LeverPulled();
+        }
 
         if (other.CompareTag("FingerCollider") && !other.isTrigger)
         {
+            beingTouched = true;
             if (!touchers.Contains(other) )
             {
                 touchers.Add(other);
@@ -56,7 +58,7 @@ public class JoystickGrabbing : MonoBehaviour
 
     private void Update()
     {
-        grabbedBody.transform.position = followChild.transform.position;
+        //grabbedBody.transform.position = followChild.transform.position;
 
         if (touchers.Count > 0 && beingTouched)
         {

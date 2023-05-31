@@ -15,7 +15,7 @@ public class RandomButtons : MonoBehaviour
 
     public bool oneByOne;
 
-    void Start()
+    public void ReadyForSetup()
     {
         collidables = GetComponent<CollidableObjects>();
 

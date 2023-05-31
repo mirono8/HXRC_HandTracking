@@ -107,16 +107,18 @@ public class GetSetupData : MonoBehaviour
 
         if (timer >= 5)
         {
-            if (!Latest())
-            {
-                timer = 0;
-                StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
-            }
-            else
-            {
-                onSessionStart.SetActive(true);
-                gameObject.SetActive(false);
-            }
+            onSessionStart.SetActive(true);
+            /* if (!Latest())
+             {
+                 timer = 0;
+                 StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
+             }
+             else
+             {
+                 onSessionStart.SetActive(true);
+                 gameObject.SetActive(false);
+             }
+         }*/
         }
     }
 }

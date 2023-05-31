@@ -66,7 +66,7 @@ public class InteractableActivityManager : MonoBehaviour
             upPosition = -90f;
             downPosition = 300f;
         }
-
+        Debug.Log("interactable start");
         myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
         randomButtons = GetComponentInParent<RandomButtons>();
@@ -109,6 +109,7 @@ public class InteractableActivityManager : MonoBehaviour
             case InteractableSize.Medium: gameObject.transform.localScale.Set(3, 3, 3); break;
             case InteractableSize.Large: gameObject.transform.localScale.Set(4, 4, 4); break;
             case InteractableSize.Random: int r = Random.Range(0, 3); size = (InteractableSize)r; SetMySize(); break;
+            default: Debug.Log("cant make it"); break;
         }
     }
 
@@ -137,6 +138,11 @@ public class InteractableActivityManager : MonoBehaviour
                 interactSuccess = true;
             }
         }
+    }
+
+    public void LeverPulled()
+    {
+        interactSuccess = true;
     }
     #endregion
 
@@ -275,7 +281,9 @@ public class InteractableActivityManager : MonoBehaviour
             else
                 Debug.Log("All buttons pressed");
 
-            this.gameObject.SetActive(false);
+            
+            if(gameObject.activeSelf == true)
+                gameObject.SetActive(false);
         }
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis

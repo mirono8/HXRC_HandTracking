@@ -82,7 +82,7 @@ namespace HandData
 
         private void Awake()
         {
-            saveManager = GetComponentInChildren<SaveManager>();
+
             leftHand.myHandedness = Hand.MyHandedness.left;
             rightHand.myHandedness = Hand.MyHandedness.right;
 
@@ -112,7 +112,8 @@ namespace HandData
                 leftHand.fingers.ring.isClosed = RingClosed(hand);
                 leftHand.fingers.little.isClosed = LittleClosed(hand);
 
-                saveManager.SaveHandLocation(leftHand);
+                if (saveManager.enabled)
+                    saveManager.SaveHandLocation(leftHand);
 
                 
 
@@ -138,7 +139,8 @@ namespace HandData
                 rightHand.fingers.ring.isClosed = RingClosed(hand);
                 rightHand.fingers.little.isClosed = LittleClosed(hand);
 
-                saveManager.SaveHandLocation(rightHand);
+                if (saveManager.enabled)
+                    saveManager.SaveHandLocation(rightHand);
 
                 if (track)
                 {
