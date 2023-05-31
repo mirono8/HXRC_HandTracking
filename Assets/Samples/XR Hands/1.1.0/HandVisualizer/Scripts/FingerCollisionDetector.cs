@@ -51,9 +51,12 @@ public class FingerCollisionDetector : MonoBehaviour
                             //fingerTipColliderTip = colliders.fingertips[i];
                             fingertipListIndex = i;
                             // Debug.Log(fingerTipColliderTip.finger);
-                            collisionEvent.startTime = DateTime.Now.ToString("HH-mm-ss");
-                            collisionEvent.collidingFinger = handData.leftHand.fingerColliders[i].fingerName;
-                            collisionEvent.otherCollider = other.gameObject.name;
+                            collisionEvent = new()
+                            {
+                                startTime = DateTime.Now.ToString("HH-mm-ss"),
+                                collidingFinger = handData.leftHand.fingerColliders[i].fingerName,
+                                otherCollider = other.gameObject.name
+                            };
                         }
                     }
                 }
@@ -78,9 +81,12 @@ public class FingerCollisionDetector : MonoBehaviour
                             //fingerTipColliderTip = colliders.fingertips[i];
                             fingertipListIndex = i;
                             // Debug.Log(fingerTipColliderTip.finger);
-                            collisionEvent.startTime = DateTime.Now.ToString("HH-mm-ss");
-                            collisionEvent.collidingFinger = handData.leftHand.fingerColliders[i].fingerName;
-                            collisionEvent.otherCollider = other.gameObject.name;
+                            collisionEvent = new()
+                            {
+                                startTime = DateTime.Now.ToString("HH-mm-ss"),
+                                collidingFinger = handData.leftHand.fingerColliders[i].fingerName,
+                                otherCollider = other.gameObject.name
+                            };
                         }
                     }
                 }
@@ -134,13 +140,13 @@ public class FingerCollisionDetector : MonoBehaviour
             {
                 handData.leftHand.fingerColliders[fingertipListIndex].colliding = false;
                 handData.SendCollisionData(handData.leftHand,  collisionEvent);
-                CleanCollisionEvent();
+                //CleanCollisionEvent();
             }
             if ((int)thisHand == (int)handData.rightHand.myHandedness)
             {
                 handData.rightHand.fingerColliders[fingertipListIndex].colliding = false;
                 handData.SendCollisionData(handData.rightHand, collisionEvent);
-                CleanCollisionEvent();
+              //  CleanCollisionEvent();
             }
         }
     }

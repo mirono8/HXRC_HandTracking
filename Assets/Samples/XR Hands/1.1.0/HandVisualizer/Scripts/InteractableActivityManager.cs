@@ -217,8 +217,10 @@ public class InteractableActivityManager : MonoBehaviour
                 interactableEvent.endPoint = rightHandPos[^1];
             }
         }
-        saveManager.combinedData.interactableEvents.events.Add(interactableEvent);
+        Debug.Log(interactableEvent.Equals(null));
+        saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil nullreference, vaikuttaa janssoniin vaa, fix
     }
+
     public static Vector3 StringToVector3(string sVector)
     {
         // Remove the parentheses

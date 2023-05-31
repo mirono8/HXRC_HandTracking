@@ -112,7 +112,7 @@ namespace HandData
                 leftHand.fingers.ring.isClosed = RingClosed(hand);
                 leftHand.fingers.little.isClosed = LittleClosed(hand);
 
-                if (saveManager.enabled)
+                if (saveManager.isActiveAndEnabled)
                     saveManager.SaveHandLocation(leftHand);
 
                 
@@ -139,7 +139,7 @@ namespace HandData
                 rightHand.fingers.ring.isClosed = RingClosed(hand);
                 rightHand.fingers.little.isClosed = LittleClosed(hand);
 
-                if (saveManager.enabled)
+                if (saveManager.isActiveAndEnabled)
                     saveManager.SaveHandLocation(rightHand);
 
                 if (track)
@@ -272,28 +272,28 @@ namespace HandData
         {
             if (hand.myHandedness == Hand.MyHandedness.left)
             {
-                /* foreach (var fingertips in leftHand.fingertips)
+                 foreach (var fingertips in leftHand.fingerColliders)
                  {
                      if (fingertips.colliding)
                      {
-                         saveManager.SaveFingerCollision(leftHand, fingertips.finger);
+                         saveManager.SaveFingerCollision(leftHand, collision);
                      }
-                 }*/
+                 }
 
-                saveManager.SaveFingerCollision(leftHand,  collision);
+               // saveManager.SaveFingerCollision(leftHand,  collision);
             }
 
             if (hand.myHandedness == Hand.MyHandedness.right)
             {
-                /*foreach (var fingertips in rightHand.fingertips)
+                foreach (var fingertips in rightHand.fingerColliders)
                 {
                     if (fingertips.colliding)
                     {
-                        saveManager.SaveFingerCollision(rightHand, rightHand.fingertips[fingerTipIndex].finger);
+                        saveManager.SaveFingerCollision(rightHand, collision);
                     }
-                }*/
+                }
 
-                saveManager.SaveFingerCollision(rightHand, collision);
+               // saveManager.SaveFingerCollision(rightHand, collision);
             }
         }
 

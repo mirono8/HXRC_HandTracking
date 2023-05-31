@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 199230425}
   - component: {fileID: 199230424}
   - component: {fileID: 199230423}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: littleProximalR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -1028,7 +1028,7 @@ PrefabInstance:
     - target: {fileID: 4108124381048770941, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.296
+      value: -0.911
       objectReference: {fileID: 0}
     - target: {fileID: 4108124381048770941, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -1072,8 +1072,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249354228339334406, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228339334406, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
       propertyPath: m_TagString
       value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228370543724, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7249354228370543724, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -1082,8 +1092,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249354228657089026, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228657089026, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
       propertyPath: m_TagString
       value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228764573441, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7249354228764573441, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -1092,8 +1112,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249354228814204287, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354228814204287, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
       propertyPath: m_TagString
       value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229235977539, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229388830020, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7249354229388830020, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -1102,13 +1137,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249354229815534086, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229815534086, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
       propertyPath: m_TagString
       value: FingerCollider
       objectReference: {fileID: 0}
     - target: {fileID: 7249354229931024298, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354229931024298, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
       propertyPath: m_TagString
       value: FingerCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249354230105494424, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
@@ -1287,7 +1337,7 @@ GameObject:
   - component: {fileID: 388222642}
   - component: {fileID: 388222641}
   - component: {fileID: 388222640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: indexProximalR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -1925,7 +1975,7 @@ GameObject:
   - component: {fileID: 483821880}
   - component: {fileID: 483821879}
   - component: {fileID: 483821878}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: littleIntermediateR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -2036,7 +2086,7 @@ GameObject:
   - component: {fileID: 575067083}
   - component: {fileID: 575067082}
   - component: {fileID: 575067081}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ringIntermediateR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -2345,7 +2395,7 @@ GameObject:
   - component: {fileID: 705861522}
   - component: {fileID: 705861521}
   - component: {fileID: 705861520}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ringProximalR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -2459,7 +2509,7 @@ GameObject:
   - component: {fileID: 718268481}
   - component: {fileID: 718268480}
   - component: {fileID: 718268479}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middleProximalR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -2873,7 +2923,7 @@ GameObject:
   - component: {fileID: 883407558}
   - component: {fileID: 883407557}
   - component: {fileID: 883407556}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: indexProximalL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -2987,7 +3037,7 @@ GameObject:
   - component: {fileID: 911287249}
   - component: {fileID: 911287248}
   - component: {fileID: 911287247}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: indexIntermediateL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -3281,7 +3331,7 @@ GameObject:
   - component: {fileID: 1068105556}
   - component: {fileID: 1068105555}
   - component: {fileID: 1068105554}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middleIntermediateL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -3453,7 +3503,7 @@ GameObject:
   - component: {fileID: 1104252770}
   - component: {fileID: 1104252769}
   - component: {fileID: 1104252768}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ringIntermediateL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -3529,7 +3579,7 @@ GameObject:
   - component: {fileID: 1119436666}
   - component: {fileID: 1119436665}
   - component: {fileID: 1119436664}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ringProximalL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -3617,7 +3667,7 @@ GameObject:
   - component: {fileID: 1251494904}
   - component: {fileID: 1251494903}
   - component: {fileID: 1251494902}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: littleIntermediateL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -3843,7 +3893,7 @@ GameObject:
   - component: {fileID: 1458898568}
   - component: {fileID: 1458898567}
   - component: {fileID: 1458898566}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: littleProximalL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -4361,7 +4411,7 @@ GameObject:
   - component: {fileID: 1601449550}
   - component: {fileID: 1601449549}
   - component: {fileID: 1601449548}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middleProximalL
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -4822,7 +4872,7 @@ GameObject:
   - component: {fileID: 2006796726}
   - component: {fileID: 2006796725}
   - component: {fileID: 2006796724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: middleIntermediateR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
@@ -4933,7 +4983,7 @@ GameObject:
   - component: {fileID: 2118303573}
   - component: {fileID: 2118303572}
   - component: {fileID: 2118303571}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: indexIntermediateR
   m_TagString: FingerCollider
   m_Icon: {fileID: 0}
