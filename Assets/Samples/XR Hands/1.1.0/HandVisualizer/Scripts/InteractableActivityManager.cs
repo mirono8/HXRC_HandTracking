@@ -82,6 +82,8 @@ public class InteractableActivityManager : MonoBehaviour
         handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
         saveManager = handData.gameObject.GetComponentInChildren<SaveManager>();
 
+        SetMySize();
+
     }
 
     /* private void OnTriggerEnter(Collider other)
@@ -104,11 +106,13 @@ public class InteractableActivityManager : MonoBehaviour
     
     public void SetMySize()
     {
+        Debug.Log("setting size to " + size);
+
         switch (size)
         {
-            case InteractableSize.Small: gameObject.transform.localScale.Set(2, 2, 2); break;
-            case InteractableSize.Medium: gameObject.transform.localScale.Set(3, 3, 3); break;
-            case InteractableSize.Large: gameObject.transform.localScale.Set(4, 4, 4); break;
+            case InteractableSize.Small: gameObject.transform.localScale = new Vector3(2f, 2f, 2f); break;
+            case InteractableSize.Medium: gameObject.transform.localScale = new Vector3(3f, 3f, 3f); break;
+            case InteractableSize.Large: gameObject.transform.localScale = new Vector3(4f, 4f, 4f); break;
             case InteractableSize.Random: int r = Random.Range(0, 3); size = (InteractableSize)r; SetMySize(); break;
             default: Debug.Log("cant make it"); break;
         }

@@ -75,7 +75,6 @@ public class SessionStart : MonoBehaviour
                 }*/
 
                 var x = Instantiate(temp, grid.transform);
-
                 x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                 x.GetComponent<InteractableActivityManager>().SetMySize();
 
