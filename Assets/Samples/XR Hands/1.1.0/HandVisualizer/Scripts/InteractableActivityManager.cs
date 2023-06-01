@@ -51,6 +51,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Vector3 myRot;
 
+    
     void Start()
     {
         leftHandPos = new();
@@ -281,8 +282,10 @@ public class InteractableActivityManager : MonoBehaviour
                 collidables.objects[myOrderIndex + 1].SetActive(true);
             }
             else
+            {
                 Debug.Log("All buttons pressed");
-
+                gameObject.transform.parent.parent.parent.GetComponentInParent<SessionManager>().TryStartNextSet(); //vois tehä järkevämmin, ei saa muuttaa hierarkiaa sos :)
+            }
             
             if(gameObject.activeSelf == true)
                 gameObject.SetActive(false);

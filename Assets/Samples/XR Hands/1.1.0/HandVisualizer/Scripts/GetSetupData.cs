@@ -19,7 +19,7 @@ public class GetSetupData : MonoBehaviour
         public string type;
     }
     
-    public ParsedData data;
+    public List<ParsedData> sets;
 
     public GameObject onSessionStart;
 
@@ -57,49 +57,54 @@ public class GetSetupData : MonoBehaviour
         }
         Debug.Log(latestId);
 
-        string id = node[indexOfLatest]["id"].ToString().ToLower().Replace("\"", "");
-        data.id = int.Parse(id);
+        for (int i = 0; i < node[indexOfLatest]["gameData"]["setsList"].Count; i++)
+        {
+            ParsedData data = new();
+            sets.Add(data);
 
-        string size = node[indexOfLatest]["gameData"][0].ToString().ToLower().Replace("\"", "");
-        data.size = size;
+            string id = node[indexOfLatest]["id"].ToString().ToLower().Replace("\"", "");
+            sets[i].id = int.Parse(id);
 
-        string type = node[indexOfLatest]["gameData"][1].ToString().ToLower().Replace("\"", "");
-        data.type = type;
-        
+            string size = node[indexOfLatest]["gameData"]["setsList"][i][0].ToString().ToLower().Replace("\"", "");
+            sets[i].size = size;
+
+            string type = node[indexOfLatest]["gameData"]["setsList"][i][1].ToString().ToLower().Replace("\"", "");
+            sets[i].type = type;
+        }
     }
 
     public bool Latest()
     {
         int previousId = PlayerPrefs.GetInt("id");
 
-        if(previousId != data.id && data.id != 0)
+        if(previousId != sets[0].id && sets[0].id != 0)
         {
             //session start
-            PlayerPrefs.SetInt("id", data.id);
+            PlayerPrefs.SetInt("id", sets[0].id);
             return true;
         }
         else
         {
             Debug.Log("id matches with previous session, no new data sent yet");
             //wait
-            PlayerPrefs.SetInt("id", data.id);
+            PlayerPrefs.SetInt("id", sets[0].id);
             return false;
         }
     }
     void Start()
     {
-        data = new();
+        sets = new();
         StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
     }
 
-    public string ReturnSize()
+    public string ReturnSize(int i)
     {
-        return data.size;
+        return sets[i].size;
     }
 
-    public string ReturnType()
+    public string ReturnType(int i)
     {
-        return data.type;
+        return sets[i].type;
     }
     private void Update()
     {

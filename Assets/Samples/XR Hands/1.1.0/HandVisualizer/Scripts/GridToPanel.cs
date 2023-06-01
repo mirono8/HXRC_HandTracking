@@ -7,9 +7,18 @@ public class GridToPanel : MonoBehaviour
     public GameObject panel;
 
     public Vector3 desiredDistance;
-    
+
+    PanelManager panelManager;
+
+    private void Start()
+    {
+        panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
+        panel = panelManager.GiveMeAPanel();
+    }
+
     private void Update()
     {
-        transform.position = panel.transform.position + desiredDistance;
+        if (panel != null)
+            transform.position = panel.transform.position + desiredDistance;
     }
 }

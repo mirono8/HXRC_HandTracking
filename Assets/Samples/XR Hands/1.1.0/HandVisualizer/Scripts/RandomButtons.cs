@@ -24,6 +24,7 @@ public class RandomButtons : MonoBehaviour
             originalPositions.Add(x.transform.position);
         }
 
+        panel = GetComponent<GridToPanel>().panel;
 
         SetRandomPositions();
 
