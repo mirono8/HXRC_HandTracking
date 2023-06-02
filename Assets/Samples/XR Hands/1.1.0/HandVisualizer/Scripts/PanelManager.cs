@@ -6,7 +6,6 @@ using UnityEngine;
 public class PanelManager : MonoBehaviour
 {
     
-
     public List<Panel> panels;
 
     [Serializable]
@@ -14,6 +13,8 @@ public class PanelManager : MonoBehaviour
     {
         [SerializeField]
         public bool occupado = false;
+        [SerializeField]
+        public bool reusePanel;
         [SerializeField]
         public GameObject panel;
 
@@ -42,6 +43,17 @@ public class PanelManager : MonoBehaviour
         }
         else { return null; }
 
+    }
+
+    public GameObject ReusePanel()
+    {
+        var x = panels.Find(x => x.panel == x.reusePanel);
+        if (x != null)
+        {
+            x.occupado = false;
+            return x.panel;
+        }
+        return null;
     }
 }
 

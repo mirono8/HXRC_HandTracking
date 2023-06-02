@@ -288,7 +288,7 @@ public class InteractableActivityManager : MonoBehaviour
             else
             {
                 Debug.Log("All buttons pressed");
-                gameObject.transform.parent.parent.parent.GetComponentInParent<SessionManager>().TryStartNextSet(); //vois tehä järkevämmin, ei saa muuttaa hierarkiaa sos :)
+                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet(); //vois tehä järkevämmin, ei saa muuttaa hierarkiaa sos :)
             }
             
             if(gameObject.activeSelf == true)
@@ -296,5 +296,8 @@ public class InteractableActivityManager : MonoBehaviour
         }
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
+
+        if (Input.GetButtonDown("InteractSuccess"))
+            interactSuccess = true;
     }
 }

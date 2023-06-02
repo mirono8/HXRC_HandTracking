@@ -11,12 +11,13 @@ public class SessionManager : MonoBehaviour
     [SerializeField]
     int setCount;
     [SerializeField]
-    int currentSet = 0;
+    int currentSet;
 
     public bool allClear = false;
 
     PanelManager panelManager;
 
+    
     private void Awake()
     {
         sessionStart = GetComponentInChildren<SessionStart>(true);
@@ -25,6 +26,7 @@ public class SessionManager : MonoBehaviour
 
     private void Start()
     {
+       
         StartCoroutine(GetInitialState());
     }
 
@@ -34,9 +36,11 @@ public class SessionManager : MonoBehaviour
 
         setCount = sessionStart.setupData.sets.Count;
 
-        for (int i = 0; i < setCount - 1; i++) { Instantiate(sessionStart.gridPrefab, sessionStart.gameObject.transform); }
+        for (int i = 0; i < setCount - 1; i++) { sessionStart.setGrid.Add(Instantiate(sessionStart.gridPrefab, sessionStart.gameObject.transform)); }
 
         panelManager.FindAllPanels();
+
+        sessionStart.RunSet();
     }
 
     public void TryStartNextSet()
@@ -44,8 +48,16 @@ public class SessionManager : MonoBehaviour
         if(currentSet < setCount)
         {
             currentSet++;
-            sessionStart.AssignSetParams(currentSet);
+            if (panelManager.panels.Count <= currentSet)
+            {
+                sessionStart.AssignSetParams(currentSet, true);
+            }
+            else
+                sessionStart.AssignSetParams(currentSet);
+
+            sessionStart.Juukelispuukelis();
             sessionStart.RunSet();
+            sessionStart.JuukelisPuikkelis();
         }
         else
             allClear = true;

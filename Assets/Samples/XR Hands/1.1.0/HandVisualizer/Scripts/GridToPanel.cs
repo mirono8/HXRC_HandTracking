@@ -14,6 +14,8 @@ public class GridToPanel : MonoBehaviour
     {
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
+        if(panel != null)
+            gameObject.transform.parent = panel.transform;
     }
 
     private void Update()

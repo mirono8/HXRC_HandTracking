@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class SessionStart : MonoBehaviour
 {
@@ -29,9 +30,7 @@ public class SessionStart : MonoBehaviour
     private void Start()
     {
         grid = Instantiate(gridPrefab, gameObject.transform);
-
-        //size ei tee mitää jostai syyst lol
-        RunSet();
+        setGrid.Add(grid);
     }
 
     public void RunSet()
@@ -42,14 +41,6 @@ public class SessionStart : MonoBehaviour
         Debug.Log(sizeAsEnum);
 
 
-        if (currentSetGameObjs.Count > 0)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                currentSetGameObjs[i].SetActive(false);
-            }
-            currentSetGameObjs.Clear();
-        }
 
         if (temp != null)
         {
@@ -80,14 +71,44 @@ public class SessionStart : MonoBehaviour
 
                 currentSetGameObjs.Add(x);
             }
+
+        }
+    }
+    public void Juukelispuukelis()
+    {
+        if (currentSetGameObjs.Any())
+        {
+            currentSetGameObjs.Clear();
+            grid.GetComponent<CollidableObjects>().objects.Clear();
         }
     }
 
-    public void AssignSetParams(int round)
+    public void JuukelisPuikkelis()
+    {
+        if (!grid.GetComponent<CollidableObjects>().objects.Any())
+        {
+
+            for (int i = 0; i < 10; i++)
+            {
+                grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
+            }
+            grid.GetComponent<RandomButtons>().ReadyForSetup();
+        }
+    }
+    public void AssignSetParams(int round, bool reusePanel = false)
     {
         size = setupData.ReturnSize(round);
         type = setupData.ReturnType(round);
-        grid = setGrid[round];
+
+        Debug.Log("new params " + size + type);
+        if (!reusePanel) {
+            grid = setGrid[round];
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel();
+            Debug.Log("reusing panel " + grid.transform.parent.gameObject.name);
+        }
     }
 
 }

@@ -9,6 +9,7 @@ TagManager:
   - Grid
   - Panel
   - PanelManager
+  - SessionManager
   layers:
   - Default
   - TransparentFX
