@@ -40,8 +40,6 @@ public class SessionStart : MonoBehaviour
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize)Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
         Debug.Log(sizeAsEnum);
 
-
-
         if (temp != null)
         {
 
@@ -74,7 +72,8 @@ public class SessionStart : MonoBehaviour
 
         }
     }
-    public void Juukelispuukelis()
+
+    public void ClearCurrentSet()
     {
         if (currentSetGameObjs.Any())
         {
@@ -83,11 +82,10 @@ public class SessionStart : MonoBehaviour
         }
     }
 
-    public void JuukelisPuikkelis()
+    public void GameObjectsToTrack()
     {
         if (!grid.GetComponent<CollidableObjects>().objects.Any())
         {
-
             for (int i = 0; i < 10; i++)
             {
                 grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
@@ -95,6 +93,7 @@ public class SessionStart : MonoBehaviour
             grid.GetComponent<RandomButtons>().ReadyForSetup();
         }
     }
+
     public void AssignSetParams(int round, bool reusePanel = false)
     {
         size = setupData.ReturnSize(round);
@@ -110,6 +109,5 @@ public class SessionStart : MonoBehaviour
             Debug.Log("reusing panel " + grid.transform.parent.gameObject.name);
         }
     }
-
 }
 

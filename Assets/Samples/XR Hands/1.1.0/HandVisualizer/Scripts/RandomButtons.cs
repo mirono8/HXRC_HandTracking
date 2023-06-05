@@ -66,7 +66,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].SetActive(true);
         }
     }
-
+    //NEED LOGIC USING COLLIDABLES LIST FOR HIGHLIGHT
     public bool CheckBoundIntersection(int index)
     {
         for (int i = 0; i < collidables.objects.Count; i++)

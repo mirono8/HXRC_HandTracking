@@ -55,9 +55,9 @@ public class SessionManager : MonoBehaviour
             else
                 sessionStart.AssignSetParams(currentSet);
 
-            sessionStart.Juukelispuukelis();
+            sessionStart.ClearCurrentSet();
             sessionStart.RunSet();
-            sessionStart.JuukelisPuikkelis();
+            sessionStart.GameObjectsToTrack();
         }
         else
             allClear = true;

@@ -243,6 +243,7 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 2100000, guid: 0bbf7e22bcbcc6c439cbe71a04427706, type: 2}
 --- !u!1 &2808846557090960566
 GameObject:
   m_ObjectHideFlags: 0
