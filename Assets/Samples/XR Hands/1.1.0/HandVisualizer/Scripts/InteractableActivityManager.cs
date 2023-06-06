@@ -51,9 +51,16 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Vector3 myRot;
 
+    Material originalMaterial;
+
+    public Material highlightMaterial;
+
+    public bool highlighted;
     
     void Start()
     {
+        GetComponent<MeshRenderer>().material = originalMaterial;
+
         leftHandPos = new();
         rightHandPos = new();
 
@@ -258,9 +265,39 @@ public class InteractableActivityManager : MonoBehaviour
         EndInteractionEvent();
     }
     
+    public void OneByOneSuccesscheck()
+    {
+        if (interactSuccess)
+        {
+            if (myOrderIndex != collidables.objects.Count - 1)
+            {
+                collidables.objects[myOrderIndex + 1].SetActive(true);
+            }
+            else
+            {
+                Debug.Log("All buttons pressed");
+                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
+            }
+
+            if (gameObject.activeSelf == true)
+                gameObject.SetActive(false);
+        }
+    }
+
+    public void AllAtOnceSuccessCheck()
+    {
+        
+    }
+
     private void Update()
     {
         myDuration += Time.deltaTime;
+
+        if (GetComponent<Renderer>().material == highlightMaterial)
+        {
+            highlighted = true;
+        }
+        else { highlighted = false; }
 
         if (type == InteractableType.Button)
         {
@@ -279,20 +316,13 @@ public class InteractableActivityManager : MonoBehaviour
         if(handData.rightHandTracking)
             rightHandPos.Add(handData.rightHand.handPosition.ToString());
 
-        if (interactSuccess)
+        if (randomButtons.oneByOne)
         {
-            if (myOrderIndex != collidables.objects.Count - 1)
-            {
-                collidables.objects[myOrderIndex + 1].SetActive(true);
-            }
-            else
-            {
-                Debug.Log("All buttons pressed");
-                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet(); //vois tehä järkevämmin, ei saa muuttaa hierarkiaa sos :)
-            }
-            
-            if(gameObject.activeSelf == true)
-                gameObject.SetActive(false);
+            OneByOneSuccesscheck();
+        } 
+        else
+        {
+            AllAtOnceSuccessCheck();
         }
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis

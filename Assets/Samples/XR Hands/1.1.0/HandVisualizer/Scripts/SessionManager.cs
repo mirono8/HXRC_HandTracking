@@ -55,9 +55,9 @@ public class SessionManager : MonoBehaviour
             else
                 sessionStart.AssignSetParams(currentSet);
 
-            sessionStart.ClearListsForReuse();
+            sessionStart.ClearCurrentSet();
             sessionStart.RunSet();
-            sessionStart.PopulateCollidables();
+            sessionStart.GameObjectsToTrack();
         }
         else
             allClear = true;
