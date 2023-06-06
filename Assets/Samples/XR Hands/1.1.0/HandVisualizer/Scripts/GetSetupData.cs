@@ -17,12 +17,14 @@ public class GetSetupData : MonoBehaviour
         public int id;
         public string size;
         public string type;
+        public string mode;
     }
     
     public List<ParsedData> sets;
 
     public GameObject onSessionStart;
 
+    
     IEnumerator GetSetupDataFromSite(string uri)
     {
         UnityWebRequest www = UnityWebRequest.Get(uri);
@@ -70,6 +72,8 @@ public class GetSetupData : MonoBehaviour
 
             string type = node[indexOfLatest]["gameData"]["setsList"][i][1].ToString().ToLower().Replace("\"", "");
             sets[i].type = type;
+
+            sets[i].mode = "all";
         }
     }
 
@@ -95,6 +99,7 @@ public class GetSetupData : MonoBehaviour
     {
         sets = new();
         StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
+        
     }
 
     public string ReturnSize(int i)

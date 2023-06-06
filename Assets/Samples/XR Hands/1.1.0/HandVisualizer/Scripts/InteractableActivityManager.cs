@@ -56,10 +56,13 @@ public class InteractableActivityManager : MonoBehaviour
     public Material highlightMaterial;
 
     public bool highlighted;
-    
+
+    public Renderer rendererToChange;
+
+    public Collider intersectionCollider;
     void Start()
     {
-        GetComponent<MeshRenderer>().material = originalMaterial;
+        originalMaterial = rendererToChange.material;
 
         leftHandPos = new();
         rightHandPos = new();
@@ -81,8 +84,13 @@ public class InteractableActivityManager : MonoBehaviour
 
         myOrderIndex = collidables.objects.FindIndex(x => x == gameObject);
 
-        if (myOrderIndex == 0) 
+        if (myOrderIndex == 0 && randomButtons.oneByOne) 
         {
+            gameObject.SetActive(true);
+        }
+        else if (myOrderIndex == 0 && !randomButtons.oneByOne)
+        {
+            rendererToChange.material = highlightMaterial;
             gameObject.SetActive(true);
         }
 
@@ -128,28 +136,26 @@ public class InteractableActivityManager : MonoBehaviour
     #region InteractionCheckByType
     public void ButtonPressed()
     {
-        if (randomButtons.oneByOne)
-        {
+        
             if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
             {
                 Debug.Log("interact success");
                 // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
                 interactSuccess = true;
             }
-        }
+        
     }
 
     public void SwitchPressed()
     {
-        if (randomButtons.oneByOne)
-        {
+        
             
             if(myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
             {
                 Debug.Log("nintendo switch");
                 interactSuccess = true;
             }
-        }
+        
     }
 
     public void LeverPulled()
@@ -187,7 +193,10 @@ public class InteractableActivityManager : MonoBehaviour
     {
         myRigidbody.gameObject.transform.localPosition = new Vector3(0, 0.007f, 0);
 
-        myRigidbody.gameObject.transform.localEulerAngles = new Vector3(myRigidbody.gameObject.transform.localEulerAngles.x, 180f, 180f);
+        if(!interactSuccess)
+            myRigidbody.gameObject.transform.localEulerAngles = new Vector3(myRigidbody.gameObject.transform.localEulerAngles.x, 180f, 180f);
+        else
+            myRigidbody.gameObject.transform.localEulerAngles = new Vector3(downPosition, 180f, 180f);
 
     }
     #endregion
@@ -286,14 +295,25 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void AllAtOnceSuccessCheck()
     {
-        
+        if(interactSuccess && highlighted)
+        {
+            if (myOrderIndex != collidables.objects.Count - 1)
+            {
+                rendererToChange.material = originalMaterial;
+                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
+            }
+        }
     }
 
     private void Update()
     {
         myDuration += Time.deltaTime;
 
-        if (GetComponent<Renderer>().material == highlightMaterial)
+        if (rendererToChange.sharedMaterial == highlightMaterial)
         {
             highlighted = true;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class SessionStart : MonoBehaviour
+public class SetStart : MonoBehaviour
 {
     public GetSetupData setupData;
 
@@ -69,22 +69,25 @@ public class SessionStart : MonoBehaviour
 
                 currentSetGameObjs.Add(x);
             }
-
+            
+            
         }
     }
 
     public void ClearCurrentSet()
-
     {
         if (currentSetGameObjs.Any())
         {
+            for(int i = 0; i < currentSetGameObjs.Count; i++)
+            {
+                currentSetGameObjs[i].SetActive(false);
+            }
             currentSetGameObjs.Clear();
             grid.GetComponent<CollidableObjects>().objects.Clear();
         }
     }
 
     public void GameObjectsToTrack()
-
     {
         if (!grid.GetComponent<CollidableObjects>().objects.Any())
         {
@@ -100,8 +103,9 @@ public class SessionStart : MonoBehaviour
     {
         size = setupData.ReturnSize(round);
         type = setupData.ReturnType(round);
-
+       // mode = setupData.sets[round].mode;
         Debug.Log("new params " + size + type);
+
         if (!reusePanel) {
             grid = setGrid[round];
         }
@@ -112,4 +116,3 @@ public class SessionStart : MonoBehaviour
         }
     }
 }
-

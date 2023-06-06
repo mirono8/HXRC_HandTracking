@@ -6,7 +6,7 @@ using UnityEngine;
 public class SessionManager : MonoBehaviour
 {
 
-    SessionStart sessionStart;
+    SetStart setStart;
 
     [SerializeField]
     int setCount;
@@ -20,7 +20,7 @@ public class SessionManager : MonoBehaviour
     
     private void Awake()
     {
-        sessionStart = GetComponentInChildren<SessionStart>(true);
+        setStart = GetComponentInChildren<SetStart>(true);
         panelManager = GetComponentInChildren<PanelManager>(true);
     }
 
@@ -34,13 +34,13 @@ public class SessionManager : MonoBehaviour
     {
         yield return new WaitUntil(SessionActiveStatus);
 
-        setCount = sessionStart.setupData.sets.Count;
+        setCount = setStart.setupData.sets.Count;
 
-        for (int i = 0; i < setCount - 1; i++) { sessionStart.setGrid.Add(Instantiate(sessionStart.gridPrefab, sessionStart.gameObject.transform)); }
+        for (int i = 0; i < setCount - 1; i++) { setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform)); }
 
         panelManager.FindAllPanels();
 
-        sessionStart.RunSet();
+        setStart.RunSet();
     }
 
     public void TryStartNextSet()
@@ -50,21 +50,21 @@ public class SessionManager : MonoBehaviour
             currentSet++;
             if (panelManager.panels.Count <= currentSet)
             {
-                sessionStart.AssignSetParams(currentSet, true);
+                setStart.AssignSetParams(currentSet, true);
             }
             else
-                sessionStart.AssignSetParams(currentSet);
+                setStart.AssignSetParams(currentSet);
 
-            sessionStart.ClearCurrentSet();
-            sessionStart.RunSet();
-            sessionStart.GameObjectsToTrack();
+            setStart.ClearCurrentSet();
+            setStart.RunSet();
+            setStart.GameObjectsToTrack();
         }
         else
-            allClear = true;
+            allClear = true; setStart.gameObject.SetActive(false);
     }
 
     bool SessionActiveStatus()
     {
-        return sessionStart.gameObject.activeSelf;
+        return setStart.gameObject.activeSelf;
     }
 }

@@ -125,7 +125,8 @@ GameObject:
   - component: {fileID: 519546112140656876}
   - component: {fileID: 66860172098681099}
   - component: {fileID: 370326311065493398}
-  m_Layer: 0
+  - component: {fileID: 97067928085491994}
+  m_Layer: 7
   m_Name: buttonBace_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,6 +198,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &97067928085491994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569979456521463730}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.020908166, y: 0.020908171, z: 0.004181633}
+  m_Center: {x: -1.951676e-17, y: -2.661296e-17, z: 0.001872721}
 --- !u!1 &8485728320283058318
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,3 +272,6 @@ MonoBehaviour:
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
   highlightMaterial: {fileID: 2100000, guid: 0bbf7e22bcbcc6c439cbe71a04427706, type: 2}
+  highlighted: 0
+  rendererToChange: {fileID: 4350578916540956210}
+  intersectionCollider: {fileID: 97067928085491994}
