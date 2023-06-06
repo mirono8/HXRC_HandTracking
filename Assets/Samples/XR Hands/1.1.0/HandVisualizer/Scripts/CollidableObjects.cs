@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ public class CollidableObjects : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(PopulateCollidables());
+        if (!objects.Any())
+            StartCoroutine(PopulateCollidables()); 
     }
 
     IEnumerator PopulateCollidables()

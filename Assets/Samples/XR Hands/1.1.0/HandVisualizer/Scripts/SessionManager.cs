@@ -40,7 +40,7 @@ public class SessionManager : MonoBehaviour
 
         panelManager.FindAllPanels();
 
-        setStart.RunSet();
+        setStart.SetupInteractables();
     }
 
     public void TryStartNextSet()
@@ -56,8 +56,9 @@ public class SessionManager : MonoBehaviour
                 setStart.AssignSetParams(currentSet);
 
             setStart.ClearCurrentSet();
-            setStart.RunSet();
+            setStart.SetupInteractables();
             setStart.GameObjectsToTrack();
+            setStart.RunSet();
         }
         else
             allClear = true; setStart.gameObject.SetActive(false);

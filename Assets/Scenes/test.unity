@@ -205,6 +205,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1 &137193986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2130331530761912223, guid: d661f645c81f29b4aa596207971ae441,
@@ -243,6 +247,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1 &153448660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1489,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!114 &599786318 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3720648182778613559, guid: 5dcf8767714ee0245b1808f0f980cd44,
@@ -1679,6 +1691,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1 &782953505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2065,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1001 &968989438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2343,6 +2363,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1001 &1315716702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2455,6 +2479,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1 &1514053642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2130331530761912223, guid: d661f645c81f29b4aa596207971ae441,
@@ -2493,6 +2521,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1 &1534028866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2130331532155778800, guid: d661f645c81f29b4aa596207971ae441,
@@ -3047,6 +3079,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!114 &1818748506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1818748506, guid: 457a0d2628fbf2b4986b3c4f009100a3,
@@ -3119,6 +3155,10 @@ MonoBehaviour:
   myOrderIndex: 0
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
+  highlightMaterial: {fileID: 0}
+  highlighted: 0
+  rendererToChange: {fileID: 0}
+  intersectionCollider: {fileID: 0}
 --- !u!1001 &1907623191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3136,7 +3176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3469030596638636, guid: fbd1f4be285ce6445a92b851462bdb77, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.72
       objectReference: {fileID: 0}
     - target: {fileID: 3469030596638636, guid: fbd1f4be285ce6445a92b851462bdb77, type: 3}
       propertyPath: m_LocalPosition.y

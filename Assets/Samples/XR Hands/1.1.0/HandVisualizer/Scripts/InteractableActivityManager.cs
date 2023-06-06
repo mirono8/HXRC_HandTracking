@@ -136,26 +136,25 @@ public class InteractableActivityManager : MonoBehaviour
     #region InteractionCheckByType
     public void ButtonPressed()
     {
-        
-            if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
-            {
-                Debug.Log("interact success");
-                // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-                interactSuccess = true;
-            }
-        
+
+        if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
+        {
+            // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
+            interactSuccess = true;
+        }
+
     }
 
     public void SwitchPressed()
     {
-        
-            
-            if(myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
-            {
-                Debug.Log("nintendo switch");
-                interactSuccess = true;
-            }
-        
+
+
+        if (myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
+        {
+
+            interactSuccess = true;
+        }
+
     }
 
     public void LeverPulled()
@@ -284,7 +283,7 @@ public class InteractableActivityManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("All buttons pressed");
+
                 GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
             }
 

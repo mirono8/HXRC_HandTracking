@@ -55,7 +55,7 @@ public class RandomButtons : MonoBehaviour
                  collidables.objects[i].SetActive(true);
         }
     }
-    //NEED LOGIC USING COLLIDABLES LIST FOR HIGHLIGHT
+
     public bool CheckBoundIntersection(int index)
     {
         for (int i = 0; i < collidables.objects.Count; i++)
@@ -108,5 +108,5 @@ public class RandomButtons : MonoBehaviour
         var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
         collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
     }
-
+    //intersectaa viel välil joskus lul
 }

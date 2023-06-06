@@ -19,6 +19,7 @@ public class SetStart : MonoBehaviour
 
     public List<GameObject> setGrid;
 
+    [SerializeField]
     GameObject grid;
     private void OnEnable()
     {
@@ -33,7 +34,7 @@ public class SetStart : MonoBehaviour
         setGrid.Add(grid);
     }
 
-    public void RunSet()
+    public void SetupInteractables()
     {
         var temp = interactablePrefabs.Find(x => x.name.ToString().ToLower().Contains(type));
         Debug.Log(temp);
@@ -78,25 +79,32 @@ public class SetStart : MonoBehaviour
     {
         if (currentSetGameObjs.Any())
         {
-            for(int i = 0; i < currentSetGameObjs.Count; i++)
+            for (int i = 0; i < currentSetGameObjs.Count; i++)
             {
-                currentSetGameObjs[i].SetActive(false);
+                currentSetGameObjs[i].GetComponent<InteractableActivityManager>().intersectionCollider.enabled = false;
+
+                if (currentSetGameObjs[i].activeSelf)
+                    currentSetGameObjs[i].SetActive(false);
             }
             currentSetGameObjs.Clear();
-            grid.GetComponent<CollidableObjects>().objects.Clear();
+            grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
         }
     }
 
     public void GameObjectsToTrack()
     {
-        if (!grid.GetComponent<CollidableObjects>().objects.Any())
+        if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
         {
             for (int i = 0; i < 10; i++)
             {
                 grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
             }
-            grid.GetComponent<RandomButtons>().ReadyForSetup();
         }
+    }
+
+    public void RunSet()
+    {
+        grid.GetComponent<RandomButtons>().ReadyForSetup();
     }
 
     public void AssignSetParams(int round, bool reusePanel = false)
