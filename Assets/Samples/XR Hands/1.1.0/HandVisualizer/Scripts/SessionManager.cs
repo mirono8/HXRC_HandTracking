@@ -55,9 +55,9 @@ public class SessionManager : MonoBehaviour
             else
                 sessionStart.AssignSetParams(currentSet);
 
-            sessionStart.Juukelispuukelis();
+            sessionStart.ClearListsForReuse();
             sessionStart.RunSet();
-            sessionStart.JuukelisPuikkelis();
+            sessionStart.PopulateCollidables();
         }
         else
             allClear = true;

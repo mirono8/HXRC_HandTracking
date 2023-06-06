@@ -74,7 +74,7 @@ public class SessionStart : MonoBehaviour
 
         }
     }
-    public void Juukelispuukelis()
+    public void ClearListsForReuse()
     {
         if (currentSetGameObjs.Any())
         {
@@ -83,7 +83,7 @@ public class SessionStart : MonoBehaviour
         }
     }
 
-    public void JuukelisPuikkelis()
+    public void PopulateCollidables()
     {
         if (!grid.GetComponent<CollidableObjects>().objects.Any())
         {
