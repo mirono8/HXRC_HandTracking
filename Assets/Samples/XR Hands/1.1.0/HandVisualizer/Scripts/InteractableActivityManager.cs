@@ -284,7 +284,7 @@ public class InteractableActivityManager : MonoBehaviour
             else
             {
 
-                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
+              //  GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
             }
 
             if (gameObject.activeSelf == true)
@@ -294,7 +294,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void AllAtOnceSuccessCheck()
     {
-        if(interactSuccess && highlighted)
+        if (interactSuccess && highlighted)
         {
             if (myOrderIndex != collidables.objects.Count - 1)
             {
@@ -303,7 +303,7 @@ public class InteractableActivityManager : MonoBehaviour
             }
             else
             {
-                GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
+                //GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
             }
         }
     }

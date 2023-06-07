@@ -21,6 +21,7 @@ public class SetStart : MonoBehaviour
 
     [SerializeField]
     GameObject grid;
+
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);

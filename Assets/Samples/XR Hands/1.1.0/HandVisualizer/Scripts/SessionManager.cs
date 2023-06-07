@@ -36,7 +36,10 @@ public class SessionManager : MonoBehaviour
 
         setCount = setStart.setupData.sets.Count;
 
-        for (int i = 0; i < setCount - 1; i++) { setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform)); }
+        if (setCount != 0)
+            for (int i = 0; i < setCount - 1; i++) { setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform)); }
+        else
+            setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
 
         panelManager.FindAllPanels();
 
@@ -44,8 +47,8 @@ public class SessionManager : MonoBehaviour
     }
 
     public void TryStartNextSet()
-    { 
-        if(currentSet < setCount)
+    {
+        if (currentSet < setCount)
         {
             currentSet++;
             if (panelManager.panels.Count <= currentSet)
@@ -61,11 +64,20 @@ public class SessionManager : MonoBehaviour
             setStart.RunSet();
         }
         else
-            allClear = true; setStart.gameObject.SetActive(false);
+        {
+            allClear = true;
+            foreach (PanelManager.Panel p in panelManager.panels) { p.panel.SetActive(false); }
+        }
     }
 
     bool SessionActiveStatus()
     {
         return setStart.gameObject.activeSelf;
+    }
+
+    private void Update()
+    {
+        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess)
+            TryStartNextSet();
     }
 }
