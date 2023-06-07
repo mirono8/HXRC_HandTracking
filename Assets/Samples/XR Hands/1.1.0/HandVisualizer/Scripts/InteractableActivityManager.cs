@@ -36,6 +36,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     CollidableObjects collidables;
 
+    [SerializeField]
     RandomButtons randomButtons;
 
     public int myOrderIndex;
@@ -60,6 +61,12 @@ public class InteractableActivityManager : MonoBehaviour
     public Renderer rendererToChange;
 
     public Collider intersectionCollider;
+
+    private void Awake()
+    {
+        randomButtons = GetComponentInParent<RandomButtons>();
+    }
+    
     void Start()
     {
         originalMaterial = rendererToChange.material;
@@ -80,7 +87,9 @@ public class InteractableActivityManager : MonoBehaviour
         Debug.Log("interactable start");
         myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
-        randomButtons = GetComponentInParent<RandomButtons>();
+
+        
+        
 
         myOrderIndex = collidables.objects.FindIndex(x => x == gameObject);
 
@@ -91,6 +100,7 @@ public class InteractableActivityManager : MonoBehaviour
         else if (myOrderIndex == 0 && !randomButtons.oneByOne)
         {
             rendererToChange.material = highlightMaterial;
+            StartInteractionEvent();
             gameObject.SetActive(true);
         }
 
@@ -203,7 +213,10 @@ public class InteractableActivityManager : MonoBehaviour
     #region JSONDataCollection
     public void StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten
     {
-        
+        Debug.Log("start interaction event");
+
+        myDuration = 0;
+
         interactableEvent = new SaveManager.InteractableEvent();
 
         interactableEvent.interactableSize = size.ToString().Substring(0,1).ToLower();
@@ -215,10 +228,10 @@ public class InteractableActivityManager : MonoBehaviour
     {
         interactableEvent.duration = myDuration.ToString();
 
-
+        Debug.Log("end interaction event");
         if (interactor == Interactor.Left)
         {
-            if (leftHandPos.Count > 0)
+            if (leftHandPos.Count > 0 && handData.leftHandTracking)
             {
                 interactableEvent.startPoint = leftHandPos[0];
                 interactableEvent.trajectory = leftHandPos;
@@ -227,7 +240,7 @@ public class InteractableActivityManager : MonoBehaviour
 
             }
         }
-        else if (interactor == Interactor.Right)
+        else if (interactor == Interactor.Right && handData.rightHandTracking)
         {
             if (rightHandPos.Count > 0)
             {
@@ -237,7 +250,8 @@ public class InteractableActivityManager : MonoBehaviour
                 interactableEvent.endPoint = rightHandPos[^1];
             }
         }
-        Debug.Log(interactableEvent.Equals(null));
+        Debug.Log(interactableEvent.interactableSize + interactableEvent.interactableType + interactableEvent.duration);
+
         saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil nullreference, vaikuttaa janssoniin vaa, fix
     }
 
@@ -265,12 +279,22 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void OnEnable()
     {
-        StartInteractionEvent();
+        if (randomButtons.IsOneByOne())
+        {
+            Debug.Log("onebyone");
+            StartInteractionEvent();
+        }
+        
     }
 
+
     private void OnDisable()
-    { 
-        EndInteractionEvent();
+    {
+        if (randomButtons.IsOneByOne())
+        {
+            EndInteractionEvent();
+        }
+        
     }
     
     public void OneByOneSuccesscheck()
@@ -300,6 +324,9 @@ public class InteractableActivityManager : MonoBehaviour
             {
                 rendererToChange.material = originalMaterial;
                 collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+
+                EndInteractionEvent();
             }
             else
             {

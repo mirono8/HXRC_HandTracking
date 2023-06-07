@@ -109,4 +109,9 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
     }
     //intersectaa viel välil joskus lul
+
+    public bool IsOneByOne()
+    {
+        return oneByOne;
+    }
 }
