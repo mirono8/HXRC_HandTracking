@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2808846556235709895}
   - component: {fileID: 2808846556235709894}
   - component: {fileID: 2808846556235709893}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,10 +94,10 @@ BoxCollider:
   m_GameObject: {fileID: 2808846556235709891}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.11464122, y: 0.11652262, z: 0.032697618}
+  m_Center: {x: 0.0039031059, y: -0.0022026934, z: 0.0063557103}
 --- !u!1 &2808846556348250009
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,6 +244,9 @@ MonoBehaviour:
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
   highlightMaterial: {fileID: 2100000, guid: 0bbf7e22bcbcc6c439cbe71a04427706, type: 2}
+  highlighted: 0
+  rendererToChange: {fileID: 2808846556348250011}
+  intersectionCollider: {fileID: 2808846556235709893}
 --- !u!1 &2808846557090960566
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8742022694081833806}
   - component: {fileID: 6089671503081173977}
   - component: {fileID: 6700148617010843551}
-  m_Layer: 0
+  - component: {fileID: 1299978741239934102}
+  m_Layer: 7
   m_Name: rockerSwitchBase_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1299978741239934102
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129336194522657710}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.012000001, y: 0.020000005, z: 0.010000003}
+  m_Center: {x: -5.2108044e-17, y: 0, z: 0.0050000013}
 --- !u!1 &5517760274873374220
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +109,7 @@ GameObject:
   - component: {fileID: 5441241231336249147}
   - component: {fileID: 4666138874773434180}
   - component: {fileID: 8008394189937384470}
+  - component: {fileID: 8784747993352846676}
   m_Layer: 0
   m_Name: rockerSwitch_01
   m_TagString: Untagged
@@ -183,6 +198,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 110
   m_CollisionDetection: 1
+--- !u!65 &8784747993352846676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517760274873374220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.008000001, y: 0.013991654, z: 0.010078712}
+  m_Center: {x: -1.5148197e-17, y: -0.00029107212, z: 0.0016519899}
 --- !u!1 &8495151707920053039
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,3 +272,6 @@ MonoBehaviour:
   interactSuccess: 0
   myRot: {x: 0, y: 0, z: 0}
   highlightMaterial: {fileID: 2100000, guid: 0bbf7e22bcbcc6c439cbe71a04427706, type: 2}
+  highlighted: 0
+  rendererToChange: {fileID: 4666138874773434180}
+  intersectionCollider: {fileID: 1299978741239934102}

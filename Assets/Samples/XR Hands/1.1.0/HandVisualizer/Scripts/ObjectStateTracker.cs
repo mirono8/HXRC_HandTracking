@@ -99,8 +99,6 @@ public class ObjectStateTracker : MonoBehaviour
                 grabbed = false;
                
             }
-
-
         }
     }
 }

@@ -17,12 +17,14 @@ public class GetSetupData : MonoBehaviour
         public int id;
         public string size;
         public string type;
+        public string mode;
     }
     
     public List<ParsedData> sets;
 
     public GameObject onSessionStart;
 
+    
     IEnumerator GetSetupDataFromSite(string uri)
     {
         UnityWebRequest www = UnityWebRequest.Get(uri);
@@ -31,6 +33,7 @@ public class GetSetupData : MonoBehaviour
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log(www.error);
+            GoByDefault();
         }
         else
         {
@@ -41,36 +44,69 @@ public class GetSetupData : MonoBehaviour
         www.Dispose();
     }
 
+    void GoByDefault()
+    {
+        Debug.Log("defaulted");
+        ParsedData defaultData = new();
+        defaultData.size = "medium";
+        defaultData.type = "button";
+        defaultData.mode = "all";
+        sets.Add(defaultData);
+
+        ParsedData defaultData1 = new();
+        defaultData1.size = "medium";
+        defaultData1.type = "button";
+        defaultData1.mode = "all";
+        sets.Add(defaultData1);
+
+        ParsedData defaultData2 = new();
+        defaultData2.size = "medium";
+        defaultData2.type = "button";
+        defaultData2.mode = "all";
+        sets.Add(defaultData2);
+    }
+
     public void CreateFromJson(string s)
     {
         JSONNode node = JSON.Parse(s);
 
         int latestId = 0;
         int indexOfLatest = 0;
-        for (int i = 0; i < node.Count; i++)
+
+        if (node != "")
         {
-            if (latestId < node[i]["id"] && node[i]["title"] == "xr-space-testi")
+            for (int i = 0; i < node.Count; i++)
             {
-                latestId = node[i]["id"];
-                indexOfLatest = i;
+                if (latestId < node[i]["id"] && node[i]["title"] == "xr-space-testi")
+                {
+                    latestId = node[i]["id"];
+                    indexOfLatest = i;
+                }
+            }
+            Debug.Log(latestId);
+
+            for (int i = 0; i < node[indexOfLatest]["gameData"]["setsList"].Count; i++)
+            {
+                ParsedData data = new();
+                sets.Add(data);
+
+                string id = node[indexOfLatest]["id"].ToString().ToLower().Replace("\"", "");
+                sets[i].id = int.Parse(id);
+
+                string size = node[indexOfLatest]["gameData"]["setsList"][i][0].ToString().ToLower().Replace("\"", "");
+                sets[i].size = size;
+
+                string type = node[indexOfLatest]["gameData"]["setsList"][i][1].ToString().ToLower().Replace("\"", "");
+                sets[i].type = type;
+
+                sets[i].mode = "all";
             }
         }
-        Debug.Log(latestId);
-
-        for (int i = 0; i < node[indexOfLatest]["gameData"]["setsList"].Count; i++)
+        else
         {
-            ParsedData data = new();
-            sets.Add(data);
-
-            string id = node[indexOfLatest]["id"].ToString().ToLower().Replace("\"", "");
-            sets[i].id = int.Parse(id);
-
-            string size = node[indexOfLatest]["gameData"]["setsList"][i][0].ToString().ToLower().Replace("\"", "");
-            sets[i].size = size;
-
-            string type = node[indexOfLatest]["gameData"]["setsList"][i][1].ToString().ToLower().Replace("\"", "");
-            sets[i].type = type;
-        }
+            Debug.Log("No web data");
+            GoByDefault();
+        } 
     }
 
     public bool Latest()
@@ -95,6 +131,7 @@ public class GetSetupData : MonoBehaviour
     {
         sets = new();
         StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
+        
     }
 
     public string ReturnSize(int i)

@@ -32,19 +32,6 @@ public class RandomButtons : MonoBehaviour
         {
             StartCoroutine(LoopingIntersectSetter());
         }
-
-
-    }
-
-    private void Update()
-    {
-       /* if (Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log("Space Pressed");
-            for (int i = 0; i < collidables.objects.Count; i++)
-            {
-                CheckBoundIntersection(i);
-            }
-        }*/
     }
 
     public void SetRandomPositions()
@@ -54,24 +41,26 @@ public class RandomButtons : MonoBehaviour
             // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
             var deviationInPanel = new Vector3(Random.Range(panel.transform.localScale.x * -0.4f, panel.transform.localScale.x * 0.4f),
                 Random.Range(panel.transform.localScale.y * -0.4f, panel.transform.localScale.y * 0.4f));
+
             collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviationInPanel;
 
-            if (!oneByOne)
-            {
-                collidables.objects[i].SetActive(true);
+             if (!oneByOne)
+             {
+                 Debug.Log("setting" + i + " indexed active");
+                 collidables.objects[i].SetActive(true);
 
-                CheckBoundIntersection(i);
-            }
-            else if (i == 0)
-                collidables.objects[i].SetActive(true);
+                 CheckBoundIntersection(i);
+             }
+             else if (i == 0)
+                 collidables.objects[i].SetActive(true);
         }
     }
-    //NEED LOGIC USING COLLIDABLES LIST FOR HIGHLIGHT
+
     public bool CheckBoundIntersection(int index)
     {
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-            if (i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
+            if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
                 if (!intersecting.Contains(index))
                 {
@@ -113,12 +102,16 @@ public class RandomButtons : MonoBehaviour
         }
     }
 
-
     public void SetIntersectingPositions(int index)
     {
         Debug.Log("intersecting set");
         var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
         collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
     }
+    //intersectaa viel välil joskus lul
 
+    public bool IsOneByOne()
+    {
+        return oneByOne;
+    }
 }

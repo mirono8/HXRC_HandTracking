@@ -6,7 +6,7 @@ using HandData;
 using System.Linq;
 using System;
 using Unity.XR.CoreUtils;
-using Unity.Plastic.Newtonsoft.Json;
+using SimpleJSON;
 
 public class SaveManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class SaveManager : MonoBehaviour
     string sessionStartTime;
     private readonly string dirPath = "./Assets/";
 
-    [JsonProperty("data")]
+    //[JsonProperty("data")]
     public DataWrapper combinedData;
 
     readonly float stampInterval = 0.05f;
@@ -24,17 +24,16 @@ public class SaveManager : MonoBehaviour
     float timeSinceLastStamp = 0;
 
     [SerializeField]
-
     public class DataWrapper
     {
-        [JsonProperty("eT")]
+        //[JsonProperty("eT")]
         public float elapsedTime;
 
-        [JsonProperty("T")]
+       // [JsonProperty("T")]
         public Tasks.Task currentTask;
 
         [SerializeField]
-        [JsonProperty("iE")]
+      //  [JsonProperty("iE")]
         public EventList interactableEvents;
         public DataList left;
         public DataList right;
@@ -43,7 +42,7 @@ public class SaveManager : MonoBehaviour
         public class EventList
         {
             [SerializeField]
-            [JsonProperty("e")]
+            //[JsonProperty("e")]
             public List<InteractableEvent> events;
         }
 
@@ -58,13 +57,13 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class DataBlock
     {
-        [JsonProperty("tS")]
+        //[JsonProperty("tS")]
         public string timeStamp;
 
-        [JsonProperty("hP")]
+       // [JsonProperty("hP")]
         public string handPosition;
 
-        [JsonProperty("cE")]
+       // [JsonProperty("cE")]
         public string collisionEvent;
 
     }
@@ -72,22 +71,22 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class InteractableEvent
     {
-        [JsonProperty("sP")]
+        //[JsonProperty("sP")]
         public string startPoint;
-        [JsonProperty("eP")]
+        //[JsonProperty("eP")]
         public string endPoint;
 
-        [JsonProperty("iT")]
+       // [JsonProperty("iT")]
         public string interactableType;
-        [JsonProperty("iS")]
+       // [JsonProperty("iS")]
         public string interactableSize;
 
-        [JsonProperty("di")]
+       // [JsonProperty("di")]
         public string distance;
-        [JsonProperty("du")]
+       // [JsonProperty("du")]
         public string duration;
 
-        [JsonProperty("tr")]
+       // [JsonProperty("tr")]
         public List<string> trajectory;
     }
 
@@ -172,7 +171,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-
     public void SaveFingerCollision(HandDataOut.Hand hand, TrackColliders.CollisionEvent collision)
     {
         var block = new DataBlock();
@@ -207,6 +205,8 @@ public class SaveManager : MonoBehaviour
 
             if (combinedData.left.blocks[i].handPosition == null)
                 combinedData.left.blocks[i].handPosition = "0";
+
+           
         }
 
         for (int i = 0; i < combinedData.right.blocks.Count; i++)
@@ -221,7 +221,10 @@ public class SaveManager : MonoBehaviour
                 combinedData.right.blocks[i].handPosition = "0";
         }
 
-        var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
+        //interactable events here!!!!!
+
+        // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
+       var j = JsonUtility.ToJson(combinedData);
 
         // var json = JsonUtility.ToJson(combinedData);
 
