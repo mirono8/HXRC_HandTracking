@@ -25,4 +25,25 @@ public class CollidableObjects : MonoBehaviour
 
         gameObject.GetComponent<RandomButtons>().ReadyForSetup();
     }
+
+    public GameObject GetNearestNeighbor(int i)
+    {
+        Transform nearest = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = objects[i].transform.position;
+        foreach (GameObject obj in objects)
+        {
+            Vector3 directionToTarget = obj.transform.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                nearest = obj.transform;
+            }
+        }
+        Debug.Log(nearest.gameObject.GetComponent<InteractableActivityManager>().myOrderIndex);
+
+        return nearest.gameObject;
+    }
 }
+         

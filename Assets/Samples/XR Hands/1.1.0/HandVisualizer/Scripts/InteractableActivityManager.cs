@@ -88,9 +88,6 @@ public class InteractableActivityManager : MonoBehaviour
         myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
 
-        
-        
-
         myOrderIndex = collidables.objects.FindIndex(x => x == gameObject);
 
         if (myOrderIndex == 0 && randomButtons.oneByOne) 
@@ -332,8 +329,23 @@ public class InteractableActivityManager : MonoBehaviour
             if (myOrderIndex != collidables.objects.Count - 1)
             {
                 rendererToChange.material = originalMaterial;
-                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex+1])  //ottaa silti lähimmän välil??=?
+                {
+                    collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                    collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+                }
+                else
+                {
+                    Debug.Log("next was too close");
+                    if (collidables.objects[myOrderIndex + 2] != null)
+                    {
+                        collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                        collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+                    }
+                    else
+                        Debug.Log("shouldnt't be here");
+                }
+                    
 
                 EndInteractionEvent();
             }
