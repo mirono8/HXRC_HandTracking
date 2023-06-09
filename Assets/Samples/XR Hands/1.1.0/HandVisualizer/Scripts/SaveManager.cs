@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Unity.XR.CoreUtils;
 using SimpleJSON;
+using UnityEngine.PlayerLoop;
 
 public class SaveManager : MonoBehaviour
 {
@@ -127,9 +128,29 @@ public class SaveManager : MonoBehaviour
             //GEt new task
             sessionStartTime = data.GetDate();
         }
+
+        if (Input.GetButtonDown("FunnyTestKey"))
+            EventMe();
     }
 
-    
+    public void EventMe()
+    {
+        var x = new InteractableEvent();
+        x.startPoint = "adssad";
+
+        x.endPoint = "omegalul";
+
+
+        x.interactableType = "sanonko";
+
+        x.interactableSize = "humongous";
+
+
+        x.distance = "long";
+
+        x.duration = "eternal";
+        combinedData.interactableEvents.events.Add(x);
+    }
     public DataBlock BlockMe()
     {
 
@@ -195,36 +216,12 @@ public class SaveManager : MonoBehaviour
 
     public void Save()
     {
-        for (int i = 0; i < combinedData.left.blocks.Count; i++)
-        {
-            if (combinedData.left.blocks[i].collisionEvent == null)
-                combinedData.left.blocks[i].collisionEvent = "0";
-            
-            if (combinedData.left.blocks[i].timeStamp == null)
-                combinedData.left.blocks[i].timeStamp =  "0";
-
-            if (combinedData.left.blocks[i].handPosition == null)
-                combinedData.left.blocks[i].handPosition = "0";
-
-           
-        }
-
-        for (int i = 0; i < combinedData.right.blocks.Count; i++)
-        {
-            if (combinedData.right.blocks[i].collisionEvent == null)
-                combinedData.right.blocks[i].collisionEvent = "0";
-            
-            if (combinedData.right.blocks[i].timeStamp == null)
-                combinedData.right.blocks[i].timeStamp = "0";
-
-            if (combinedData.right.blocks[i].handPosition == null)
-                combinedData.right.blocks[i].handPosition = "0";
-        }
+        CheckOnNull();
 
         //interactable events here!!!!!
 
         // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
-       var j = JsonUtility.ToJson(combinedData);
+        var j = JsonUtility.ToJson(combinedData);
 
         // var json = JsonUtility.ToJson(combinedData);
 
@@ -232,4 +229,56 @@ public class SaveManager : MonoBehaviour
 
         File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
     }
+
+    public void CheckOnNull()
+    {
+
+        for (int i = 0; i < combinedData.left.blocks.Count; i++)
+        {
+            if (combinedData.left.blocks[i].collisionEvent == null)
+                combinedData.left.blocks[i].collisionEvent = "0";
+
+            if (combinedData.left.blocks[i].timeStamp == null)
+                combinedData.left.blocks[i].timeStamp = "0";
+
+            if (combinedData.left.blocks[i].handPosition == null)
+                combinedData.left.blocks[i].handPosition = "0";
+
+
+        }
+
+        for (int i = 0; i < combinedData.right.blocks.Count; i++)
+        {
+            if (combinedData.right.blocks[i].collisionEvent == null)
+                combinedData.right.blocks[i].collisionEvent = "0";
+
+            if (combinedData.right.blocks[i].timeStamp == null)
+                combinedData.right.blocks[i].timeStamp = "0";
+
+            if (combinedData.right.blocks[i].handPosition == null)
+                combinedData.right.blocks[i].handPosition = "0";
+        }
+
+        for (int i = 0; i < combinedData.interactableEvents.events.Count; i++)
+        {
+            if (combinedData.interactableEvents.events[i].distance == null)
+                combinedData.interactableEvents.events[i].distance = "0";
+
+            if (combinedData.interactableEvents.events[i].interactableType == null)
+                combinedData.interactableEvents.events[i].interactableType = "0";
+
+            if (combinedData.interactableEvents.events[i].endPoint == null)
+                combinedData.interactableEvents.events[i].endPoint = "0";
+
+            if (combinedData.interactableEvents.events[i].startPoint == null)
+                combinedData.interactableEvents.events[i].startPoint = "0";
+
+            if (combinedData.interactableEvents.events[i].interactableSize == null)
+                combinedData.interactableEvents.events[i].interactableSize = "0";
+
+            if (combinedData.interactableEvents.events[i].duration == null)
+                combinedData.interactableEvents.events[i].duration = "0";
+        }
+    }
+
 }
