@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: prvncher
-  productName: OpenXR_XRI_Sample
+  companyName: HXRC
+  productName: XR-Space-HandTracking
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -135,10 +135,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1.0
-  preloadedAssets:
-  - {fileID: 11400000, guid: 49269bc598337c949b6f36c82346bc84, type: 2}
-  - {fileID: 2626512024163259480, guid: d2655dc5da3498948b3adac193cd4434, type: 2}
-  - {fileID: 4583891549446831725, guid: 8f5dc2324704a7e48b9fa73af1755bda, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
