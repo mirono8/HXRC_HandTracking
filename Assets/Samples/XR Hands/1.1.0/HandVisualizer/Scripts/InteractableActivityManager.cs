@@ -105,7 +105,7 @@ public class InteractableActivityManager : MonoBehaviour
         }
 
         handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
-        saveManager = handData.gameObject.GetComponentInChildren<SaveManager>();
+        saveManager = FindObjectOfType<SaveManager>();
 
         SetMySize();
 
@@ -234,7 +234,12 @@ public class InteractableActivityManager : MonoBehaviour
             if (leftHandPos.Count > 0 && handData.leftHandTracking)
             {
                 interactableEvent.startPoint = leftHandPos[0];
-                interactableEvent.trajectory = leftHandPos;
+
+                for (int i = 0; i < leftHandPos.Count; i++)
+                {
+                    interactableEvent.trajectory.Add(leftHandPos[i]);
+                }
+
                 interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = leftHandPos[^1];
 
@@ -245,14 +250,18 @@ public class InteractableActivityManager : MonoBehaviour
             if (rightHandPos.Count > 0)
             {
                 interactableEvent.startPoint = rightHandPos[0];
-                interactableEvent.trajectory = rightHandPos;
+                for (int i = 0; i < rightHandPos.Count; i++)
+                {
+                    interactableEvent.trajectory.Add(rightHandPos[i]);
+                }
+
                 interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = rightHandPos[^1];
             }
         }
         Debug.Log(interactableEvent.interactableSize + interactableEvent.interactableType + interactableEvent.duration);
 
-        saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil nullreference, vaikuttaa janssoniin vaa, fix
+        saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil (aina) nullreference, vaikuttaa janssoniin vaa, fix
     }
 
     public static Vector3 StringToVector3(string sVector)
