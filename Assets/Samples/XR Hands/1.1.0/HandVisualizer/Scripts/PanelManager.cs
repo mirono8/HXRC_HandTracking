@@ -8,6 +8,8 @@ public class PanelManager : MonoBehaviour
     
     public List<Panel> panels;
 
+    public Vector3 panelScale = new Vector3(0.846153855f, 0.846153855f, 0.0252450015f);
+
     [Serializable]
     public class Panel
     {
@@ -54,6 +56,29 @@ public class PanelManager : MonoBehaviour
             return x.panel;
         }
         return null;
+    }
+
+    public Transform GetPanelTransform(GameObject panel)
+    {
+        var x = panels.Find(x => x.panel == panel);
+        if (x != null)
+        {
+            return panel.transform.GetChild(0);
+        }
+        else
+            return null;
+    }
+
+    public Vector3 GetPanelRotation(GameObject panel)
+    {
+        var x = panels.Find(x => x.panel == panel);
+
+        if(x != null)
+        {
+            return panel.transform.GetChild(0).transform.eulerAngles;
+        }
+        else
+            return Vector3.zero;
     }
 }
 

@@ -130,8 +130,8 @@ public class GetSetupData : MonoBehaviour
     void Start()
     {
         sets = new();
-        StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
-        
+        // StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+        GoByDefault();
     }
 
     public string ReturnSize(int i)

@@ -18,9 +18,9 @@ public class CollidableObjects : MonoBehaviour
     IEnumerator PopulateCollidables()
     {
         yield return new WaitForSeconds(1);
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
-            objects.Add(transform.GetChild(i).gameObject);
+            objects.Add(transform.GetChild(0).transform.GetChild(i).gameObject);
         }
 
         gameObject.GetComponent<RandomButtons>().ReadyForSetup();

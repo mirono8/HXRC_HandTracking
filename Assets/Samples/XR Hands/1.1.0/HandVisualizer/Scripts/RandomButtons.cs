@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,21 +12,23 @@ public class RandomButtons : MonoBehaviour
 
     public List<int> intersecting = new List<int>();
 
-    public GameObject panel;
+    public Vector3 panelScale;
 
     public bool oneByOne;
 
+    PanelManager panelManager;
     public void ReadyForSetup()
     {
         collidables = GetComponent<CollidableObjects>();
 
         foreach (GameObject x in collidables.objects) 
         {
-            originalPositions.Add(x.transform.position);
+            originalPositions.Add(x.transform.localPosition);
         }
 
-        panel = GetComponent<GridToPanel>().panel;
-
+        panelScale = GetComponent<GridToPanel>().panelScale;
+        panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
+        
         SetRandomPositions();
 
         if (!oneByOne)
@@ -39,12 +42,15 @@ public class RandomButtons : MonoBehaviour
         for (int i = 0; i < collidables.objects.Count; i++)
         {
             // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
-            var deviationInPanel = new Vector3(Random.Range(panel.transform.localScale.x * -0.4f, panel.transform.localScale.x * 0.4f),
-                Random.Range(panel.transform.localScale.y * -0.4f, panel.transform.localScale.y * 0.4f));
+            var deviationInPanel = new Vector3(UnityEngine.Random.Range(panelScale.x * -0.4f, panelScale.x * 0.4f),
+                UnityEngine.Random.Range(panelScale.y * -0.4f, panelScale.y * 0.4f));
 
-            collidables.objects[i].transform.position = collidables.objects[i].transform.position + deviationInPanel;
+            collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
+                collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
 
-             if (!oneByOne)
+            collidables.objects[i].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[i].transform.localPosition);
+
+            if (!oneByOne)
              {
                  Debug.Log("setting" + i + " indexed active");
                  collidables.objects[i].SetActive(true);
@@ -70,6 +76,11 @@ public class RandomButtons : MonoBehaviour
             }
         }
         intersecting.Remove(index);
+
+        collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
+                collidables.objects[index].transform.localPosition.y, 0f);
+
+        collidables.objects[index].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[index].transform.localPosition);
         return false;
     }
 
@@ -98,15 +109,29 @@ public class RandomButtons : MonoBehaviour
         else
         {
             Debug.Log("loop end");
-           
+           for (int i = 0;i < collidables.objects.Count; i++)
+            {
+                collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x,
+                collidables.objects[i].transform.localPosition.y, 0f);
+
+                collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,
+                    collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
+
+
+            }
         }
     }
 
     public void SetIntersectingPositions(int index)
     {
         Debug.Log("intersecting set");
-        var deviationAgain = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.2f, 0.2f));
-        collidables.objects[intersecting[index]].transform.position = originalPositions[intersecting[index]]+ deviationAgain;
+        var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
+        collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]]+ deviationAgain;
+
+        collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
+                collidables.objects[index].transform.localPosition.y, 0f);
+
+        collidables.objects[index].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[index].transform.localPosition);
     }
     //intersectaa viel välil joskus lul
 

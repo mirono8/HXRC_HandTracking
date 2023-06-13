@@ -64,7 +64,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void Awake()
     {
-        randomButtons = GetComponentInParent<RandomButtons>();
+        randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
     }
     
     void Start()
@@ -377,7 +377,7 @@ public class InteractableActivityManager : MonoBehaviour
             SwitchContraints();
         }
 
-        if(handData.leftHandTracking)
+        if (handData.leftHandTracking)
             leftHandPos.Add(handData.leftHand.handPosition.ToString());
 
         if(handData.rightHandTracking)

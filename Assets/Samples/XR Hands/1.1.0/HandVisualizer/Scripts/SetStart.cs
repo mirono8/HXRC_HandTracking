@@ -65,7 +65,7 @@ public class SetStart : MonoBehaviour
                     x.GetComponent<InteractableActivityManager>().SetMySize();
                 }*/
 
-                var x = Instantiate(temp, grid.transform);
+                var x = Instantiate(temp, grid.transform.GetChild(0));
                 x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                 x.GetComponent<InteractableActivityManager>().SetMySize();
 

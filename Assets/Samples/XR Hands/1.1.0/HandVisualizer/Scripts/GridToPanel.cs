@@ -10,26 +10,36 @@ public class GridToPanel : MonoBehaviour
 
     PanelManager panelManager;
 
+    public Vector3 panelScale = new Vector3(0.846153855f, 0.846153855f, 0.0252450015f);
+
+    [SerializeField]
+    Vector3 angle;
     private void Start()
     {
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
-        if(panel != null)
-            gameObject.transform.parent = panel.transform;
 
-        if (panel != null) //fix
-            transform.localScale = new Vector3(1f * (transform.localScale.x - panel.transform.localScale.x),
-                1f * (transform.localScale.y - panel.transform.localScale.y), 1f * (transform.localScale.z - panel.transform.localScale.z));
-    }
 
-    private void Update()
-    {
         if (panel != null)
         {
-            transform.position = panel.transform.position + desiredDistance;
-            transform.localRotation = panel.transform.parent.localRotation;
-            
-           // panel.transform.localScale = transform.localScale;
+
+            transform.parent = panel.transform;
+            var panelVector = panelManager.GetPanelTransform(panel).position;
+           // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
+            //transform.GetChild(0).position = panelManager.GetPanelTransform(panel).position + desiredDistance;
+            transform.GetChild(0).localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
+            transform.GetChild(0).eulerAngles = panelManager.GetPanelRotation(panel);
         }
     }
+
+    public Vector3 CalculateButtonOffset(Vector3 vector)
+    {
+        return vector;
+    }
+
+    public GameObject SendPanel()
+    {
+        return transform.GetChild(0).gameObject;
+    }
 }
+ 
