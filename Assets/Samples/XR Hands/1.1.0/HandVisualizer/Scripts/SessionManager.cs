@@ -39,7 +39,7 @@ public class SessionManager : MonoBehaviour
         if (setCount != 0)
             for (int i = 0; i < setCount - 1; i++) { setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform)); }
         else
-            setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
+            Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
 
         panelManager.FindAllPanels();
 
@@ -48,9 +48,10 @@ public class SessionManager : MonoBehaviour
 
     public void TryStartNextSet()
     {
+        currentSet++;
         if (currentSet < setCount)
         {
-            currentSet++;
+            //currentSet++;
             if (panelManager.panels.Count <= currentSet)
             {
                 setStart.AssignSetParams(currentSet, true);
@@ -66,7 +67,14 @@ public class SessionManager : MonoBehaviour
         else
         {
             allClear = true;
-            foreach (PanelManager.Panel p in panelManager.panels) { p.panel.SetActive(false); }
+
+            foreach (PanelManager.Panel p in panelManager.panels)
+            {
+                if (p.panel.GetComponentInChildren<GridToPanel>())
+                {
+                    p.panel.GetComponentInChildren<GridToPanel>().gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -77,7 +85,7 @@ public class SessionManager : MonoBehaviour
 
     private void Update()
     {
-        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess)
+        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear)
             TryStartNextSet();
     }
 }

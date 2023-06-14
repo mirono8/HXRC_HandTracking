@@ -215,6 +215,7 @@ public class InteractableActivityManager : MonoBehaviour
         myDuration = 0;
 
         interactableEvent = new SaveManager.InteractableEvent();
+        interactableEvent.trajectory = new();
 
         interactableEvent.interactableSize = size.ToString().Substring(0,1).ToLower();
         interactableEvent.interactableType = type.ToString().Substring(0,1).ToLower();
@@ -324,12 +325,12 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void AllAtOnceSuccessCheck()
     {
-        if (interactSuccess && highlighted)
+        if (highlighted)
         {
             if (myOrderIndex != collidables.objects.Count - 1)
             {
                 rendererToChange.material = originalMaterial;
-                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex+1])  //ottaa silti lähimmän välil??=?
+                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex + 1])  
                 {
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
@@ -345,16 +346,23 @@ public class InteractableActivityManager : MonoBehaviour
                     else
                         Debug.Log("shouldnt't be here");
                 }
-                    
+
 
                 EndInteractionEvent();
             }
             else
             {
+
                 //GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
             }
         }
+        else
+        {
+            interactSuccess = false;
+            Debug.Log("order LUL");
+        }
     }
+
     private void Update()
     {
         myDuration += Time.deltaTime;
@@ -384,11 +392,13 @@ public class InteractableActivityManager : MonoBehaviour
 
         if (randomButtons.oneByOne)
         {
-            OneByOneSuccesscheck();
+            if(interactSuccess)
+                OneByOneSuccesscheck();
         } 
         else
         {
-            AllAtOnceSuccessCheck();
+            if(interactSuccess)
+                AllAtOnceSuccessCheck();
         }
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
