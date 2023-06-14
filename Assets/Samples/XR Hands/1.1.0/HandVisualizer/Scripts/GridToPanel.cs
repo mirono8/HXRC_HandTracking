@@ -28,7 +28,6 @@ public class GridToPanel : MonoBehaviour
         {
 
             transform.parent = panel.transform;
-
            // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
             //transform.GetChild(0).position = panelManager.GetPanelTransform(panel).position + desiredDistance;
            
