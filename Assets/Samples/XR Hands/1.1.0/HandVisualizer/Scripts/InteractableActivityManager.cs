@@ -84,7 +84,7 @@ public class InteractableActivityManager : MonoBehaviour
             upPosition = -90f;
             downPosition = 300f;
         }
-        Debug.Log("interactable start");
+
         myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
 
@@ -128,7 +128,7 @@ public class InteractableActivityManager : MonoBehaviour
     
     public void SetMySize()
     {
-        Debug.Log("setting size to " + size);
+
 
         switch (size)
         {
@@ -355,7 +355,6 @@ public class InteractableActivityManager : MonoBehaviour
             }
         }
     }
-
     private void Update()
     {
         myDuration += Time.deltaTime;

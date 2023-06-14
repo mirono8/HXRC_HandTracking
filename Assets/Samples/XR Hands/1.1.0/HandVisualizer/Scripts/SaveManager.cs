@@ -129,8 +129,8 @@ public class SaveManager : MonoBehaviour
             sessionStartTime = data.GetDate();
         }
 
-        if (Input.GetButtonDown("FunnyTestKey"))
-            EventMe();
+      /*  if (Input.GetButtonDown("FunnyTestKey"))
+            EventMe();*/
     }
 
     public void EventMe()

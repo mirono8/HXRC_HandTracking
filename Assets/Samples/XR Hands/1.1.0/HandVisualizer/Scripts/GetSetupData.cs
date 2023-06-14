@@ -130,8 +130,8 @@ public class GetSetupData : MonoBehaviour
     void Start()
     {
         sets = new();
-        // StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
-        GoByDefault();
+        StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+        //GoByDefault();
     }
 
     public string ReturnSize(int i)
@@ -143,6 +143,7 @@ public class GetSetupData : MonoBehaviour
     {
         return sets[i].type;
     }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -150,17 +151,17 @@ public class GetSetupData : MonoBehaviour
         if (timer >= 5)
         {
             onSessionStart.SetActive(true);
-            /* if (!Latest())
-             {
-                 timer = 0;
-                 StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi"));
-             }
-             else
-             {
-                 onSessionStart.SetActive(true);
-                 gameObject.SetActive(false);
-             }
-         }*/
+           /* if (!Latest())  //kommentoitu et pystyy uudelleenk‰ytt‰‰ aiempaa sessiota
+            {
+                timer = 0;
+                StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+            }
+            else
+            {
+                onSessionStart.SetActive(true);
+                gameObject.SetActive(false);
+            }*/
+           gameObject.SetActive(false);
         }
     }
 }

@@ -14,32 +14,34 @@ public class GridToPanel : MonoBehaviour
 
     [SerializeField]
     Vector3 angle;
+
+    GameObject gridActual;
+
     private void Start()
     {
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
 
+        gridActual = transform.GetChild(0).gameObject;
 
         if (panel != null)
         {
 
             transform.parent = panel.transform;
-            var panelVector = panelManager.GetPanelTransform(panel).position;
+
            // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
             //transform.GetChild(0).position = panelManager.GetPanelTransform(panel).position + desiredDistance;
-            transform.GetChild(0).localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
-            transform.GetChild(0).eulerAngles = panelManager.GetPanelRotation(panel);
+           
         }
     }
 
-    public Vector3 CalculateButtonOffset(Vector3 vector)
+    private void Update()
     {
-        return vector;
-    }
-
-    public GameObject SendPanel()
-    {
-        return transform.GetChild(0).gameObject;
+        if (panel != null)
+        {
+            gridActual.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
+            gridActual.transform.eulerAngles = panelManager.GetPanelRotation(panel);
+        }
     }
 }
  

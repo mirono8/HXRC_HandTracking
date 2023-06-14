@@ -48,7 +48,7 @@ public class RandomButtons : MonoBehaviour
             collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
                 collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
 
-            collidables.objects[i].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[i].transform.localPosition);
+
 
             if (!oneByOne)
              {
@@ -80,7 +80,6 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-        collidables.objects[index].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[index].transform.localPosition);
         return false;
     }
 
@@ -131,12 +130,36 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-        collidables.objects[index].transform.localPosition = GetComponent<GridToPanel>().CalculateButtonOffset(collidables.objects[index].transform.localPosition);
+
     }
     //intersectaa viel v‰lil joskus lul
 
     public bool IsOneByOne()
     {
         return oneByOne;
+    }
+
+    void DoubleCheck()
+    {
+        Debug.Log("double check");
+        var j = 0;
+        for (int i = 0; i < collidables.objects.Count; i++)
+        {
+            if (i != j && collidables.objects[j].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].
+                GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
+            {
+                Debug.Log("m‰‰ly");
+                if (!intersecting.Contains(j))
+                {
+                    intersecting.Add(j);
+                }
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("FunnyTestKey"))
+            DoubleCheck();
     }
 }
