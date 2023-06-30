@@ -18,7 +18,7 @@ public class VrCamStartPos : MonoBehaviour
 
     IEnumerator ResetHead()
     {
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(5f);
 
         var rotAngleY = defaultPos.rotation.y - cam.transform.rotation.y;
 
@@ -26,6 +26,8 @@ public class VrCamStartPos : MonoBehaviour
 
         var offset = defaultPos.position - cam.transform.position;
 
-        gameObject.transform.position += offset;  //no work
+        gameObject.transform.position = offset;  //no work
+
+        Debug.Log(offset + " offset");
     }
 }
