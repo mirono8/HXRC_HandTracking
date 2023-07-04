@@ -62,6 +62,8 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Collider intersectionCollider;
 
+    private bool moveOn;
+
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -330,7 +332,7 @@ public class InteractableActivityManager : MonoBehaviour
             if (myOrderIndex != collidables.objects.Count - 1)
             {
                 rendererToChange.material = originalMaterial;
-                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex + 1])  
+                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex + 1])
                 {
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
@@ -347,7 +349,7 @@ public class InteractableActivityManager : MonoBehaviour
                         Debug.Log("shouldnt't be here");
                 }
 
-
+                SetMoveOn(true);
                 EndInteractionEvent();
             }
             else
@@ -358,9 +360,23 @@ public class InteractableActivityManager : MonoBehaviour
         }
         else
         {
-            interactSuccess = false;
-            Debug.Log("order LUL");
+            if (!MoveOn())
+            {
+                interactSuccess = false;
+                Debug.Log("order LUL " + " from orderindex of " + myOrderIndex);
+            }
         }
+    }
+
+    
+    void SetMoveOn(bool b)
+    {
+       moveOn = b;
+    }
+
+    bool MoveOn()
+    {
+        return moveOn;
     }
 
     private void Update()

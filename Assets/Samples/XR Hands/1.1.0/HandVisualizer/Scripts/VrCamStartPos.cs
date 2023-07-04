@@ -26,7 +26,7 @@ public class VrCamStartPos : MonoBehaviour
 
         var offset = defaultPos.position - cam.transform.position;
 
-        gameObject.transform.position = offset;  //no work
+        gameObject.transform.position = offset; 
 
         Debug.Log(offset + " offset");
     }
