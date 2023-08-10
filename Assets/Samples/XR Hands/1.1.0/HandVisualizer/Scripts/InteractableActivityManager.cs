@@ -64,6 +64,9 @@ public class InteractableActivityManager : MonoBehaviour
 
     private bool moveOn;
 
+    public bool tooClose;
+
+    public bool rayCasting = true;
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -405,6 +408,103 @@ public class InteractableActivityManager : MonoBehaviour
         return moveOn;
     }
 
+    public bool CheckMyRays()
+    {
+        if (highlighted)
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.blue);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.blue);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right), Color.blue);
+            Debug.DrawRay(transform.position, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
+        }
+        /*   RAYCAST, TRYING RaycastAll
+         * RaycastHit hit = new RaycastHit();
+         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit, 0.05f))
+         {
+             tooClose = true;
+             return tooClose;
+         }
+         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), 0.05f))
+         {
+             tooClose = true;
+             return tooClose;
+         }
+         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 0.05f))
+         {
+             tooClose = true;
+             return tooClose;
+         }
+         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward * -1), 0.05f))
+         {
+             tooClose = true;
+             return tooClose;
+         }
+         else
+         {
+             tooClose = false;
+             return tooClose;
+         }*/
+        if (rayCasting)
+        {
+            RaycastHit[] hitsLeft;
+            hitsLeft = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.left), 0.05f);
+            for (int i = 0; i < hitsLeft.Length; i++)
+            {
+                RaycastHit hit = hitsLeft[i];
+                if (hit.collider != null && hit.collider != intersectionCollider)
+                {
+                    tooClose = true;
+                    return tooClose;
+                }
+            }
+
+            RaycastHit[] hitsRight;
+            hitsRight = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.right), 0.05f);
+            for (int i = 0; i < hitsRight.Length; i++)
+            {
+                RaycastHit hit = hitsRight[i];
+                if (hit.collider != null && hit.collider != intersectionCollider)
+                {
+                    tooClose = true;
+                    return tooClose;
+                }
+            }
+
+            RaycastHit[] hitsUp;
+            hitsUp = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), 0.05f);
+            for (int i = 0; i < hitsUp.Length; i++)
+            {
+                RaycastHit hit = hitsUp[i];
+                if (hit.collider != null && hit.collider != intersectionCollider)
+                {
+                    tooClose = true;
+                    return tooClose;
+                }
+            }
+
+            RaycastHit[] hitsDown;
+            hitsDown = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
+            for (int i = 0; i < hitsDown.Length; i++)
+            {
+                RaycastHit hit = hitsDown[i];
+                if (hit.collider != null && hit.collider != intersectionCollider)
+                {
+                    tooClose = true;
+                    return tooClose;
+                }
+            }
+
+            tooClose = false;
+            return tooClose;
+
+        }
+        return false;
+    }
+
+    private void FixedUpdate()
+    {
+        CheckMyRays();   
+    }
     private void Update()
     {
         myDuration += Time.deltaTime;

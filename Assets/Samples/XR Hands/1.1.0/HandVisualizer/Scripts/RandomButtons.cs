@@ -70,7 +70,7 @@ public class RandomButtons : MonoBehaviour
     {
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-            if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
+            /*if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
                 if (!intersecting.Contains(index))
                 {
@@ -78,8 +78,26 @@ public class RandomButtons : MonoBehaviour
                 }
                 return true;
             }
+            OLD CODE WITH BOUNDS, WORKING TO REPLACE WITH RAYS */
+
+
+            // NEW CODE WITH RAYS, DOESNT WORK IF SPAWNS INSIDE COLLIDER, FIX
+            if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().tooClose)
+            {
+                Debug.Log(i + " was too close");
+                collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = true;
+                if (!intersecting.Contains(index))
+                {
+                    intersecting.Add(index);
+                    
+                }
+                return true;
+            }
+            
         }
         intersecting.Remove(index);
+
+        collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = false;
 
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
@@ -161,6 +179,8 @@ public class RandomButtons : MonoBehaviour
         }
     }
 
+    
+
     private void Update()
     {
         if (Input.GetButtonDown("FunnyTestKey"))
@@ -174,30 +194,7 @@ public class RandomButtons : MonoBehaviour
         {
             if (collidables.objects.Count > 0)
             {
-
-                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.left), Color.red);
-                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward), Color.black);
-                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.right), Color.blue);
-                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(-1 * Vector3.forward), Color.white);
-
-                if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.left), 0.05f))
-                 {
-                     Debug.Log("Ray ShadowLegends left");
-                     //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left));
-                 }
-                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.right), 0.05f))
-                 {
-                     Debug.Log("Ray ShadowLegends right");
-                 }
-                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward), 0.05f))
-                 {
-                     Debug.Log("Ray ShadowLegends up");
-                 }
-                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward * -1), 0.05f))
-                 {
-                     Debug.Log("Ray ShadowLegends down");
-                 }
-
+                
             }
         }
     }
