@@ -10,6 +10,7 @@ public class GetSetupData : MonoBehaviour
 {
     //h ttps://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi
 
+    public bool overrideWithDefaults;
     public float timer = 0f;
     [Serializable]
     public class ParsedData
@@ -55,7 +56,7 @@ public class GetSetupData : MonoBehaviour
 
         ParsedData defaultData1 = new();
         defaultData1.size = "medium";
-        defaultData1.type = "button";
+        defaultData1.type = "switch";
         defaultData1.mode = "all";
         sets.Add(defaultData1);
 
@@ -130,7 +131,12 @@ public class GetSetupData : MonoBehaviour
     void Start()
     {
         sets = new();
-        StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+        if (!overrideWithDefaults)
+        {
+            StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+        }
+        else
+            GoByDefault();
         //GoByDefault();
     }
 
@@ -142,6 +148,11 @@ public class GetSetupData : MonoBehaviour
     public string ReturnType(int i)
     {
         return sets[i].type;
+    }
+
+    public string ReturnMode(int i)
+    {
+        return sets[i].mode;
     }
 
     private void Update()

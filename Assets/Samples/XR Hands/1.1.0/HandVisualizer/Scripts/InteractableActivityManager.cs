@@ -149,9 +149,14 @@ public class InteractableActivityManager : MonoBehaviour
         if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
         {
             // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-            interactSuccess = true;
+            if (!highlighted)
+            {
+                ResetPosition();
+            }
+            else
+                interactSuccess = true;
         }
-
+     
     }
 
     public void SwitchPressed()
@@ -195,6 +200,11 @@ public class InteractableActivityManager : MonoBehaviour
             myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, myRigidbody.gameObject.transform.localPosition.y, 0);
         }
 
+
+       /* if ((myRigidbody.gameObject.transform.localPosition.y > upPosition) && !interactSuccess)
+        {
+            myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+        }*/
     }
 
     public void SwitchContraints()
@@ -207,6 +217,23 @@ public class InteractableActivityManager : MonoBehaviour
             myRigidbody.gameObject.transform.localEulerAngles = new Vector3(downPosition, 180f, 180f);
 
     }
+
+    public void ResetPosition()
+    {
+        if (!MoveOn())
+        {
+            //forcee heti alus, check it out
+            Debug.Log("force reset from index " + myOrderIndex);
+            if (type == InteractableType.Button)
+                myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+
+            if (type == InteractableType.Switch)
+                myRigidbody.gameObject.transform.localEulerAngles = new Vector3(upPosition, 180f, 180f);
+
+            interactSuccess = false;
+        }
+    }
+
     #endregion
 
     #region JSONDataCollection
@@ -364,6 +391,7 @@ public class InteractableActivityManager : MonoBehaviour
             {
                 interactSuccess = false;
                 Debug.Log("order LUL " + " from orderindex of " + myOrderIndex);
+                //ResetPosition();
             }
         }
     }

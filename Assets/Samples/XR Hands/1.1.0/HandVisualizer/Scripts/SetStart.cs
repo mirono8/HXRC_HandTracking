@@ -10,7 +10,7 @@ public class SetStart : MonoBehaviour
 
     string size;
     string type;
-
+    string mode;
     public GameObject gridPrefab;
 
     public List<GameObject> interactablePrefabs;
@@ -26,6 +26,7 @@ public class SetStart : MonoBehaviour
     {
         size = setupData.ReturnSize(0);
         type = setupData.ReturnType(0);
+        mode = setupData.ReturnMode(0);
 
     }
 
@@ -105,6 +106,12 @@ public class SetStart : MonoBehaviour
 
     public void RunSet()
     {
+        if (mode != "all")
+        {
+            grid.GetComponent<RandomButtons>().oneByOne = true;
+        }else
+        { grid.GetComponent<RandomButtons>().oneByOne=false; }
+
         grid.GetComponent<RandomButtons>().ReadyForSetup();
     }
 
@@ -112,7 +119,7 @@ public class SetStart : MonoBehaviour
     {
         size = setupData.ReturnSize(round);
         type = setupData.ReturnType(round);
-       // mode = setupData.sets[round].mode;
+        mode = setupData.ReturnMode(round);
         Debug.Log("new params " + size + type);
 
         if (!reusePanel) {

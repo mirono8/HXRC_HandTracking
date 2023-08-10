@@ -967,6 +967,11 @@ PrefabInstance:
       propertyPath: onSessionStart
       value: 
       objectReference: {fileID: 4534986841723190452}
+    - target: {fileID: 3720648182778613559, guid: 5dcf8767714ee0245b1808f0f980cd44,
+        type: 3}
+      propertyPath: overrideWithDefaults
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dcf8767714ee0245b1808f0f980cd44, type: 3}
 --- !u!114 &2054778453 stripped
