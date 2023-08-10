@@ -17,18 +17,22 @@ public class RandomButtons : MonoBehaviour
     public bool oneByOne;
 
     PanelManager panelManager;
+
+    bool loopOver;
+
     public void ReadyForSetup()
     {
+
         collidables = GetComponent<CollidableObjects>();
 
-        foreach (GameObject x in collidables.objects) 
+        foreach (GameObject x in collidables.objects)
         {
             originalPositions.Add(x.transform.localPosition);
         }
 
         panelScale = GetComponent<GridToPanel>().panelScale;
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
-        
+
         SetRandomPositions();
 
         if (!oneByOne)
@@ -51,14 +55,14 @@ public class RandomButtons : MonoBehaviour
 
 
             if (!oneByOne)
-             {
-                 Debug.Log("setting" + i + " indexed active");
-                 collidables.objects[i].SetActive(true);
+            {
+                Debug.Log("setting" + i + " indexed active");
+                collidables.objects[i].SetActive(true);
 
-                 CheckBoundIntersection(i);
-             }
-             else if (i == 0)
-                 collidables.objects[i].SetActive(true);
+                CheckBoundIntersection(i);
+            }
+            else if (i == 0)
+                collidables.objects[i].SetActive(true);
         }
     }
 
@@ -92,13 +96,13 @@ public class RandomButtons : MonoBehaviour
             if (CheckBoundIntersection(intersecting[0]))
                 SetIntersectingPositions(0);
         }
-        
+
         yield return new WaitForEndOfFrame();
 
         for (int i = 0; i < collidables.objects.Count; i++)
         {
             CheckBoundIntersection(i);
-            
+
         }
         yield return null;
         if (intersecting.Count > 0)
@@ -108,7 +112,7 @@ public class RandomButtons : MonoBehaviour
         else
         {
             Debug.Log("loop end");
-           for (int i = 0;i < collidables.objects.Count; i++)
+            for (int i = 0; i < collidables.objects.Count; i++)
             {
                 collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x,
                 collidables.objects[i].transform.localPosition.y, 0f);
@@ -116,7 +120,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,
                     collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
 
-
+                loopOver = true;
             }
         }
     }
@@ -125,7 +129,7 @@ public class RandomButtons : MonoBehaviour
     {
         Debug.Log("intersecting set");
         var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
-        collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]]+ deviationAgain;
+        collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]] + deviationAgain;
 
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
@@ -161,5 +165,40 @@ public class RandomButtons : MonoBehaviour
     {
         if (Input.GetButtonDown("FunnyTestKey"))
             DoubleCheck();
+    }
+
+    private void FixedUpdate()
+    {
+        //USE RAYS INSTEAD OF BOUNDS
+        if (loopOver)
+        {
+            if (collidables.objects.Count > 0)
+            {
+
+                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.left), Color.red);
+                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward), Color.black);
+                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.right), Color.blue);
+                Debug.DrawRay(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(-1 * Vector3.forward), Color.white);
+
+                if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.left), 0.05f))
+                 {
+                     Debug.Log("Ray ShadowLegends left");
+                     //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left));
+                 }
+                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.right), 0.05f))
+                 {
+                     Debug.Log("Ray ShadowLegends right");
+                 }
+                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward), 0.05f))
+                 {
+                     Debug.Log("Ray ShadowLegends up");
+                 }
+                 if (Physics.Raycast(collidables.objects[0].transform.position, collidables.objects[0].transform.TransformDirection(Vector3.forward * -1), 0.05f))
+                 {
+                     Debug.Log("Ray ShadowLegends down");
+                 }
+
+            }
+        }
     }
 }

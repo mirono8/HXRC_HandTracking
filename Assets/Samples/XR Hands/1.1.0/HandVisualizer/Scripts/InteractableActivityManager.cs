@@ -156,7 +156,6 @@ public class InteractableActivityManager : MonoBehaviour
             else
                 interactSuccess = true;
         }
-     
     }
 
     public void SwitchPressed()
@@ -222,8 +221,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (!MoveOn())
         {
-            //forcee heti alus, check it out
-            Debug.Log("force reset from index " + myOrderIndex);
+
             if (type == InteractableType.Button)
                 myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
 
