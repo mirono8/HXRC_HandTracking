@@ -276,3 +276,5 @@ MonoBehaviour:
   highlighted: 0
   rendererToChange: {fileID: 4350578916540956210}
   intersectionCollider: {fileID: 97067928085491994}
+  tooClose: 0
+  rayCasting: 1

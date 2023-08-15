@@ -112,7 +112,7 @@ public class SetStart : MonoBehaviour
         }else
         { grid.GetComponent<RandomButtons>().oneByOne=false; }
 
-        grid.GetComponent<RandomButtons>().ReadyForSetup();
+        StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
     }
 
     public void AssignSetParams(int round, bool reusePanel = false)

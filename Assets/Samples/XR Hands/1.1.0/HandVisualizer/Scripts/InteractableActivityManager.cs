@@ -410,6 +410,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public bool CheckMyRays()
     {
+        
         if (highlighted)
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.blue);
@@ -446,58 +447,48 @@ public class InteractableActivityManager : MonoBehaviour
          }*/
         if (rayCasting)
         {
+           // Debug.Log("CASTING");
+            //KAIKKI LÄPI EKA!!!! VIRHE TÄSSÄ 
             RaycastHit[] hitsLeft;
             hitsLeft = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.left), 0.05f);
-            for (int i = 0; i < hitsLeft.Length; i++)
-            {
-                RaycastHit hit = hitsLeft[i];
-                if (hit.collider != null && hit.collider != intersectionCollider)
-                {
-                    tooClose = true;
-                    return tooClose;
-                }
-            }
+            
 
             RaycastHit[] hitsRight;
             hitsRight = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.right), 0.05f);
-            for (int i = 0; i < hitsRight.Length; i++)
-            {
-                RaycastHit hit = hitsRight[i];
-                if (hit.collider != null && hit.collider != intersectionCollider)
-                {
-                    tooClose = true;
-                    return tooClose;
-                }
-            }
+           
 
             RaycastHit[] hitsUp;
             hitsUp = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), 0.05f);
-            for (int i = 0; i < hitsUp.Length; i++)
-            {
-                RaycastHit hit = hitsUp[i];
-                if (hit.collider != null && hit.collider != intersectionCollider)
-                {
-                    tooClose = true;
-                    return tooClose;
-                }
-            }
+           
 
             RaycastHit[] hitsDown;
             hitsDown = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
-            for (int i = 0; i < hitsDown.Length; i++)
-            {
-                RaycastHit hit = hitsDown[i];
-                if (hit.collider != null && hit.collider != intersectionCollider)
-                {
-                    tooClose = true;
-                    return tooClose;
-                }
-            }
+            
 
-            tooClose = false;
-            return tooClose;
+            if (hitsLeft.Length > 0) 
+            {
+                tooClose = true;
+                return tooClose;
+            }
+            else if(hitsRight.Length > 0)
+            {
+                tooClose = true;
+                return tooClose;
+            }
+            else if (hitsUp.Length > 0)
+            {
+                tooClose = true;
+                return tooClose;
+            }
+            else if(hitsDown.Length > 0)
+            {
+                tooClose = true;
+                return tooClose;
+            }
+            
 
         }
+        tooClose = false;
         return false;
     }
 

@@ -23,7 +23,7 @@ public class CollidableObjects : MonoBehaviour
             objects.Add(transform.GetChild(0).transform.GetChild(i).gameObject);
         }
 
-        gameObject.GetComponent<RandomButtons>().ReadyForSetup();
+        StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());
     }
 
     public GameObject GetNearestNeighbor(int i)

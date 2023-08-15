@@ -20,7 +20,11 @@ public class RandomButtons : MonoBehaviour
 
     bool loopOver;
 
-    public void ReadyForSetup()
+    bool loopOngoing;
+
+    bool checkingBounds;
+
+    public IEnumerator ReadyForSetup()
     {
 
         collidables = GetComponent<CollidableObjects>();
@@ -33,16 +37,18 @@ public class RandomButtons : MonoBehaviour
         panelScale = GetComponent<GridToPanel>().panelScale;
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
 
-        SetRandomPositions();
+        StartCoroutine(SetRandomPositions());
 
+        yield return new WaitWhile(LoopStatus);
         if (!oneByOne)
         {
             StartCoroutine(LoopingIntersectSetter());
         }
     }
 
-    public void SetRandomPositions()
+    public IEnumerator SetRandomPositions()
     {
+        loopOngoing = true;
         for (int i = 0; i < collidables.objects.Count; i++)
         {
             // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
@@ -52,24 +58,32 @@ public class RandomButtons : MonoBehaviour
             collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
                 collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
 
-
-
+            yield return new WaitForEndOfFrame();
             if (!oneByOne)
             {
                 Debug.Log("setting" + i + " indexed active");
                 collidables.objects[i].SetActive(true);
 
-                CheckBoundIntersection(i);
+                
+                StartCoroutine(CheckBoundIntersection(i));
+                yield return new WaitWhile(CheckingBounds);
             }
             else if (i == 0)
                 collidables.objects[i].SetActive(true);
         }
+        
+        yield return new WaitForEndOfFrame();
+        loopOngoing = false;
+
     }
 
-    public bool CheckBoundIntersection(int index)
+
+    public IEnumerator CheckBoundIntersection(int index)
     {
+        checkingBounds = true;
         for (int i = 0; i < collidables.objects.Count; i++)
         {
+
             /*if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
                 if (!intersecting.Contains(index))
@@ -80,71 +94,116 @@ public class RandomButtons : MonoBehaviour
             }
             OLD CODE WITH BOUNDS, WORKING TO REPLACE WITH RAYS */
 
+            yield return new WaitForEndOfFrame();
+            // NEW CODE WITH RAYS
 
-            // NEW CODE WITH RAYS, DOESNT WORK IF SPAWNS INSIDE COLLIDER, FIX
             if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().tooClose)
             {
-                Debug.Log(i + " was too close");
+
                 collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = true;
                 if (!intersecting.Contains(index))
                 {
+                    Debug.Log(index + " added to intersecting");
                     intersecting.Add(index);
                     
                 }
-                return true;
+                //yield return true;
+            }
+            else if (index == collidables.objects.Count - 1)
+            {
+                if (collidables.objects[index].GetComponent<InteractableActivityManager>().tooClose)
+                {
+                    if (!intersecting.Contains(index))
+                    {
+                        Debug.Log(index + " added to intersecting");
+                        intersecting.Add(index);
+                        
+                    }
+                    //yield return true;
+                }
+            }
+            else
+            {
+                if (intersecting.Contains(index))
+                    intersecting.Remove(index);
             }
             
         }
-        intersecting.Remove(index);
 
-        collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = false;
+
+        //  collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = false;
 
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-        return false;
+        collidables.objects[index].transform.eulerAngles = new Vector3(-90f, collidables.objects[index].transform.eulerAngles.y,   //TÄÄ OLI SE ISO ISSUE MOLEMMISSA TARKISTUSTAVOISSA, PITÄÄ HETI KÄÄNTÄÄ OIKEIN PÄIN, EI VIEL PERFECT MUT JATKA
+                    collidables.objects[index].transform.eulerAngles.z);
+
+        yield return false;
+        checkingBounds = false;
     }
 
+    public bool LoopStatus()
+    {
+        return loopOngoing;
+    }
+
+    public bool CheckingBounds()
+    {
+        return checkingBounds;
+    }
     public IEnumerator LoopingIntersectSetter()
     {
 
+        Debug.Log("Starting loop");
+
         while (intersecting.Count > 0)
         {
-            yield return null;
-            if (CheckBoundIntersection(intersecting[0]))
+            yield return new WaitForEndOfFrame();
+            Debug.Log("while loop!");
+            if (intersecting.Count >0)
+            {
+                StartCoroutine(CheckBoundIntersection(intersecting[0]));
+                // if (CheckBoundIntersection(intersecting[0]))
+                yield return new WaitWhile(CheckingBounds);
                 SetIntersectingPositions(0);
+            }
         }
 
         yield return new WaitForEndOfFrame();
-
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-            CheckBoundIntersection(i);
-
+            StartCoroutine(CheckBoundIntersection(i));
+            yield return new WaitWhile(CheckingBounds);
         }
+
         yield return null;
+        
         if (intersecting.Count > 0)
         {
+            Debug.Log("Second loop in looping setter");
             StartCoroutine(LoopingIntersectSetter());
         }
         else
         {
-            Debug.Log("loop end");
+            Debug.Log("loop end in grid with children count of " + originalPositions.Count);
             for (int i = 0; i < collidables.objects.Count; i++)
             {
                 collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x,
                 collidables.objects[i].transform.localPosition.y, 0f);
 
-                collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,
+                collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,   //muuta hardcoded rot pois!½!!
                     collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
 
                 loopOver = true;
             }
         }
+
     }
 
     public void SetIntersectingPositions(int index)
     {
+
         Debug.Log("intersecting set");
         var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
         collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]] + deviationAgain;
@@ -152,10 +211,8 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-
+        //intersectaa viel välil joskus lul
     }
-    //intersectaa viel välil joskus lul
-
     public bool IsOneByOne()
     {
         return oneByOne;
@@ -173,6 +230,7 @@ public class RandomButtons : MonoBehaviour
                 Debug.Log("määly");
                 if (!intersecting.Contains(j))
                 {
+                    Debug.Log("added " + j);
                     intersecting.Add(j);
                 }
             }
@@ -183,19 +241,10 @@ public class RandomButtons : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetButtonDown("FunnyTestKey"))
             DoubleCheck();
     }
 
-    private void FixedUpdate()
-    {
-        //USE RAYS INSTEAD OF BOUNDS
-        if (loopOver)
-        {
-            if (collidables.objects.Count > 0)
-            {
-                
-            }
-        }
-    }
+   
 }
