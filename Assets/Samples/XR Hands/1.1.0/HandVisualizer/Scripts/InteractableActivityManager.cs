@@ -67,6 +67,9 @@ public class InteractableActivityManager : MonoBehaviour
     public bool tooClose;
 
     public bool rayCasting = true;
+
+    public bool boundsCollide;
+
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();

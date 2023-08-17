@@ -84,15 +84,18 @@ public class RandomButtons : MonoBehaviour
         for (int i = 0; i < collidables.objects.Count; i++)
         {
 
-            /*if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
+            if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
+                collidables.objects[index].GetComponent<InteractableActivityManager>().boundsCollide = true;
                 if (!intersecting.Contains(index))
                 {
-                    intersecting.Add(index);
+                    //intersecting.Add(index);
                 }
-                return true;
+             //   return true;
             }
-            OLD CODE WITH BOUNDS, WORKING TO REPLACE WITH RAYS */
+            else
+                collidables.objects[index].GetComponent<InteractableActivityManager>().boundsCollide = false;
+            //OLD CODE WITH BOUNDS, WORKING TO REPLACE WITH RAYS */
 
             yield return new WaitForEndOfFrame();
             // NEW CODE WITH RAYS
@@ -105,7 +108,7 @@ public class RandomButtons : MonoBehaviour
                 {
                     Debug.Log(index + " added to intersecting");
                     intersecting.Add(index);
-                    
+
                 }
                 //yield return true;
             }
@@ -117,15 +120,19 @@ public class RandomButtons : MonoBehaviour
                     {
                         Debug.Log(index + " added to intersecting");
                         intersecting.Add(index);
-                        
+
                     }
                     //yield return true;
                 }
             }
             else
             {
+
                 if (intersecting.Contains(index))
+                {
+                    Debug.Log("removing " + index);
                     intersecting.Remove(index);
+                }
             }
             
         }
@@ -166,7 +173,9 @@ public class RandomButtons : MonoBehaviour
                 StartCoroutine(CheckBoundIntersection(intersecting[0]));
                 // if (CheckBoundIntersection(intersecting[0]))
                 yield return new WaitWhile(CheckingBounds);
-                SetIntersectingPositions(0);
+
+                if(intersecting.Count >0)
+                    SetIntersectingPositions(0);
             }
         }
 
