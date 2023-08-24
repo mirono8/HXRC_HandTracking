@@ -70,6 +70,12 @@ public class InteractableActivityManager : MonoBehaviour
 
     public bool boundsCollide;
 
+    public Transform RaycastStartPos;
+
+    Vector3 rayleft;
+    Vector3 rayRight;
+    Vector3 rayUp;
+    Vector3 rayDown;
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -77,6 +83,8 @@ public class InteractableActivityManager : MonoBehaviour
     
     void Start()
     {
+        
+
         originalMaterial = rendererToChange.material;
 
         leftHandPos = new();
@@ -413,13 +421,24 @@ public class InteractableActivityManager : MonoBehaviour
 
     public bool CheckMyRays()
     {
-        
+
+        Vector3 rayLeft = new Vector3(transform.position.x - 0.025f, transform.position.y, transform.position.z);
+        Vector3 rayRight = new Vector3(transform.position.x + 0.025f, transform.position.y, transform.position.z);
+        Vector3 rayUp = new Vector3(transform.position.x, transform.position.y + 0.025f, transform.position.z);
+        Vector3 rayDown = new Vector3(transform.position.x, transform.position.y - 0.025f, transform.position.z);
+
         if (highlighted)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.blue);
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.blue);
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right), Color.blue);
-            Debug.DrawRay(transform.position, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
+           /* Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(Vector3.left), Color.blue);
+            Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(Vector3.forward), Color.blue);
+            Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(Vector3.right), Color.blue);
+            Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
+           */
+
+            Debug.DrawRay(rayLeft, transform.TransformDirection(Vector3.left), Color.blue);
+            Debug.DrawRay(rayUp, transform.TransformDirection(Vector3.forward), Color.blue);
+            Debug.DrawRay(rayRight, transform.TransformDirection(Vector3.right), Color.blue);
+            Debug.DrawRay(rayDown, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
         }
         /*   RAYCAST, TRYING RaycastAll
          * RaycastHit hit = new RaycastHit();
@@ -450,23 +469,26 @@ public class InteractableActivityManager : MonoBehaviour
          }*/
         if (rayCasting)
         {
-           // Debug.Log("CASTING");
-            //KAIKKI LÄPI EKA!!!! VIRHE TÄSSÄ 
-            RaycastHit[] hitsLeft;
-            hitsLeft = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.left), 0.05f);
+            // Debug.Log("CASTING");
             
+
+            RaycastHit[] hitsLeft;
+
+            //hitsLeft = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.left), 0.05f);
+            hitsLeft = Physics.RaycastAll(rayLeft, transform.TransformDirection(Vector3.right), 0.1f);
 
             RaycastHit[] hitsRight;
-            hitsRight = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.right), 0.05f);
-           
+           // hitsRight = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.right), 0.05f);
+
+            hitsRight= Physics.RaycastAll(rayRight, transform.TransformDirection(Vector3.left), 0.1f);
 
             RaycastHit[] hitsUp;
-            hitsUp = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), 0.05f);
-           
+            //hitsUp = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward), 0.05f);
+            hitsUp = Physics.RaycastAll(rayUp, transform.TransformDirection(Vector3.forward *-1), 0.1f);
 
             RaycastHit[] hitsDown;
-            hitsDown = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
-            
+           // hitsDown = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
+            hitsDown = Physics.RaycastAll(rayDown, transform.TransformDirection(Vector3.forward), 0.1f);
 
             if (hitsLeft.Length > 0) 
             {
