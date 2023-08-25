@@ -22,6 +22,8 @@ public class SetStart : MonoBehaviour
     [SerializeField]
     GameObject grid;
 
+    public FadeIn fadeIn;
+
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -75,6 +77,7 @@ public class SetStart : MonoBehaviour
             
             
         }
+        StartCoroutine(WaitForFade());
     }
 
     public void ClearCurrentSet()
@@ -113,6 +116,17 @@ public class SetStart : MonoBehaviour
         { grid.GetComponent<RandomButtons>().oneByOne=false; }
 
         StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
+
+       
+
+    }
+
+    public IEnumerator WaitForFade()
+    {
+        Debug.Log("waiting");
+        yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
+        Debug.Log("i can wait no longer");
+        fadeIn.StartFade();
     }
 
     public void AssignSetParams(int round, bool reusePanel = false)

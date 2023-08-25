@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class FadeIn : MonoBehaviour
 {
-    public TextMesh countdown;
+    public TMP_Text countdown;
 
+    [SerializeField]
     float timer;
 
     [SerializeField]
@@ -17,31 +18,42 @@ public class FadeIn : MonoBehaviour
     public void StartFade()
     {
 
-        fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (timer * 0.25f));
-        
-        countdown.text = timer.ToString();
+        start = true;
 
-        if (fader.color.a <= 0)
+        var num = Mathf.RoundToInt(timer);
+        countdown.text = num.ToString();
+
+        if (timer <= 0)
+        {
+           // start = false;
+            countdown.text = "Start!";
+            fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.25f));
+            countdown.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.25f));
+            
+        }
+
+        if(fader.color.a <= 0)
         {
             start = false;
-            countdown.text = "Start!";
-            countdown.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (timer * 0.75f));
         }
+
     }
 
-    private void Start()
+
+    private void OnDisable()
     {
-        start = true;
+        start = false;
     }
+
     private void FixedUpdate()
     {
         if (!start)
         {
-            timer = 0;
+            timer = 3;
         }
         else
         {
-            timer = Time.deltaTime;
+            timer -= Time.deltaTime;
             StartFade();
         }
     }

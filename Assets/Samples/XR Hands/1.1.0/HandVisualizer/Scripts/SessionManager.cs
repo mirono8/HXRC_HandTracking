@@ -6,7 +6,7 @@ using UnityEngine;
 public class SessionManager : MonoBehaviour
 {
 
-    SetStart setStart;
+    public SetStart setStart;
 
     [SerializeField]
     int setCount;

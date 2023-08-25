@@ -80,6 +80,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public List<Collider> colliders;
 
+    public SessionManager sessionManager;
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -93,6 +94,8 @@ public class InteractableActivityManager : MonoBehaviour
 
         leftHandPos = new();
         rightHandPos = new();
+
+        sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
 
         if (type == InteractableType.Button)
         {
@@ -117,7 +120,7 @@ public class InteractableActivityManager : MonoBehaviour
         else if (myOrderIndex == 0 && !randomButtons.oneByOne)
         {
             rendererToChange.material = highlightMaterial;
-            StartInteractionEvent();
+            StartCoroutine(StartInteractionEvent());
             gameObject.SetActive(true);
         }
 
@@ -278,10 +281,12 @@ public class InteractableActivityManager : MonoBehaviour
     #endregion
 
     #region JSONDataCollection
-    public void StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten
+    public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten   TOIMII MUT ALSO TÄÄ ON EXTREMELY SUS, TESTAA HYVIN!!!!!!!
     {
         Debug.Log("start interaction event");
 
+        yield return new WaitUntil(randomButtons.GetSetStatus);
+        yield return new WaitForSeconds(3);
         myDuration = 0;
 
         interactableEvent = new SaveManager.InteractableEvent();
@@ -292,6 +297,7 @@ public class InteractableActivityManager : MonoBehaviour
 
 
     }
+
     public void EndInteractionEvent()
     {
         interactableEvent.duration = myDuration.ToString();
@@ -359,7 +365,7 @@ public class InteractableActivityManager : MonoBehaviour
         if (randomButtons.IsOneByOne())
         {
             Debug.Log("onebyone");
-            StartInteractionEvent();
+            StartCoroutine(StartInteractionEvent());
         }
         
     }
@@ -403,7 +409,8 @@ public class InteractableActivityManager : MonoBehaviour
                 if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex + 1])
                 {
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                    collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+                    StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+
                 }
                 else
                 {
@@ -411,7 +418,7 @@ public class InteractableActivityManager : MonoBehaviour
                     if (collidables.objects[myOrderIndex + 2] != null)
                     {
                         collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                        collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().StartInteractionEvent();
+                        StartCoroutine(collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().StartInteractionEvent());
                     }
                     else
                         Debug.Log("shouldnt't be here");

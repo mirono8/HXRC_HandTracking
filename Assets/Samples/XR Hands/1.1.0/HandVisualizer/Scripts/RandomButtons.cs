@@ -18,7 +18,7 @@ public class RandomButtons : MonoBehaviour
 
     PanelManager panelManager;
 
-    bool loopOver;
+    bool setReady;
 
     bool loopOngoing;
 
@@ -167,9 +167,14 @@ public class RandomButtons : MonoBehaviour
     {
         return checkingBounds;
     }
+
+    public bool GetSetStatus()
+    {
+        return setReady;
+    }
     public IEnumerator LoopingIntersectSetter()
     {
-
+        setReady = false;
         Debug.Log("Starting loop");
 
         while (intersecting.Count > 0)
@@ -211,7 +216,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,   //muuta hardcoded rot pois!½!!
                     collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
 
-                loopOver = true;
+                setReady = true;
             }
         }
 
