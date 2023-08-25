@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HandData;
 using UnityEngine.UIElements;
+using System.Runtime.CompilerServices;
 
 public class InteractableActivityManager : MonoBehaviour
 {
@@ -72,10 +73,13 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Transform RaycastStartPos;
 
-    Vector3 rayleft;
-    Vector3 rayRight;
-    Vector3 rayUp;
-    Vector3 rayDown;
+    public Transform rayStartLeft;
+    public Transform rayStartRight;
+    public Transform rayStartUp;
+    public Transform rayStartDown;
+
+    public List<Collider> colliders;
+
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -83,7 +87,7 @@ public class InteractableActivityManager : MonoBehaviour
     
     void Start()
     {
-        
+        GetMyColliders();
 
         originalMaterial = rendererToChange.material;
 
@@ -141,7 +145,32 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
-    
+    void GetMyColliders()
+    {
+        var result = transform.GetComponents<Collider>();
+        Debug.Log(result.Length + "found colliders length");
+        if (result != null)
+        {
+            foreach (var c in result)
+            {
+                colliders.Add(c);
+            }
+        }
+        result = null;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            
+            result = transform.GetChild(i).GetComponents<Collider>();
+            if (result != null)
+            {
+                foreach (var c in result)
+                {
+                    colliders.Add(c);
+                }
+            }
+            result = null;
+        }
+    }
     public void SetMySize()
     {
 
@@ -422,10 +451,7 @@ public class InteractableActivityManager : MonoBehaviour
     public bool CheckMyRays()
     {
 
-        Vector3 rayLeft = new Vector3(transform.position.x - 0.025f, transform.position.y, transform.position.z);
-        Vector3 rayRight = new Vector3(transform.position.x + 0.025f, transform.position.y, transform.position.z);
-        Vector3 rayUp = new Vector3(transform.position.x, transform.position.y + 0.025f, transform.position.z);
-        Vector3 rayDown = new Vector3(transform.position.x, transform.position.y - 0.025f, transform.position.z);
+       
 
         if (highlighted)
         {
@@ -435,84 +461,153 @@ public class InteractableActivityManager : MonoBehaviour
             Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
            */
 
-            Debug.DrawRay(rayLeft, transform.TransformDirection(Vector3.left), Color.blue);
-            Debug.DrawRay(rayUp, transform.TransformDirection(Vector3.forward), Color.blue);
-            Debug.DrawRay(rayRight, transform.TransformDirection(Vector3.right), Color.blue);
-            Debug.DrawRay(rayDown, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
+            Debug.DrawRay(rayStartLeft.position, transform.TransformDirection(Vector3.right), Color.white);
+            Debug.DrawRay(rayStartUp.position, transform.TransformDirection(Vector3.forward*-1), Color.blue);
+            Debug.DrawRay(rayStartRight.position, transform.TransformDirection(Vector3.left), Color.red);
+            Debug.DrawRay(rayStartDown.position, transform.TransformDirection(Vector3.forward), Color.black);
         }
-        /*   RAYCAST, TRYING RaycastAll
-         * RaycastHit hit = new RaycastHit();
-         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit, 0.05f))
-         {
-             tooClose = true;
-             return tooClose;
-         }
-         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), 0.05f))
-         {
-             tooClose = true;
-             return tooClose;
-         }
-         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), 0.05f))
-         {
-             tooClose = true;
-             return tooClose;
-         }
-         else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward * -1), 0.05f))
-         {
-             tooClose = true;
-             return tooClose;
-         }
-         else
-         {
-             tooClose = false;
-             return tooClose;
-         }*/
+        //   RAYCAST, TRYING RaycastAll
+        /* RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(rayStartLeft.position, transform.TransformDirection(Vector3.right), out hit, 0.1f))
+        {
+           if (hit.collider != null && !colliders.Contains(hit.collider))
+           {
+               tooClose = true;
+               return tooClose;
+           }
+        }
+        else if (Physics.Raycast(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f))
+        {
+           if (hit.collider != null && !colliders.Contains(hit.collider))
+           {
+               tooClose = true;
+               return tooClose;
+           }
+       }
+        else if (Physics.Raycast(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f))
+        {
+           if (hit.collider != null && !colliders.Contains(hit.collider))
+           {
+               tooClose = true;
+               return tooClose;
+           }
+       }
+        else if (Physics.Raycast(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f))
+        {
+           if (hit.collider != null && !colliders.Contains(hit.collider))
+           {
+               tooClose = true;
+               return tooClose;
+           };
+        }
+        else
+        {
+            tooClose = false;
+            return tooClose;
+        }*/
         if (rayCasting)
         {
-            // Debug.Log("CASTING");
-            
+            RaycastHit[] hitsLeft = Physics.RaycastAll(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f);
+            RaycastHit[] hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f);
+            RaycastHit[] hitsRight = Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f);
+            RaycastHit[] hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f);
 
-            RaycastHit[] hitsLeft;
-
-            //hitsLeft = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.left), 0.05f);
-            hitsLeft = Physics.RaycastAll(rayLeft, transform.TransformDirection(Vector3.right), 0.1f);
-
-            RaycastHit[] hitsRight;
-           // hitsRight = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.right), 0.05f);
-
-            hitsRight= Physics.RaycastAll(rayRight, transform.TransformDirection(Vector3.left), 0.1f);
-
-            RaycastHit[] hitsUp;
-            //hitsUp = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward), 0.05f);
-            hitsUp = Physics.RaycastAll(rayUp, transform.TransformDirection(Vector3.forward *-1), 0.1f);
-
-            RaycastHit[] hitsDown;
-           // hitsDown = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
-            hitsDown = Physics.RaycastAll(rayDown, transform.TransformDirection(Vector3.forward), 0.1f);
-
-            if (hitsLeft.Length > 0) 
+            if (hitsLeft != null)
             {
-                tooClose = true;
-                return tooClose;
-            }
-            else if(hitsRight.Length > 0)
-            {
-                tooClose = true;
-                return tooClose;
-            }
-            else if (hitsUp.Length > 0)
-            {
-                tooClose = true;
-                return tooClose;
-            }
-            else if(hitsDown.Length > 0)
-            {
-                tooClose = true;
-                return tooClose;
+                foreach (RaycastHit hit in hitsLeft)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
             }
             
-
+            if (hitsUp != null)
+            {
+                foreach (RaycastHit hit in hitsUp)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+            
+            if (hitsRight != null)
+            {
+                foreach (RaycastHit hit in hitsRight)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+            
+            if (hitsDown != null)
+            {
+                foreach (RaycastHit hit in hitsDown)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+            
         }
+        /*  if (rayCasting)
+          {
+              // Debug.Log("CASTING");
+
+
+              RaycastHit[] hitsLeft;
+
+              //hitsLeft = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.left), 0.05f);
+              hitsLeft = Physics.Raycast(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f);
+
+              RaycastHit[] hitsRight;
+             // hitsRight = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.right), 0.05f);
+
+              hitsRight= Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f);
+
+              RaycastHit[] hitsUp;
+              //hitsUp = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward), 0.05f);
+              hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward *-1), 0.1f);
+
+              RaycastHit[] hitsDown;
+             // hitsDown = Physics.RaycastAll(RaycastStartPos.position, transform.TransformDirection(Vector3.forward * -1), 0.05f);
+              hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f);
+
+
+              if (hitsLeft.Length > 0) 
+              {
+                  tooClose = true;
+                  return tooClose;
+              }
+              else if(hitsRight.Length > 0)
+              {
+                  tooClose = true;
+                  return tooClose;
+              }
+              else if (hitsUp.Length > 0)
+              {
+                  tooClose = true;
+                  return tooClose;
+              }
+              else if(hitsDown.Length > 0)
+              {
+                  tooClose = true;
+                  return tooClose;
+              }
+
+        
+          }*/
         tooClose = false;
         return false;
     }

@@ -97,7 +97,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[index].GetComponent<InteractableActivityManager>().boundsCollide = false;
             //OLD CODE WITH BOUNDS, WORKING TO REPLACE WITH RAYS */
 
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
             // NEW CODE WITH RAYS
 
             if (i != index && collidables.objects[index].GetComponent<InteractableActivityManager>().tooClose)
@@ -123,6 +123,14 @@ public class RandomButtons : MonoBehaviour
 
                     }
                     //yield return true;
+                }
+                else
+                {
+                    if (intersecting.Contains(index))
+                    {
+                        Debug.Log("removing " + index);
+                        intersecting.Remove(index);
+                    }
                 }
             }
             else
@@ -166,8 +174,9 @@ public class RandomButtons : MonoBehaviour
 
         while (intersecting.Count > 0)
         {
-            yield return new WaitForEndOfFrame();
+           // yield return new WaitForEndOfFrame();
             Debug.Log("while loop!");
+            yield return null;
             if (intersecting.Count > 0)
             {
                     SetIntersectingPositions(0);
