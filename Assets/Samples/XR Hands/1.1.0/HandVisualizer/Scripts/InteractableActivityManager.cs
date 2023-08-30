@@ -49,6 +49,7 @@ public class InteractableActivityManager : MonoBehaviour
     float upPosition;
     float downPosition;
 
+
     float myDuration;
 
     public Vector3 myRot;
@@ -281,12 +282,13 @@ public class InteractableActivityManager : MonoBehaviour
     #endregion
 
     #region JSONDataCollection
-    public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten   TOIMII MUT ALSO TÄÄ ON EXTREMELY SUS, TESTAA HYVIN!!!!!!!
+    public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten  ///  TOIMII MUT ALSO TÄÄ ON EXTREMELY SUS, TESTAA HYVIN!!!!!!!
     {
         Debug.Log("start interaction event");
 
-        yield return new WaitUntil(randomButtons.GetSetStatus);
-        yield return new WaitForSeconds(3);
+        yield return new WaitUntil(randomButtons.PassFaderStatus);
+
+        Debug.Log("interaction starting, fade over");
         myDuration = 0;
 
         interactableEvent = new SaveManager.InteractableEvent();
@@ -625,7 +627,8 @@ public class InteractableActivityManager : MonoBehaviour
     }
     private void Update()
     {
-        myDuration += Time.deltaTime;
+        if(!interactSuccess)
+            myDuration += Time.deltaTime;   
 
         if (rendererToChange.sharedMaterial == highlightMaterial)
         {

@@ -24,6 +24,8 @@ public class RandomButtons : MonoBehaviour
 
     bool checkingBounds;
 
+    FadeIn fader;
+
     public IEnumerator ReadyForSetup()
     {
 
@@ -172,6 +174,11 @@ public class RandomButtons : MonoBehaviour
     {
         return setReady;
     }
+
+    public bool PassFaderStatus()
+    {
+        return fader.FaderStatus();
+    }
     public IEnumerator LoopingIntersectSetter()
     {
         setReady = false;
@@ -258,7 +265,10 @@ public class RandomButtons : MonoBehaviour
         }
     }
 
-    
+    private void Start()
+    {
+        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
+    }
 
     private void Update()
     {

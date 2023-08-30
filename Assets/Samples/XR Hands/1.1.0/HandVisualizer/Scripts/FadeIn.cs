@@ -14,12 +14,14 @@ public class FadeIn : MonoBehaviour
     [SerializeField]
     bool start;
 
+    [SerializeField]
+    bool faded;
     public Image fader;
     public void StartFade()
     {
 
         start = true;
-
+        
         var num = Mathf.RoundToInt(timer);
         countdown.text = num.ToString();
 
@@ -35,14 +37,25 @@ public class FadeIn : MonoBehaviour
         if(fader.color.a <= 0)
         {
             start = false;
+            faded = true;
+            gameObject.SetActive(false);
         }
 
     }
 
-
+    public bool FaderStatus()
+    {
+        return faded;
+    }
     private void OnDisable()
     {
         start = false;
+        
+    }
+
+    private void OnEnable()
+    {
+        faded = false;
     }
 
     private void FixedUpdate()
