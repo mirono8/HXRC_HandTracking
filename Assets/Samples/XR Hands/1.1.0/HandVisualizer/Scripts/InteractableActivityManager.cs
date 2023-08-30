@@ -149,6 +149,21 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
+    public void ToggleKinematic(bool toggleOn)
+    {
+        if (myRigidbody != null)
+        {
+            if (toggleOn) {
+
+                myRigidbody.isKinematic = true;
+            }
+            else if (!toggleOn)
+            {
+                myRigidbody.isKinematic = false;
+            }
+                
+        }
+    }
     void GetMyColliders()
     {
         var result = transform.GetComponents<Collider>();
@@ -247,10 +262,10 @@ public class InteractableActivityManager : MonoBehaviour
         }
 
 
-       /* if ((myRigidbody.gameObject.transform.localPosition.y > upPosition) && !interactSuccess)
+        if ((myRigidbody.gameObject.transform.localPosition.y > upPosition) && !interactSuccess)
         {
             myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
-        }*/
+        }
     }
 
     public void SwitchContraints()

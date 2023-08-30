@@ -17,7 +17,7 @@ public class SessionManager : MonoBehaviour
 
     PanelManager panelManager;
 
-    
+    FadeIn fader;
     private void Awake()
     {
         setStart = GetComponentInChildren<SetStart>(true);
@@ -26,7 +26,7 @@ public class SessionManager : MonoBehaviour
 
     private void Start()
     {
-       
+        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
         StartCoroutine(GetInitialState());
     }
 
@@ -43,6 +43,8 @@ public class SessionManager : MonoBehaviour
 
         panelManager.FindAllPanels();
 
+        panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
+
         setStart.SetupInteractables();
     }
 
@@ -51,6 +53,7 @@ public class SessionManager : MonoBehaviour
         currentSet++;
         if (currentSet < setCount)
         {
+            panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
             //currentSet++;
             if (panelManager.panels.Count <= currentSet)
             {
@@ -73,6 +76,7 @@ public class SessionManager : MonoBehaviour
                 if (p.panel.GetComponentInChildren<GridToPanel>())
                 {
                     p.panel.GetComponentInChildren<GridToPanel>().gameObject.SetActive(false);
+                    
                 }
             }
         }

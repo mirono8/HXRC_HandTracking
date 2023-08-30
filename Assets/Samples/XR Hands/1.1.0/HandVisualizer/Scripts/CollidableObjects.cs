@@ -21,8 +21,12 @@ public class CollidableObjects : MonoBehaviour
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
             objects.Add(transform.GetChild(0).transform.GetChild(i).gameObject);
-        }
 
+        }
+        foreach (GameObject obj in objects)
+        {
+            obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
+        }
         StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());
     }
 

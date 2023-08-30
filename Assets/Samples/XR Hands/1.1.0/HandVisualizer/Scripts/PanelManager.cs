@@ -10,6 +10,14 @@ public class PanelManager : MonoBehaviour
 
     public Vector3 panelScale = new Vector3(0.846153855f, 0.846153855f, 0.0252450015f);
 
+    [SerializeField]
+    bool flip;
+
+    float t;
+
+    Color original;
+    Color variant;
+    GameObject panelToHighlight;
     [Serializable]
     public class Panel
     {
@@ -80,5 +88,41 @@ public class PanelManager : MonoBehaviour
         else
             return Vector3.zero;
     }
+
+    public void HighlightPanel()
+    {
+
+        panelToHighlight.GetComponent<MeshRenderer>().material.color = Color.Lerp(original, variant ,Mathf.PingPong(Time.time, 1));
+    }
+
+    public void ToggleHighlighting(GameObject panel)
+    {
+        if (!flip)
+        {
+            flip = true;
+            t = 0;
+            panelToHighlight = panel.transform.GetChild(0).gameObject;
+            original = panelToHighlight.GetComponent<MeshRenderer>().material.color;
+            variant = new Color(original.r, original.g, original.b + 0.1f);
+        }
+        
+    }
+    private void FixedUpdate()
+    {
+        if (flip)
+        {
+            t += Time.deltaTime;
+
+            if (t < 5)
+                HighlightPanel();
+            else
+            {
+                panelToHighlight.GetComponent<MeshRenderer>().material.color = original;
+                panelToHighlight = null;
+                flip = false;
+            }
+        }
+    }
+
 }
 

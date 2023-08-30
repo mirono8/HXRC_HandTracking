@@ -35,7 +35,6 @@ public class RandomButtons : MonoBehaviour
         {
             originalPositions.Add(x.transform.localPosition);
         }
-
         panelScale = GetComponent<GridToPanel>().panelScale;
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
 
@@ -223,6 +222,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,   //muuta hardcoded rot pois!½!!
                     collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
 
+                collidables.objects[i].GetComponent<InteractableActivityManager>().ToggleKinematic(false);
                 setReady = true;
             }
         }
