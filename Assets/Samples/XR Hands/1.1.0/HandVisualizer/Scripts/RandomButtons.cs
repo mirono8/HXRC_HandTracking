@@ -60,6 +60,13 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
 
             yield return new WaitForEndOfFrame();
+
+            if (oneByOne)
+            {
+                collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,   
+                    collidables.objects[i].transform.eulerAngles.z);
+            }
+
             if (!oneByOne)
             {
                 Debug.Log("setting" + i + " indexed active");

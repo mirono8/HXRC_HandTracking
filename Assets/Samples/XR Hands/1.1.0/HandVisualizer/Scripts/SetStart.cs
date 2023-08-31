@@ -11,6 +11,7 @@ public class SetStart : MonoBehaviour
     string size;
     string type;
     string mode;
+
     public GameObject gridPrefab;
 
     public List<GameObject> interactablePrefabs;
@@ -112,7 +113,8 @@ public class SetStart : MonoBehaviour
         if (mode != "all")
         {
             grid.GetComponent<RandomButtons>().oneByOne = true;
-        }else
+        }
+        else
         { grid.GetComponent<RandomButtons>().oneByOne=false; }
 
         StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());

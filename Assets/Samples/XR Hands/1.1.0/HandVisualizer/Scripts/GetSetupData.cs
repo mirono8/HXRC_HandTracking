@@ -63,7 +63,7 @@ public class GetSetupData : MonoBehaviour
         ParsedData defaultData2 = new();
         defaultData2.size = "medium";
         defaultData2.type = "button";
-        defaultData2.mode = "all";
+        defaultData2.mode = "oneByOne";
         sets.Add(defaultData2);
     }
 
