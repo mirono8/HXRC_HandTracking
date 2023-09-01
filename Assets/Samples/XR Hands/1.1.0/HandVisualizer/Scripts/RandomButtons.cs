@@ -45,6 +45,10 @@ public class RandomButtons : MonoBehaviour
         {
             StartCoroutine(LoopingIntersectSetter());
         }
+        else
+        {
+            setReady = true;
+        }
     }
 
     public IEnumerator SetRandomPositions()

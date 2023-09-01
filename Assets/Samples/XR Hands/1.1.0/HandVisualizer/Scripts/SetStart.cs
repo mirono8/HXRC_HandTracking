@@ -46,6 +46,11 @@ public class SetStart : MonoBehaviour
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize)Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
         Debug.Log(sizeAsEnum);
 
+        if (mode != "all")
+        {
+            grid.GetComponent<RandomButtons>().oneByOne = true;
+        }
+
         if (temp != null)
         {
 

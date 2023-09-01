@@ -192,8 +192,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.010254646, y: 0.020000005, z: 0.008527454}
-  m_Center: {x: 0.00006454624, y: -1.3678126e-18, z: 0.0042807283}
+  m_Size: {x: 0.015, y: 0.022, z: 0.008527454}
+  m_Center: {x: -0.00030893693, y: 0.00072598783, z: 0.0042807283}
 --- !u!1 &5517760274873374220
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +414,7 @@ MonoBehaviour:
   rayStartUp: {fileID: 2994414662320363539}
   rayStartDown: {fileID: 1493724839270876322}
   colliders: []
+  sessionManager: {fileID: 0}
 --- !u!1 &9152060252884525464
 GameObject:
   m_ObjectHideFlags: 0
