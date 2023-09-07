@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1064114200712960776}
+  - {fileID: 864101124178756005}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,6 +82,8 @@ MonoBehaviour:
   desiredDistance: {x: 0, y: 0, z: -0.01}
   panelScale: {x: 0.84615386, y: 0.84615386, z: 0.025245002}
   angle: {x: 0, y: 0, z: 0}
+  cameraWarpPoint: {fileID: 864101124178756005}
+  warpDistance: {x: 0, y: 0, z: -1.185}
 --- !u!1 &3314619645219807399
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,4 +114,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2097762020943940256}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6156381414620088364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 864101124178756005}
+  m_Layer: 0
+  m_Name: CameraWarpPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &864101124178756005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156381414620088364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2097762020943940256}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

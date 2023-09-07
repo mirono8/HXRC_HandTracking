@@ -30,8 +30,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6480257610173753435}
-  - {fileID: 8295784235603534486}
   - {fileID: 7425783121825359030}
+  - {fileID: 8295784235603534486}
   - {fileID: 8295784235255920116}
   m_Father: {fileID: 6480257609365778203}
   m_RootOrder: 0
@@ -59,6 +59,7 @@ MonoBehaviour:
   setGrid: []
   grid: {fileID: 0}
   fadeIn: {fileID: 0}
+  rig: {fileID: 0}
 --- !u!1 &6480257609365778201
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panels: []
   panelScale: {x: 0.84615386, y: 0.84615386, z: 0.025245002}
+  flip: 0
 --- !u!1 &6480257610173753434
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +392,7 @@ PrefabInstance:
     - target: {fileID: 1450571088945780790, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1450571088945780790, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
@@ -566,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 1450571088945780790, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1450571088945780790, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}

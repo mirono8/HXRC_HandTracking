@@ -17,8 +17,15 @@ public class GridToPanel : MonoBehaviour
 
     GameObject gridActual;
 
+    public Transform cameraWarpPoint;
+
+    public Vector3 warpDistance;
+
+    
+
     private void Start()
     {
+
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
 
@@ -26,11 +33,25 @@ public class GridToPanel : MonoBehaviour
 
         if (panel != null)
         {
-
             transform.parent = panel.transform;
-           // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
+            // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
             //transform.GetChild(0).position = panelManager.GetPanelTransform(panel).position + desiredDistance;
-           
+            /*  cameraWarpPoint.transform.position = panelManager.GetPanelTransform(panel).position + warpDistance;  // this is useful, commented for now
+
+              //cameraWarpPoint.transform.Rotate(panelManager.GetPanelTransform(panel).localPosition, panelManager.GetPanelRotation(panel).y);
+              var quat = Quaternion.Euler(panelManager.GetPanelRotation(panel).x, panelManager.GetPanelRotation(panel).y, panelManager.GetPanelRotation(panel).z);
+
+              Debug.Log("without quat " +cameraWarpPoint.transform.position);
+              Debug.Log(cameraWarpPoint.transform.position = quat * cameraWarpPoint.transform.position);
+
+              cameraWarpPoint.transform.position = quat * cameraWarpPoint.transform.position;
+
+              cameraWarpPoint.transform.position = new Vector3(cameraWarpPoint.transform.position.x*-1, cameraWarpPoint.transform.position.y*-1, panelManager.GetPanelTransform(panel).localPosition.z + warpDistance.z);
+
+              cameraWarpPoint.transform.eulerAngles = new Vector3(cameraWarpPoint.transform.rotation.x, panelManager.GetPanelRotation(panel).y, cameraWarpPoint.transform.rotation.z);*/
+
+            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z);  // + warpDistance.z
+
         }
     }
 
@@ -40,6 +61,15 @@ public class GridToPanel : MonoBehaviour
         {
             gridActual.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
             gridActual.transform.eulerAngles = panelManager.GetPanelRotation(panel);
+
+            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + (-1 * gridActual.transform.forward);
+
+            //tee rotation viel jotenki lerpil tjsp faden aikana!!!!
+
+
+            // cameraWarpPoint.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + warpDistance;
+            //  cameraWarpPoint.transform.eulerAngles = panelManager.GetPanelRotation(panel);  // ei oo tarkallee siin mis pitäs, ehkä forward auttaa
+
         }
     }
 }

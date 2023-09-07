@@ -26,7 +26,7 @@ public class RandomButtons : MonoBehaviour
 
     FadeIn fader;
 
-    public IEnumerator ReadyForSetup()
+    public IEnumerator ReadyForSetup() // initial call during scene start, finds stuff for the script and starts randomizing positions for the first sets
     {
 
         collidables = GetComponent<CollidableObjects>();
@@ -51,7 +51,7 @@ public class RandomButtons : MonoBehaviour
         }
     }
 
-    public IEnumerator SetRandomPositions()
+    public IEnumerator SetRandomPositions() // sets random positions for the interactables of current set based on panel size and mode
     {
         loopOngoing = true;
         for (int i = 0; i < collidables.objects.Count; i++)
@@ -90,7 +90,7 @@ public class RandomButtons : MonoBehaviour
     }
 
 
-    public IEnumerator CheckBoundIntersection(int index)
+    public IEnumerator CheckBoundIntersection(int index) // works together with raycasting from the interactable proper, also old code with bounds.intersects, might re-implement it later as a fallback
     {
         checkingBounds = true;
         for (int i = 0; i < collidables.objects.Count; i++)
@@ -170,26 +170,27 @@ public class RandomButtons : MonoBehaviour
         checkingBounds = false;
     }
 
-    public bool LoopStatus()
+    public bool LoopStatus() // is the randomizer still ongoing, this is for script sequencing purposes
     {
         return loopOngoing;
     }
 
-    public bool CheckingBounds()
+    public bool CheckingBounds() // same as above, during bounds collision check
     {
         return checkingBounds;
     }
 
-    public bool GetSetStatus()
+    public bool GetSetStatus() // same as above, when everything is ready
     {
         return setReady;
     }
 
-    public bool PassFaderStatus()
+    public bool PassFaderStatus() // passes fader status from the fader script, interactables need to wait for this to start tracking time for the interaction event
     {
         return fader.FaderStatus();
     }
-    public IEnumerator LoopingIntersectSetter()
+
+    public IEnumerator LoopingIntersectSetter() // iterates through interactables that intersect each other
     {
         setReady = false;
         Debug.Log("Starting loop");
@@ -240,7 +241,7 @@ public class RandomButtons : MonoBehaviour
 
     }
 
-    public void SetIntersectingPositions(int index)
+    public void SetIntersectingPositions(int index) // used by the recursive loop, sets the positions of intersecting objects again randomly
     {
 
         Debug.Log("intersecting set");
@@ -252,12 +253,12 @@ public class RandomButtons : MonoBehaviour
 
         //intersectaa viel v‰lil joskus lul
     }
-    public bool IsOneByOne()
+    public bool IsOneByOne() // get mode
     {
         return oneByOne;
     }
 
-    void DoubleCheck()
+    void DoubleCheck() // redundant, debugging method for bounds intersection
     {
         Debug.Log("double check");
         var j = 0;
@@ -266,7 +267,7 @@ public class RandomButtons : MonoBehaviour
             if (i != j && collidables.objects[j].GetComponent<InteractableActivityManager>().intersectionCollider.bounds.Intersects(collidables.objects[i].
                 GetComponent<InteractableActivityManager>().intersectionCollider.bounds)) // i != index && collidables.objects[index].GetComponentInChildren<Collider>().bounds.Intersects(collidables.objects[i].GetComponentInChildren<Collider>().bounds))
             {
-                Debug.Log("m‰‰ly");
+                Debug.Log("double double check");
                 if (!intersecting.Contains(j))
                 {
                     Debug.Log("added " + j);
@@ -284,7 +285,7 @@ public class RandomButtons : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetButtonDown("FunnyTestKey"))
+        if (Input.GetButtonDown("FunnyTestKey")) // for debugging purposes
             DoubleCheck();
     }
 

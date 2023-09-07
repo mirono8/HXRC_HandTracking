@@ -83,6 +83,7 @@ public class PanelManager : MonoBehaviour
 
         if(x != null)
         {
+            
             return panel.transform.GetChild(0).transform.eulerAngles;
         }
         else

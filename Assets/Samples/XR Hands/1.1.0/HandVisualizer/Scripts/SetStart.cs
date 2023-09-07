@@ -20,16 +20,26 @@ public class SetStart : MonoBehaviour
 
     public List<GameObject> setGrid;
 
+    public List<Transform> warpPoints;
+
     [SerializeField]
     GameObject grid;
 
     public FadeIn fadeIn;
+
+    [SerializeField]
+    GameObject rig;
+
+    int currentSetNumber;
+
 
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
         type = setupData.ReturnType(0);
         mode = setupData.ReturnMode(0);
+
+        rig = GameObject.FindGameObjectWithTag("Player");
 
     }
 
@@ -39,7 +49,7 @@ public class SetStart : MonoBehaviour
         setGrid.Add(grid);
     }
 
-    public void SetupInteractables()
+    public void SetupInteractables() // sets the interactables for current set active and adjusts them based on loaded values
     {
         var temp = interactablePrefabs.Find(x => x.name.ToString().ToLower().Contains(type));
         Debug.Log(temp);
@@ -86,7 +96,7 @@ public class SetStart : MonoBehaviour
         StartCoroutine(WaitForFade());
     }
 
-    public void ClearCurrentSet()
+    public void ClearCurrentSet() // clears data from the current set after completion 
     {
         if (currentSetGameObjs.Any())
         {
@@ -102,7 +112,7 @@ public class SetStart : MonoBehaviour
         }
     }
 
-    public void GameObjectsToTrack()
+    public void GameObjectsToTrack() // starts tracking gameobjects of the current set
     {
         if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
         {
@@ -113,30 +123,36 @@ public class SetStart : MonoBehaviour
         }
     }
 
-    public void RunSet()
+    public void RunSet() // gives the go signal for the grid
     {
         if (mode != "all")
         {
             grid.GetComponent<RandomButtons>().oneByOne = true;
         }
         else
-        { grid.GetComponent<RandomButtons>().oneByOne=false; }
+        {
+            grid.GetComponent<RandomButtons>().oneByOne = false;
+        }
 
         StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
 
-       
-
     }
 
-    public IEnumerator WaitForFade()
+    public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
     {
+        fadeIn.FadeBack();
         Debug.Log("waiting");
+        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
         yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
         Debug.Log("i can wait no longer");
         fadeIn.StartFade();
     }
 
-    public void AssignSetParams(int round, bool reusePanel = false)
+    public void GetCurrentSetNumber(int i)
+    {
+        currentSetNumber = i;
+    }
+    public void AssignSetParams(int round, bool reusePanel = false) // assigns current sets enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
     {
         size = setupData.ReturnSize(round);
         type = setupData.ReturnType(round);

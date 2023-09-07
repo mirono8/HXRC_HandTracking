@@ -30,38 +30,57 @@ public class SessionManager : MonoBehaviour
         StartCoroutine(GetInitialState());
     }
 
-    IEnumerator GetInitialState()
+    IEnumerator GetInitialState() // loads intial state of the session from the scene
     {
         yield return new WaitUntil(SessionActiveStatus);
 
         setCount = setStart.setupData.sets.Count;
 
         if (setCount != 0)
-            for (int i = 0; i < setCount - 1; i++) { setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform)); }
+        {
+            for (int i = 0; i < setCount - 1; i++)
+            {
+                setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
+                
+            }
+
+            for (int i = 0; i < setStart.setGrid.Count; i++)
+            {
+                setStart.warpPoints.Add(setStart.setGrid[i].GetComponent<GridToPanel>().cameraWarpPoint);
+            }
+        }
         else
-            Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
+        { 
+        Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
+        }
 
         panelManager.FindAllPanels();
+
+        setStart.GetCurrentSetNumber(currentSet); 
 
         panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
 
         setStart.SetupInteractables();
     }
 
-    public void TryStartNextSet()
+    public void TryStartNextSet() // tries to start the next set if there are multiple
     {
         currentSet++;
         if (currentSet < setCount)
         {
             panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
+
             //currentSet++;
             if (panelManager.panels.Count <= currentSet)
             {
                 setStart.AssignSetParams(currentSet, true);
+                setStart.GetCurrentSetNumber(currentSet);
             }
             else
+            {
                 setStart.AssignSetParams(currentSet);
-
+                setStart.GetCurrentSetNumber(currentSet);
+            }
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
             setStart.GameObjectsToTrack();
@@ -89,7 +108,7 @@ public class SessionManager : MonoBehaviour
 
     private void Update()
     {
-        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear)
+        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear) // starts next set, there's probably a better way to do this :)
             TryStartNextSet();
     }
 }

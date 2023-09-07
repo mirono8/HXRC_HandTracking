@@ -15,7 +15,7 @@ public class CollidableObjects : MonoBehaviour
             StartCoroutine(PopulateCollidables()); 
     }
 
-    IEnumerator PopulateCollidables()
+    IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
     {
         yield return new WaitForSeconds(1);
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
@@ -30,7 +30,7 @@ public class CollidableObjects : MonoBehaviour
         StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());
     }
 
-    public GameObject GetNearestNeighbor(int i)
+    public GameObject GetNearestNeighbor(int i) // finds the nearest interactable, so as to not make it the next highlighted object in other scripts
     {
         Transform nearest = null;
         float closestDistanceSqr = Mathf.Infinity;

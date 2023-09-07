@@ -7,17 +7,17 @@ using System.Runtime.CompilerServices;
 
 public class InteractableActivityManager : MonoBehaviour
 {
-    public enum InteractableType
+    public enum InteractableType // chosen type
     {
         Button, Lever, Switch
     }
 
-    public enum InteractableSize
+    public enum InteractableSize // chosen size
     {
         Small, Medium, Large, Random
     }
 
-    public enum Interactor
+    public enum Interactor // which hand interacted with this
     {
         Left, Right
     }
@@ -149,7 +149,7 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
-    public void ToggleKinematic(bool toggleOn)
+    public void ToggleKinematic(bool toggleOn) // at set start, to prevent interactables from colliding during the initial position set
     {
         if (myRigidbody != null)
         {
@@ -164,7 +164,7 @@ public class InteractableActivityManager : MonoBehaviour
                 
         }
     }
-    void GetMyColliders()
+    void GetMyColliders() // finds colliders of this interactable, to ignore some in other scripts
     {
         var result = transform.GetComponents<Collider>();
         Debug.Log(result.Length + "found colliders length");
@@ -190,9 +190,8 @@ public class InteractableActivityManager : MonoBehaviour
             result = null;
         }
     }
-    public void SetMySize()
+    public void SetMySize() // sets interactable size based on the JSON
     {
-
 
         switch (size)
         {
@@ -205,41 +204,59 @@ public class InteractableActivityManager : MonoBehaviour
     }
 
     #region InteractionCheckByType
-    public void ButtonPressed()
+    public void ButtonPressed() // continuous check if this interactable, as a button type, has been pressed
     {
 
         if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
         {
             // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-            if (!highlighted)
+            if (!randomButtons.oneByOne)
             {
-                ResetPosition();
+                if (!highlighted)
+                {
+                    ResetPosition();
+                }
+                else
+                    interactSuccess = true;
             }
-            else
+            else 
+            {
                 interactSuccess = true;
+            }
         }
     }
 
-    public void SwitchPressed()
+    public void SwitchPressed() // same as above for switches
     {
-
 
         if (myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
         {
 
-            interactSuccess = true;
+            if (!randomButtons.oneByOne)
+            {
+                if (!highlighted)
+                {
+                    ResetPosition();
+                }
+                else
+                    interactSuccess = true;
+            }
+            else
+            {
+                interactSuccess = true;
+            }
         }
 
     }
 
-    public void LeverPulled()
+    public void LeverPulled() // currently redundant, check for levers
     {
         interactSuccess = true;
     }
     #endregion
 
     #region TransformConstraintsByType
-    public void ButtonContraints()
+    public void ButtonContraints() // constraints for button type interactable's rigidbody movement
     {
         if (myRigidbody.gameObject.transform.localPosition.y > upPosition)
         {
@@ -268,7 +285,7 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
-    public void SwitchContraints()
+    public void SwitchContraints() // same as above for switches
     {
         myRigidbody.gameObject.transform.localPosition = new Vector3(0, 0.007f, 0);
 
@@ -279,7 +296,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     }
 
-    public void ResetPosition()
+    public void ResetPosition() // resets interactable's rigidbody values in case of being interacted with out of order
     {
         if (!MoveOn())
         {
@@ -297,7 +314,7 @@ public class InteractableActivityManager : MonoBehaviour
     #endregion
 
     #region JSONDataCollection
-    public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten  ///  TOIMII MUT ALSO TÄÄ ON EXTREMELY SUS, TESTAA HYVIN!!!!!!!
+    public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten  // <- this but in english
     {
         Debug.Log("start interaction event");
 
@@ -315,7 +332,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     }
 
-    public void EndInteractionEvent()
+    public void EndInteractionEvent() // ends the tracking of the interaction event for this interactable, saves the data to JSON
     {
         interactableEvent.duration = myDuration.ToString();
 
@@ -355,7 +372,7 @@ public class InteractableActivityManager : MonoBehaviour
         saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil (aina) nullreference, vaikuttaa janssoniin vaa, fix
     }
 
-    public static Vector3 StringToVector3(string sVector)
+    public static Vector3 StringToVector3(string sVector) // converts gathered position data from string to Vector3, not my code but modified
     {
         // Remove the parentheses
         if (sVector.StartsWith("(") && sVector.EndsWith(")"))
@@ -397,7 +414,7 @@ public class InteractableActivityManager : MonoBehaviour
         
     }
     
-    public void OneByOneSuccesscheck()
+    public void OneByOneSuccesscheck() // continuous check for interaction success, for sets where interactables show up one by one
     {
         if (interactSuccess)
         {
@@ -416,14 +433,16 @@ public class InteractableActivityManager : MonoBehaviour
         }
     }
 
-    public void AllAtOnceSuccessCheck()
+    public void AllAtOnceSuccessCheck() // same as above but for sets where all interactables show up at once
     {
         if (highlighted)
         {
-            if (myOrderIndex != collidables.objects.Count - 1)
+            if (myOrderIndex != collidables.objects.Count - 1)  //if i am not the last
             {
                 rendererToChange.material = originalMaterial;
-                if (collidables.GetNearestNeighbor(myOrderIndex) != collidables.objects[myOrderIndex + 1])
+
+                var nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
+                if (nearestNeighbor != collidables.objects[myOrderIndex + 1]) // if my nearest neighbor is not next in order
                 {
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                     StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
@@ -432,7 +451,15 @@ public class InteractableActivityManager : MonoBehaviour
                 else
                 {
                     Debug.Log("next was too close");
-                    if (collidables.objects[myOrderIndex + 2] != null)
+                    if(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex == collidables.objects.Count - 1)
+                    {
+                        Debug.Log("it's fine its the last one");
+
+                        nearestNeighbor.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                        StartCoroutine(nearestNeighbor.GetComponent<InteractableActivityManager>().StartInteractionEvent());
+
+                    }
+                    else if (collidables.objects[myOrderIndex + 2] != null)
                     {
                         collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                         StartCoroutine(collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().StartInteractionEvent());
@@ -462,17 +489,17 @@ public class InteractableActivityManager : MonoBehaviour
     }
 
     
-    void SetMoveOn(bool b)
+    void SetMoveOn(bool b) // set is done
     {
        moveOn = b;
     }
 
-    bool MoveOn()
+    bool MoveOn() // set is done
     {
         return moveOn;
     }
 
-    public bool CheckMyRays()
+    public bool CheckMyRays() // raycasts in the cardinal directions relative to this interactable to prevent positions from overlapping or being too close
     {
 
        
@@ -640,10 +667,10 @@ public class InteractableActivityManager : MonoBehaviour
     {
         CheckMyRays();   
     }
-    private void Update()
+    private void Update()  // all checks and other things are being run in here
     {
-        if(!interactSuccess)
-            myDuration += Time.deltaTime;   
+        if (!interactSuccess)
+            myDuration += Time.deltaTime;
 
         if (rendererToChange.sharedMaterial == highlightMaterial)
         {
@@ -665,23 +692,33 @@ public class InteractableActivityManager : MonoBehaviour
         if (handData.leftHandTracking)
             leftHandPos.Add(handData.leftHand.handPosition.ToString());
 
-        if(handData.rightHandTracking)
+        if (handData.rightHandTracking)
             rightHandPos.Add(handData.rightHand.handPosition.ToString());
 
         if (randomButtons.oneByOne)
         {
-            if(interactSuccess)
+            if (interactSuccess)
                 OneByOneSuccesscheck();
-        } 
+        }
         else
         {
-            if(interactSuccess)
+            if (interactSuccess)
                 AllAtOnceSuccessCheck();
         }
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
 
-        if (Input.GetButtonDown("InteractSuccess"))
-            interactSuccess = true;
+        if (Input.GetButtonDown("InteractSuccess")) // for debugging purposes
+        {
+            if (randomButtons.oneByOne)
+            {
+                interactSuccess = true;
+            }
+            else
+            {
+                if (highlighted)
+                    interactSuccess = true;
+            }
+        }
     }
 }
