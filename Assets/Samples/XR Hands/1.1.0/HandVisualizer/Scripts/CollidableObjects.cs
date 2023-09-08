@@ -25,6 +25,7 @@ public class CollidableObjects : MonoBehaviour
         }
         foreach (GameObject obj in objects)
         {
+            Debug.Log("initial kinematic toggle on!!!!");
             obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
         }
         StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());

@@ -164,7 +164,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 118
   m_CollisionDetection: 1
 --- !u!65 &5988151641436457906
@@ -445,3 +445,4 @@ MonoBehaviour:
   rayStartUp: {fileID: 2005601326563412840}
   rayStartDown: {fileID: 4315966742668308086}
   colliders: []
+  sessionManager: {fileID: 0}

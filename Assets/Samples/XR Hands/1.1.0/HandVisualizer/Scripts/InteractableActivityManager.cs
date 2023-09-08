@@ -82,6 +82,8 @@ public class InteractableActivityManager : MonoBehaviour
     public List<Collider> colliders;
 
     public SessionManager sessionManager;
+
+    LayerMask ignoreInRaycast;
     private void Awake()
     {
         randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
@@ -92,7 +94,7 @@ public class InteractableActivityManager : MonoBehaviour
         GetMyColliders();
 
         originalMaterial = rendererToChange.material;
-
+        ignoreInRaycast = LayerMask.GetMask("BlockHands");
         leftHandPos = new();
         rightHandPos = new();
 
@@ -103,7 +105,8 @@ public class InteractableActivityManager : MonoBehaviour
             upPosition = 0;
             downPosition = -0.003f;
         }
-        if(type == InteractableType.Switch)
+
+        if (type == InteractableType.Switch)
         {
             upPosition = -90f;
             downPosition = 300f;
@@ -116,6 +119,7 @@ public class InteractableActivityManager : MonoBehaviour
 
         if (myOrderIndex == 0 && randomButtons.oneByOne) 
         {
+            rendererToChange.material = highlightMaterial;
             gameObject.SetActive(true);
         }
         else if (myOrderIndex == 0 && !randomButtons.oneByOne)
@@ -153,12 +157,15 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (myRigidbody != null)
         {
+            Debug.Log("toggling kinematics");
             if (toggleOn) {
 
+                myRigidbody.Sleep();
                 myRigidbody.isKinematic = true;
             }
             else if (!toggleOn)
             {
+                myRigidbody.WakeUp();
                 myRigidbody.isKinematic = false;
             }
                 
@@ -318,6 +325,11 @@ public class InteractableActivityManager : MonoBehaviour
     {
         Debug.Log("start interaction event");
 
+        if (randomButtons.oneByOne && myOrderIndex == 0)
+        {
+            yield return new WaitForSeconds(1);
+        }
+
         yield return new WaitUntil(randomButtons.PassFaderStatus);
 
         Debug.Log("interaction starting, fade over");
@@ -400,6 +412,8 @@ public class InteractableActivityManager : MonoBehaviour
         {
             Debug.Log("onebyone");
             StartCoroutine(StartInteractionEvent());
+
+            rendererToChange.material = highlightMaterial;
         }
         
     }
@@ -410,6 +424,8 @@ public class InteractableActivityManager : MonoBehaviour
         if (randomButtons.IsOneByOne())
         {
             EndInteractionEvent();
+
+            rendererToChange.material = originalMaterial;
         }
         
     }
@@ -558,10 +574,10 @@ public class InteractableActivityManager : MonoBehaviour
         }*/
         if (rayCasting)
         {
-            RaycastHit[] hitsLeft = Physics.RaycastAll(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f);
-            RaycastHit[] hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f);
-            RaycastHit[] hitsRight = Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f);
-            RaycastHit[] hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f);
+            RaycastHit[] hitsLeft = Physics.RaycastAll(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f, ignoreInRaycast);
+            RaycastHit[] hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f,ignoreInRaycast);
+            RaycastHit[] hitsRight = Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f, ignoreInRaycast);
+            RaycastHit[] hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f, ignoreInRaycast);
 
             if (hitsLeft != null)
             {
@@ -574,7 +590,7 @@ public class InteractableActivityManager : MonoBehaviour
                     }
                 }
             }
-            
+
             if (hitsUp != null)
             {
                 foreach (RaycastHit hit in hitsUp)
@@ -598,7 +614,7 @@ public class InteractableActivityManager : MonoBehaviour
                     }
                 }
             }
-            
+
             if (hitsDown != null)
             {
                 foreach (RaycastHit hit in hitsDown)

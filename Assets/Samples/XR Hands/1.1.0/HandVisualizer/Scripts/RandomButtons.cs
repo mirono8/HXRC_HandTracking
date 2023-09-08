@@ -199,15 +199,15 @@ public class RandomButtons : MonoBehaviour
 
         while (intersecting.Count > 0)
         {
-           // yield return new WaitForEndOfFrame();
+            // yield return new WaitForEndOfFrame();
             Debug.Log("while loop!");
             yield return null;
             if (intersecting.Count > 0)
             {
-                    SetIntersectingPositions(0);
-                    StartCoroutine(CheckBoundIntersection(intersecting[0]));
-                    yield return new WaitWhile(CheckingBounds);
-                
+                SetIntersectingPositions(0);
+                StartCoroutine(CheckBoundIntersection(intersecting[0]));
+                yield return new WaitWhile(CheckingBounds);
+
             }
         }
 
@@ -219,7 +219,7 @@ public class RandomButtons : MonoBehaviour
         }
 
         yield return null;
-        
+
         if (intersecting.Count > 0)
         {
             Debug.Log("Second loop in looping setter");
@@ -241,6 +241,14 @@ public class RandomButtons : MonoBehaviour
             }
         }
 
+        foreach (var obj in collidables.objects)
+        {
+            obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
+
+            yield return new WaitForEndOfFrame();
+
+            obj.GetComponent<InteractableActivityManager>().ToggleKinematic(false);
+        }
     }
 
     public void SetIntersectingPositions(int index) // used by the recursive loop, sets the positions of intersecting objects again randomly
