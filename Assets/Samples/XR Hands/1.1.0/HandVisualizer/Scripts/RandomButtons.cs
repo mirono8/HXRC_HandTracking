@@ -18,6 +18,7 @@ public class RandomButtons : MonoBehaviour
 
     PanelManager panelManager;
 
+    [SerializeField]
     bool setReady;
 
     bool loopOngoing;
@@ -43,6 +44,7 @@ public class RandomButtons : MonoBehaviour
         yield return new WaitWhile(LoopStatus);
         if (!oneByOne)
         {
+            
             StartCoroutine(LoopingIntersectSetter());
         }
         else

@@ -14,7 +14,8 @@ public class VrCamStartPos : MonoBehaviour
     [SerializeField]
     bool warpToNext = true;
 
-
+    [SerializeField]
+    bool rotate;
     void Start()
     {
         StartCoroutine(ResetHead());
@@ -35,7 +36,11 @@ public class VrCamStartPos : MonoBehaviour
         Debug.Log(offset + " offset");
     }
 
-    public void WarpToNextPanel(Transform t)
+    public void RotateWhileTrue(bool b)
+    {
+        rotate = b;
+    }
+    public void WarpToNextPanel(GridToPanel.WarpPoint wp)
     {
         if (warpToNext)
         {
@@ -50,8 +55,20 @@ public class VrCamStartPos : MonoBehaviour
 
               gameObject.transform.Rotate(0, rotAngleY, 0);*/
 
-            gameObject.transform.position = t.position;
-            gameObject.transform.rotation = t.rotation;
+            if (wp.lookHere != null || wp.warpHere != null)
+            {
+                gameObject.transform.position = wp.warpHere.position;
+                gameObject.transform.rotation = wp.warpHere.rotation;
+
+                do
+                {
+                   // var t =+ Time.deltaTime;
+
+                    gameObject.transform.LookAt(wp.lookHere);
+
+                    
+                } while (rotate);
+            }
         }
         else
         {

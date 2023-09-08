@@ -21,52 +21,81 @@ public class FadeIn : MonoBehaviour
     [SerializeField]
     bool debug;
 
-    public void StartFade()
+    public IEnumerator FadeCanvasOut()
     {
+        Debug.Log("Fading out");
 
         start = true;
         
-        var num = Mathf.RoundToInt(timer);
-        countdown.text = num.ToString();
-
-        if (timer <= 0)
+        do
         {
-           // start = false;
-            countdown.text = "Start!";
-            fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.25f));
-            countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 0.25f));
-            
-        }
+            var num = Mathf.RoundToInt(timer);
+            countdown.text = num.ToString();
 
-        if(fader.color.a <= 0)
-        {
-            start = false;
-            faded = true;
+            if (timer <= 0)
+            {
+                countdown.text = "Start!";
+                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.75f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 0.75f));
 
-        }
+            }
 
+            if (fader.color.a <= 0)
+            {
+                start = false;
+                faded = true;
+            }
+
+            yield return null;
+
+        } while (!faded);
+
+       
     }
 
-    public void FadeBack()
+    public IEnumerator FadeCanvasIn()
     {
-        
-        if (fader.color.a <= 1 && faded)
-        {
-            start = true;
+        Debug.Log("Fading in");
+        /* if (fader.color.a <= 1 && faded)
+         {
+             start = true;
 
-            countdown.text = "Initializing next set..";
-            fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 0.25f));
-            countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.25f));
-            //gameObject.SetActive(false);
-            debug = true;
-            
-        }
-        else
+             countdown.text = "Initializing next set..";
+             fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 0.25f));
+             countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.25f));
+             //gameObject.SetActive(false);
+             debug = true;
+
+         }
+         else
+         {
+             faded = false;
+             start = false;
+             debug = false;
+         }*/
+
+        do
         {
-            faded = false;
-            start = false;
-            debug = false;
-        }
+            if (fader.color.a < 1 && faded)
+            {
+               // start = true;
+
+                countdown.text = "Initializing next set..";
+                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 0.75f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.75f));
+                //gameObject.SetActive(false);
+                debug = true;
+
+            }
+            else
+            {
+                faded = false;
+            }
+
+            yield return null;
+        } while (faded);
+
+        
     }
 
     public bool FaderStatus()
@@ -79,18 +108,20 @@ public class FadeIn : MonoBehaviour
     {
         if (!start)
         {
-            timer = 3;
+            timer = 3.45f; 
         }
-        else if(!faded)
+        else
         {
             timer -= Time.deltaTime;
-            StartFade();
         }
 
-        if (faded && start)
-        {
-            FadeBack();
-        }
-        //logiikka kuntoon!!! out of sequence
+
+        /* if (faded && start)
+         {
+             FadeBack();
+         }*/
+
+
+        //jos liian nopee, jää jumiin??? sequencing-ongelma setstart tai randombuttons
     }
 }

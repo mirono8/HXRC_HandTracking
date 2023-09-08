@@ -17,14 +17,26 @@ public class GridToPanel : MonoBehaviour
 
     GameObject gridActual;
 
-    public Transform cameraWarpPoint;
+    [SerializeField]
+    Transform cameraWarpPoint;
 
     public Vector3 warpDistance;
 
-    
+    [System.Serializable]
+    public class WarpPoint
+    {
+        [SerializeField]
+        public Transform warpHere;
 
+        [SerializeField]
+        public Transform lookHere;
+    }
+
+
+    public WarpPoint warpPoint = new();
     private void Start()
     {
+        
 
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
@@ -33,6 +45,10 @@ public class GridToPanel : MonoBehaviour
 
         if (panel != null)
         {
+            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z);
+
+            warpPoint.warpHere = cameraWarpPoint;
+            warpPoint.lookHere = gridActual.transform;
             transform.parent = panel.transform;
             // Vector3 withScaleOffset = new Vector3(panelVector.x * panelScale.x, panelVector.y * panelScale.y, panelVector.z * panelScale.z);
             //transform.GetChild(0).position = panelManager.GetPanelTransform(panel).position + desiredDistance;
@@ -50,7 +66,7 @@ public class GridToPanel : MonoBehaviour
 
               cameraWarpPoint.transform.eulerAngles = new Vector3(cameraWarpPoint.transform.rotation.x, panelManager.GetPanelRotation(panel).y, cameraWarpPoint.transform.rotation.z);*/
 
-            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z);  // + warpDistance.z
+             // + warpDistance.z
 
         }
     }
@@ -62,7 +78,7 @@ public class GridToPanel : MonoBehaviour
             gridActual.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
             gridActual.transform.eulerAngles = panelManager.GetPanelRotation(panel);
 
-            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + (-1 * gridActual.transform.forward);
+            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + (-1 * (gridActual.transform.forward / 2));
 
             //tee rotation viel jotenki lerpil tjsp faden aikana!!!!
 

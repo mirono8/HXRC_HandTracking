@@ -44,10 +44,7 @@ public class SessionManager : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < setStart.setGrid.Count; i++)
-            {
-                setStart.warpPoints.Add(setStart.setGrid[i].GetComponent<GridToPanel>().cameraWarpPoint);
-            }
+            
         }
         else
         { 
@@ -56,7 +53,12 @@ public class SessionManager : MonoBehaviour
 
         panelManager.FindAllPanels();
 
-        setStart.GetCurrentSetNumber(currentSet); 
+        setStart.GetCurrentSetNumber(currentSet);
+
+        for (int i = 0; i < setStart.setGrid.Count; i++)
+        {
+            setStart.warpPoints.Add(setStart.setGrid[i].GetComponent<GridToPanel>().warpPoint);
+        }
 
         panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
 

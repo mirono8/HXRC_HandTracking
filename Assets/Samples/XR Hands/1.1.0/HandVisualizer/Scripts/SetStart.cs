@@ -20,7 +20,7 @@ public class SetStart : MonoBehaviour
 
     public List<GameObject> setGrid;
 
-    public List<Transform> warpPoints;
+    public List<GridToPanel.WarpPoint> warpPoints;
 
     [SerializeField]
     GameObject grid;
@@ -140,12 +140,18 @@ public class SetStart : MonoBehaviour
 
     public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
     {
-        fadeIn.FadeBack();
+        StartCoroutine(fadeIn.FadeCanvasIn());
         Debug.Log("waiting");
-        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+        yield return new WaitWhile(fadeIn.FaderStatus);
         yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
+
+        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+        rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
         Debug.Log("i can wait no longer");
-        fadeIn.StartFade();
+        rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);
+        StartCoroutine(fadeIn.FadeCanvasOut());
+
+        Debug.Log("wait for fade over");
     }
 
     public void GetCurrentSetNumber(int i)
