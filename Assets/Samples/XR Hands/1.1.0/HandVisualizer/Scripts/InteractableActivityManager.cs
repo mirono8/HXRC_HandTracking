@@ -79,6 +79,11 @@ public class InteractableActivityManager : MonoBehaviour
     public Transform rayStartUp;
     public Transform rayStartDown;
 
+    public Transform rayStartUpLeft;
+    public Transform rayStartUpRight;
+    public Transform rayStartDownRight;
+    public Transform rayStartDownLeft;
+
     public List<Collider> colliders;
 
     public SessionManager sessionManager;
@@ -528,10 +533,20 @@ public class InteractableActivityManager : MonoBehaviour
             Debug.DrawRay(RaycastStartPos.position, transform.TransformDirection(-1 * Vector3.forward), Color.blue);
            */
 
-            Debug.DrawRay(rayStartLeft.position, transform.TransformDirection(Vector3.right), Color.white);
+            //CARDINALS
+            Debug.DrawRay(rayStartLeft.position, transform.TransformDirection(Vector3.right), Color.white);  
             Debug.DrawRay(rayStartUp.position, transform.TransformDirection(Vector3.forward*-1), Color.blue);
             Debug.DrawRay(rayStartRight.position, transform.TransformDirection(Vector3.left), Color.red);
             Debug.DrawRay(rayStartDown.position, transform.TransformDirection(Vector3.forward), Color.black);
+
+           
+            //ORDINALS
+            Debug.DrawRay(rayStartUpLeft.position, transform.TransformDirection(1,0,-1), Color.yellow);
+            Debug.DrawRay(rayStartUpRight.position, transform.TransformDirection(-1,0,-1), Color.yellow);
+            Debug.DrawRay(rayStartDownRight.position, transform.TransformDirection(-1,0,1), Color.yellow);
+            Debug.DrawRay(rayStartDownLeft.position, transform.TransformDirection(1,0,1), Color.yellow);
+
+
         }
         //   RAYCAST, TRYING RaycastAll
         /* RaycastHit hit = new RaycastHit();
@@ -574,10 +589,15 @@ public class InteractableActivityManager : MonoBehaviour
         }*/
         if (rayCasting)
         {
-            RaycastHit[] hitsLeft = Physics.RaycastAll(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f, ignoreInRaycast);
-            RaycastHit[] hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f,ignoreInRaycast);
-            RaycastHit[] hitsRight = Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f, ignoreInRaycast);
-            RaycastHit[] hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f, ignoreInRaycast);
+            RaycastHit[] hitsLeft = Physics.RaycastAll(rayStartLeft.position, transform.TransformDirection(Vector3.right), 0.1f);
+            RaycastHit[] hitsUp = Physics.RaycastAll(rayStartUp.position, transform.TransformDirection(Vector3.forward * -1), 0.1f);
+            RaycastHit[] hitsRight = Physics.RaycastAll(rayStartRight.position, transform.TransformDirection(Vector3.left), 0.1f);
+            RaycastHit[] hitsDown = Physics.RaycastAll(rayStartDown.position, transform.TransformDirection(Vector3.forward), 0.1f);
+
+            RaycastHit[] hitsUpLeft = Physics.RaycastAll(rayStartUpLeft.position, transform.TransformDirection(1, 0, -1), 0.125f);
+            RaycastHit[] hitsUpRight = Physics.RaycastAll(rayStartUpRight.position, transform.TransformDirection(-1, 0, -1), 0.125f);
+            RaycastHit[] hitsDownRight = Physics.RaycastAll(rayStartDownRight.position, transform.TransformDirection(-1, 0, 1), 0.125f);
+            RaycastHit[] hitsDownLeft = Physics.RaycastAll(rayStartDownLeft.position, transform.TransformDirection(1, 0, 1), 0.125f);
 
             if (hitsLeft != null)
             {
@@ -626,7 +646,55 @@ public class InteractableActivityManager : MonoBehaviour
                     }
                 }
             }
-            
+
+            if (hitsUpLeft != null)
+            {
+                foreach (RaycastHit hit in hitsUpLeft)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+
+            if (hitsUpRight != null)
+            {
+                foreach (RaycastHit hit in hitsUpRight)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+
+            if (hitsDownRight != null)
+            {
+                foreach (RaycastHit hit in hitsDownRight)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+
+            if (hitsDownLeft != null)
+            {
+                foreach (RaycastHit hit in hitsDownLeft)
+                {
+                    if (!colliders.Contains(hit.collider))
+                    {
+                        tooClose = true;
+                        return true;
+                    }
+                }
+            }
+
         }
         /*  if (rayCasting)
           {
