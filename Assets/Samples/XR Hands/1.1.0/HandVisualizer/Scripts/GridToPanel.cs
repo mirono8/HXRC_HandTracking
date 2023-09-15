@@ -10,7 +10,7 @@ public class GridToPanel : MonoBehaviour
 
     PanelManager panelManager;
 
-    public Vector3 panelScale = new Vector3(0.846153855f, 0.846153855f, 0.0252450015f);
+    public Vector3 panelScale = new Vector3(0.846153855f, 0.846153855f, 1f);
 
     [SerializeField]
     Vector3 angle;
