@@ -213,6 +213,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1262970632283854092, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1262970632353794131, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_IsActive
@@ -222,6 +227,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VelocityType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262970633346161737, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3374774787113273380, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -292,6 +302,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183905982412218233, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183905983706822158, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}

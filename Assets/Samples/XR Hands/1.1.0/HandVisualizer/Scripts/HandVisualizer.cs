@@ -509,6 +509,8 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 if (xform == null || !joint.TryGetPose(out var pose))
                     return;
 
+                // varmaa tänne collision seiniin?
+
                 m_DrawJoints[jointIndex].transform.localPosition = pose.position;
                 m_DrawJoints[jointIndex].transform.localRotation = pose.rotation;
 

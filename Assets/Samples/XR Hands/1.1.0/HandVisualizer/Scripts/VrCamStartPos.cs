@@ -55,19 +55,28 @@ public class VrCamStartPos : MonoBehaviour
 
               gameObject.transform.Rotate(0, rotAngleY, 0);*/
 
+            float keepYPos = transform.position.y;
+
             if (wp.lookHere != null || wp.warpHere != null)
             {
                 gameObject.transform.position = wp.warpHere.position;
-                gameObject.transform.rotation = wp.warpHere.rotation;
+                gameObject.transform.Rotate(0, wp.warpHere.transform.rotation.y, 0);
 
-                do
+                gameObject.transform.position = new Vector3(transform.position.x, keepYPos, transform.position.z);
+
+                if (rotate) 
                 {
-                   // var t =+ Time.deltaTime;
+                    // var t =+ Time.deltaTime;
+                    var lookHereNoY = new Vector3(wp.lookHere.position.x, wp.lookHere.position.y + keepYPos , wp.lookHere.position.y);
+                    gameObject.transform.LookAt(lookHereNoY);  // t‰‰ flippaa x rotationin p‰i persett‰ syyst‰ x (lol!)
 
-                    gameObject.transform.LookAt(wp.lookHere);
+                    var offsetRot = transform.rotation.y - cam.transform.rotation.y;
+                    
+                    transform.Rotate(0,offsetRot,0);
 
                     
-                } while (rotate);
+                }
+    
             }
         }
         else

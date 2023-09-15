@@ -18,15 +18,26 @@ public class FadeIn : MonoBehaviour
     bool faded;
     public Image fader;
 
-    [SerializeField]
-    bool debug;
+    public Transform targetTransform;
+
+    // The time it takes to smooth the movement
+    public float smoothTime = 0.3f;
+    public float smoothRotationTime = 0.5f;
+
+    // The current velocity of the movement
+    private Vector3 velocity;
+
+    // The current rotation of the movement
+    private Quaternion rotation;
+
+
 
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
 
         start = true;
-        
+
         do
         {
             var num = Mathf.RoundToInt(timer);
@@ -50,7 +61,7 @@ public class FadeIn : MonoBehaviour
 
         } while (!faded);
 
-       
+
     }
 
     public IEnumerator FadeCanvasIn()
@@ -74,6 +85,9 @@ public class FadeIn : MonoBehaviour
              debug = false;
          }*/
 
+
+
+        // tee smoothaus canvakseen!!!
         do
         {
             if (fader.color.a < 1 && faded)
@@ -104,24 +118,30 @@ public class FadeIn : MonoBehaviour
     }
 
 
+
+
     private void FixedUpdate()
     {
         if (!start)
         {
-            timer = 3.45f; 
+            timer = 3.45f;
         }
         else
         {
             timer -= Time.deltaTime;
         }
+        //TESTAA TOIIMIIKO, CANVAS SMOOTHAUS
 
+        // Calculate the smoothed position of the camera
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetTransform.position), ref velocity, smoothTime);
 
-        /* if (faded && start)
-         {
-             FadeBack();
-         }*/
+        // Update the camera position
+        transform.position = smoothedPosition;
 
+        // Calculate the smoothed rotation of the camera
+        Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, smoothRotationTime * Time.deltaTime);
 
-        //jos liian nopee, jää jumiin??? sequencing-ongelma setstart tai randombuttons
+        // Update the camera rotation
+        transform.rotation = smoothedRotation;
     }
 }

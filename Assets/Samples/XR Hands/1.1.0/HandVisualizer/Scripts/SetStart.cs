@@ -145,8 +145,10 @@ public class SetStart : MonoBehaviour
         yield return new WaitWhile(fadeIn.FaderStatus);
         yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
 
-        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
+
+        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+        
         Debug.Log("i can wait no longer");
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);
         StartCoroutine(fadeIn.FadeCanvasOut());
