@@ -56,9 +56,12 @@ public class SetStart : MonoBehaviour
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize)Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
         Debug.Log(sizeAsEnum);
 
+        InteractableActivityManager.SessionMode modeEnum = (InteractableActivityManager.SessionMode)Enum.Parse(typeof(InteractableActivityManager.SessionMode), mode, true);
+        
         if (mode != "matrix")
         {
-            grid.GetComponent<RandomButtons>().enabled = true;
+            //grid.GetComponent<RandomButtons>().enabled = true;
+            grid.AddComponent<RandomButtons>();
 
             if (mode != "all")
             {
@@ -68,8 +71,9 @@ public class SetStart : MonoBehaviour
         else
         {
             //matrix stuff!!!!
-            grid.GetComponent<ButtonMatrix>().enabled = true;
-            grid.GetComponent<RandomButtons>().enabled = false;
+           // grid.GetComponent<ButtonMatrix>().enabled = true;
+            //grid.GetComponent<RandomButtons>().enabled = false;
+            grid.AddComponent<ButtonMatrix>();
         }
 
         if (temp != null)
@@ -96,6 +100,7 @@ public class SetStart : MonoBehaviour
                 }*/
 
                 var x = Instantiate(temp, grid.transform.GetChild(0));
+                x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                 x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                 x.GetComponent<InteractableActivityManager>().SetMySize();
 
@@ -152,6 +157,7 @@ public class SetStart : MonoBehaviour
         else
         {
             //matrix stuff reloaded!
+
         }
     }
 
@@ -160,7 +166,15 @@ public class SetStart : MonoBehaviour
         StartCoroutine(fadeIn.FadeCanvasIn());
         Debug.Log("waiting");
         yield return new WaitWhile(fadeIn.FaderStatus);
-        yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
+
+        if (grid.GetComponent<RandomButtons>())
+        {
+            yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
+        }
+        else
+        {
+            //matrix stuff!!
+        }
 
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
 

@@ -28,7 +28,16 @@ public class CollidableObjects : MonoBehaviour
             Debug.Log("initial kinematic toggle on!!!!");
             obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
         }
-        StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());
+
+        if (gameObject.GetComponent<RandomButtons>())
+        {
+            StartCoroutine(gameObject.GetComponent<RandomButtons>().ReadyForSetup());
+        }
+        else if (gameObject.GetComponent<ButtonMatrix>())
+        {
+            //matrix resurrection stuff!
+            StartCoroutine(gameObject.GetComponent<ButtonMatrix>().ReadyForSetup());
+        } 
     }
 
     public GameObject GetNearestNeighbor(int i) // finds the nearest interactable, so as to not make it the next highlighted object in other scripts

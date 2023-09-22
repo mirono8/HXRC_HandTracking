@@ -22,9 +22,15 @@ public class InteractableActivityManager : MonoBehaviour
         Left, Right
     }
 
+    public enum SessionMode // the session mode this interactanble operates in
+    {
+        All, OneByOne, Matrix
+    }
+
     public InteractableType type;
     public InteractableSize size;
     public Interactor interactor;
+    public SessionMode sessionMode;
 
     HandDataOut handData;
     SaveManager saveManager;
@@ -48,7 +54,6 @@ public class InteractableActivityManager : MonoBehaviour
 
     float upPosition;
     float downPosition;
-
 
     float myDuration;
 
@@ -91,7 +96,10 @@ public class InteractableActivityManager : MonoBehaviour
     LayerMask ignoreInRaycast;
     private void Awake()
     {
-        randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
+        if (sessionMode != SessionMode.Matrix)
+        {
+            randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
+        }
     }
     
     void Start()

@@ -6,7 +6,7 @@ using UnityEngine;
 public class RandomButtons : MonoBehaviour
 {
     public bool setAgain;
-    CollidableObjects collidables;
+    protected CollidableObjects collidables;
 
     public List<Vector3> originalPositions = new List<Vector3>();
 
