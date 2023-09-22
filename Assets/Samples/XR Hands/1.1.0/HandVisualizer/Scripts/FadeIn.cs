@@ -18,7 +18,6 @@ public class FadeIn : MonoBehaviour
     bool faded;
     public Image fader;
 
-    public Transform targetTransform;
 
     // The time it takes to smooth the movement
     public float smoothTime = 0.3f;
@@ -27,10 +26,8 @@ public class FadeIn : MonoBehaviour
     // The current velocity of the movement
     private Vector3 velocity;
 
-    // The current rotation of the movement
-    private Quaternion rotation;
 
-
+    public GameObject canvasCamera;
 
     public IEnumerator FadeCanvasOut()
     {
@@ -46,8 +43,8 @@ public class FadeIn : MonoBehaviour
             if (timer <= 0)
             {
                 countdown.text = "Start!";
-                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.75f));
-                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 0.75f));
+                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 1f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1f));
 
             }
 
@@ -95,10 +92,10 @@ public class FadeIn : MonoBehaviour
                // start = true;
 
                 countdown.text = "Initializing next set..";
-                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 0.75f));
-                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.75f));
+                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 1.25f));
                 //gameObject.SetActive(false);
-                debug = true;
+                
 
             }
             else
@@ -118,8 +115,6 @@ public class FadeIn : MonoBehaviour
     }
 
 
-
-
     private void FixedUpdate()
     {
         if (!start)
@@ -130,18 +125,17 @@ public class FadeIn : MonoBehaviour
         {
             timer -= Time.deltaTime;
         }
-        //TESTAA TOIIMIIKO, CANVAS SMOOTHAUS
 
-        // Calculate the smoothed position of the camera
-        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetTransform.position), ref velocity, smoothTime);
 
-        // Update the camera position
+        Vector3 targetPos = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 10f));
+
+
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetPos), ref velocity, smoothTime);
+
+
         transform.position = smoothedPosition;
 
-        // Calculate the smoothed rotation of the camera
-        Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, targetTransform.rotation, smoothRotationTime * Time.deltaTime);
-
-        // Update the camera rotation
-        transform.rotation = smoothedRotation;
+        var lookAtPosition = new Vector3(canvasCamera.transform.position.x, canvasCamera.transform.position.y, canvasCamera.transform.position.z);
+        transform.LookAt(lookAtPosition);
     }
 }
