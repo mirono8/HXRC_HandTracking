@@ -56,9 +56,20 @@ public class SetStart : MonoBehaviour
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize)Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
         Debug.Log(sizeAsEnum);
 
-        if (mode != "all")
+        if (mode != "matrix")
         {
-            grid.GetComponent<RandomButtons>().oneByOne = true;
+            grid.GetComponent<RandomButtons>().enabled = true;
+
+            if (mode != "all")
+            {
+                grid.GetComponent<RandomButtons>().oneByOne = true;
+            }
+        }
+        else
+        {
+            //matrix stuff!!!!
+            grid.GetComponent<ButtonMatrix>().enabled = true;
+            grid.GetComponent<RandomButtons>().enabled = false;
         }
 
         if (temp != null)
@@ -89,10 +100,9 @@ public class SetStart : MonoBehaviour
                 x.GetComponent<InteractableActivityManager>().SetMySize();
 
                 currentSetGameObjs.Add(x);
-            }
-            
-            
+            }        
         }
+
         StartCoroutine(WaitForFade());
     }
 
@@ -125,17 +135,24 @@ public class SetStart : MonoBehaviour
 
     public void RunSet() // gives the go signal for the grid
     {
-        if (mode != "all")
+        if (mode != "matrix")
         {
-            grid.GetComponent<RandomButtons>().oneByOne = true;
+            if (mode != "all")
+            {
+                grid.GetComponent<RandomButtons>().oneByOne = true;
+            }
+            else
+            {
+                grid.GetComponent<RandomButtons>().oneByOne = false;
+            }
+
+            StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
+
         }
         else
         {
-            grid.GetComponent<RandomButtons>().oneByOne = false;
+            //matrix stuff reloaded!
         }
-
-        StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
-
     }
 
     public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position

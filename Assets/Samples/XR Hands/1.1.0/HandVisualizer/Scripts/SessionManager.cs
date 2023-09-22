@@ -44,11 +44,10 @@ public class SessionManager : MonoBehaviour
                 
             }
 
-            
         }
         else
         { 
-        Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
+            Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
         panelManager.FindAllPanels();

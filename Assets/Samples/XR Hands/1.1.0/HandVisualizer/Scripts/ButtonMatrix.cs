@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ButtonMatrix : RandomButtons
 {
-    // Start is called before the first frame update
+    // inherits randombuttons for minor, shitty convencience
+
     void Start()
     {
         //panelScale.x to get width and expand rows if the size is too big

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 704073298034753088}
   - component: {fileID: 1073167774328820147}
   - component: {fileID: 3414370401706347810}
+  - component: {fileID: 5130087329487042285}
   m_Layer: 0
   m_Name: GridParent
   m_TagString: Grid
@@ -43,7 +44,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010598251696885542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14064517f67cf464cba68a85ea634887, type: 3}
   m_Name: 
@@ -53,6 +54,7 @@ MonoBehaviour:
   intersecting: 
   panelScale: {x: 0, y: 0, z: 0}
   oneByOne: 0
+  setReady: 0
 --- !u!114 &1073167774328820147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +86,27 @@ MonoBehaviour:
   angle: {x: 0, y: 0, z: 0}
   cameraWarpPoint: {fileID: 864101124178756005}
   warpDistance: {x: 0, y: 0, z: -1.185}
+  warpPoint:
+    warpHere: {fileID: 0}
+    lookHere: {fileID: 0}
+--- !u!114 &5130087329487042285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010598251696885542}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934453f9c9fe2144ba70873203316e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setAgain: 0
+  originalPositions: []
+  intersecting: 
+  panelScale: {x: 0, y: 0, z: 0}
+  oneByOne: 0
+  setReady: 0
 --- !u!1 &3314619645219807399
 GameObject:
   m_ObjectHideFlags: 0
