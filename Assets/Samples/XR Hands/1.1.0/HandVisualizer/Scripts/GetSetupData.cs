@@ -19,6 +19,7 @@ public class GetSetupData : MonoBehaviour
         public string size;
         public string type;
         public string mode;
+        //add button count!!
     }
     
     public List<ParsedData> sets;
