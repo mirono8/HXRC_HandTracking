@@ -19,6 +19,7 @@ public class GetSetupData : MonoBehaviour
         public string size;
         public string type;
         public string mode;
+        public int iCount;
         //add button count!!
     }
     
@@ -101,7 +102,14 @@ public class GetSetupData : MonoBehaviour
                 string type = node[indexOfLatest]["gameData"]["setsList"][i][1].ToString().ToLower().Replace("\"", "");
                 sets[i].type = type;
 
+                // string mode = node[indexOfLatest]["gameData"]["setsList"][i][2].ToString().ToLower().Replace("\"", "");
+                //sets[i].mode = mode
+                //LISÄÄ REACT JA SIT UNCOMMENT
                 sets[i].mode = "all";
+
+                //int iCount = node[indexOfLatest]["gameData"]["setsList"][i][3].ToInt()
+                sets[i].iCount = 10;
+
             }
         }
         else
@@ -154,6 +162,11 @@ public class GetSetupData : MonoBehaviour
     public string ReturnMode(int i)
     {
         return sets[i].mode;
+    }
+
+    public int ReturnInteractableCount(int i)
+    {
+        return sets[i].iCount;
     }
 
     private void Update()
