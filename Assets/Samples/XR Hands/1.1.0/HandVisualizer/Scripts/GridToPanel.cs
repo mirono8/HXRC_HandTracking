@@ -80,9 +80,9 @@ public class GridToPanel : MonoBehaviour
 
             cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + (-1 * (gridActual.transform.forward / 2));
 
-            //tee rotation viel jotenki lerpil tjsp faden aikana!!!!
+            //KÄÄNNÄ BNAPIT OIKEIN PÄIN KOSKA PREFAB MUUYTTU!!!
 
-
+            
             // cameraWarpPoint.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + warpDistance;
             //  cameraWarpPoint.transform.eulerAngles = panelManager.GetPanelRotation(panel);  // ei oo tarkallee siin mis pitäs, ehkä forward auttaa
 

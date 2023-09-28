@@ -46,6 +46,7 @@ public class InteractableActivityManager : MonoBehaviour
     [SerializeField]
     RandomButtons randomButtons;
 
+    ButtonMatrix matrix;
     public int myOrderIndex;
 
     public bool interactSuccess;
@@ -100,6 +101,10 @@ public class InteractableActivityManager : MonoBehaviour
         {
             randomButtons = transform.parent.GetComponentInParent<RandomButtons>();
         }
+        else
+        {
+            matrix = transform.parent.GetComponentInParent<ButtonMatrix>();
+        }
     }
     
     void Start()
@@ -129,19 +134,29 @@ public class InteractableActivityManager : MonoBehaviour
         collidables = GetComponentInParent<CollidableObjects>();
 
         myOrderIndex = collidables.objects.FindIndex(x => x == gameObject);
-
-        if (myOrderIndex == 0 && randomButtons.oneByOne) 
+        if (randomButtons != null)
         {
-            rendererToChange.material = highlightMaterial;
-            gameObject.SetActive(true);
-        }
-        else if (myOrderIndex == 0 && !randomButtons.oneByOne)
-        {
-            rendererToChange.material = highlightMaterial;
-            StartCoroutine(StartInteractionEvent());
-            gameObject.SetActive(true);
-        }
+            if (myOrderIndex == 0 && randomButtons.oneByOne)
+            {
+                rendererToChange.material = highlightMaterial;
+                gameObject.SetActive(true);
+            }
+            else if (myOrderIndex == 0 && !randomButtons.oneByOne)
+            {
+                rendererToChange.material = highlightMaterial;
+                StartCoroutine(StartInteractionEvent());
+                gameObject.SetActive(true);
+            }
 
+        }
+        else
+        {
+            if (myOrderIndex == 0)
+            {
+                rendererToChange.material = highlightMaterial;
+                gameObject.SetActive(true);
+            }
+        }
         handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
         saveManager = FindObjectOfType<SaveManager>();
 
@@ -230,7 +245,7 @@ public class InteractableActivityManager : MonoBehaviour
         if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
         {
             // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-            if (!randomButtons.oneByOne)
+            if (!randomButtons.oneByOne || sessionMode == SessionMode.Matrix)
             {
                 if (!highlighted)
                 {
@@ -252,7 +267,7 @@ public class InteractableActivityManager : MonoBehaviour
         if (myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
         {
 
-            if (!randomButtons.oneByOne)
+            if (!randomButtons.oneByOne || sessionMode == SessionMode.Matrix)
             {
                 if (!highlighted)
                 {
@@ -343,7 +358,14 @@ public class InteractableActivityManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        yield return new WaitUntil(randomButtons.PassFaderStatus);
+        if (!randomButtons)
+        {
+            yield return new WaitUntil(matrix.PassFaderStatus);
+        }
+        else
+        {
+            yield return new WaitUntil(randomButtons.PassFaderStatus);
+        }
 
         Debug.Log("interaction starting, fade over");
         myDuration = 0;
@@ -421,7 +443,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (randomButtons.IsOneByOne())
+        if (randomButtons != null && randomButtons.IsOneByOne())
         {
             Debug.Log("onebyone");
             StartCoroutine(StartInteractionEvent());
@@ -434,7 +456,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if (randomButtons.IsOneByOne())
+        if (randomButtons != null && randomButtons.IsOneByOne())
         {
             EndInteractionEvent();
 
@@ -781,30 +803,43 @@ public class InteractableActivityManager : MonoBehaviour
             SwitchContraints();
         }
 
-        if (handData.leftHandTracking)
+        if (handData != null && handData.leftHandTracking)
             leftHandPos.Add(handData.leftHand.handPosition.ToString());
 
-        if (handData.rightHandTracking)
+        if (handData != null && handData.rightHandTracking)
             rightHandPos.Add(handData.rightHand.handPosition.ToString());
 
-        if (randomButtons.oneByOne)
+
+        if (sessionMode != SessionMode.Matrix)
         {
-            if (interactSuccess)
-                OneByOneSuccesscheck();
+            if (randomButtons.oneByOne)
+            {
+                if (interactSuccess)
+                    OneByOneSuccesscheck();
+            }
         }
         else
         {
             if (interactSuccess)
                 AllAtOnceSuccessCheck();
         }
+        
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
 
         if (Input.GetButtonDown("InteractSuccess")) // for debugging purposes
         {
-            if (randomButtons.oneByOne)
+            if (sessionMode != SessionMode.Matrix)
             {
-                interactSuccess = true;
+                if (randomButtons.oneByOne)
+                {
+                    interactSuccess = true;
+                }
+                else
+                {
+                    if (highlighted)
+                        interactSuccess = true;
+                }
             }
             else
             {

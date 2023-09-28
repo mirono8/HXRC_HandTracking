@@ -1,3 +1,4 @@
+using HandData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ public class ButtonMatrix : MonoBehaviour
     CollidableObjects collidables;
 
     GridToPanel grid;
+
+    FadeIn fader;
+
 
     //int socketCount = 5;
 
@@ -31,6 +35,12 @@ public class ButtonMatrix : MonoBehaviour
     float rowInterval;
 
     float columnInterval;
+
+    private void Start()
+    {
+        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
+       
+    }
     public IEnumerator ReadyForSetup()
     {
 
@@ -194,7 +204,10 @@ public class ButtonMatrix : MonoBehaviour
                 rowNum = 0;
                 columnNum++;
             }
+            collidables.objects[i].SetActive(true);
         }
+
+        
     }
 
     public bool AllocateRows()
@@ -205,6 +218,11 @@ public class ButtonMatrix : MonoBehaviour
     public bool AllocateColumns()
     {
         return columnsSet;
+    }
+
+    public bool PassFaderStatus() // passes fader status from the fader script, interactables need to wait for this to start tracking time for the interaction event
+    {
+        return fader.FaderStatus();
     }
 
 }
