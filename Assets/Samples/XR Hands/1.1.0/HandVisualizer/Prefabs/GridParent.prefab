@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 0}
-  desiredDistance: {x: 0, y: 0, z: -0.01}
+  desiredDistance: {x: 0, y: 0, z: 0.01}
   panelScale: {x: 0.84615386, y: 0.84615386, z: 0.025245002}
   angle: {x: 0, y: 0, z: 0}
   cameraWarpPoint: {fileID: 864101124178756005}

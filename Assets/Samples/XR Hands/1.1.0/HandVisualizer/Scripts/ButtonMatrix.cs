@@ -20,6 +20,7 @@ public class ButtonMatrix : MonoBehaviour
     [SerializeField]
     int currentRow = 0;
 
+    [SerializeField]
     int objsPerColumn;
 
     [SerializeField]
@@ -151,6 +152,7 @@ public class ButtonMatrix : MonoBehaviour
                 Debug.Log("modulo" + (i % 2));
                 if (i % 2 == 0)
                 {
+                    //even
                     if (j > 0)
                     {
                         rows[i] = origin - rowInterval * (j + 1); ////sockets[4]
@@ -164,6 +166,7 @@ public class ButtonMatrix : MonoBehaviour
                 }
                 else
                 {
+                    //odd
                     if (j > 0)
                     {
                         rows[i] = origin + rowInterval * (j + 1); //sockets[3,5]
@@ -183,6 +186,16 @@ public class ButtonMatrix : MonoBehaviour
         /* currentRow++;
 
      }*/
+
+        if (objsPerColumn % 2 == 0) //if even, bump everything towards the middle
+        {
+            Debug.Log("bumba");
+            for (int i = 0; i < rows.Count; i++)
+            {
+                rows[i] = rows[i] - rowInterval/2;
+            }
+        }
+
         rowsSet = true;
     }
 
@@ -195,11 +208,11 @@ public class ButtonMatrix : MonoBehaviour
         {
 
             collidables.objects[i].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0);
-            collidables.objects[i].transform.eulerAngles = new Vector3(-90f, collidables.objects[i].transform.eulerAngles.y,  
+            collidables.objects[i].transform.eulerAngles = new Vector3(90f, collidables.objects[i].transform.eulerAngles.y,  
                     collidables.objects[i].transform.eulerAngles.z);
 
             rowNum++;
-            if (rowNum == objsPerColumn - 1)
+            if (rowNum == objsPerColumn)
             {
                 rowNum = 0;
                 columnNum++;

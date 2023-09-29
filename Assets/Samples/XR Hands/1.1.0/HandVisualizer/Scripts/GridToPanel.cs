@@ -6,7 +6,7 @@ public class GridToPanel : MonoBehaviour
 {
     public GameObject panel;
 
-    public Vector3 desiredDistance;
+    public Vector3 desiredDistance; // z0,01
 
     PanelManager panelManager;
 
@@ -36,7 +36,9 @@ public class GridToPanel : MonoBehaviour
     public WarpPoint warpPoint = new();
     private void Start()
     {
-        
+
+        desiredDistance = new Vector3(0,0,-0.035f);
+
 
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
@@ -78,7 +80,7 @@ public class GridToPanel : MonoBehaviour
             gridActual.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + desiredDistance;
             gridActual.transform.eulerAngles = panelManager.GetPanelRotation(panel);
 
-            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + (-1 * (gridActual.transform.forward / 2));
+            cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + ((gridActual.transform.forward / 2));
 
             //KÄÄNNÄ BNAPIT OIKEIN PÄIN KOSKA PREFAB MUUYTTU!!!
 
