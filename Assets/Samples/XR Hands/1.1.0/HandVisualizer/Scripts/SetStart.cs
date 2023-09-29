@@ -12,7 +12,8 @@ public class SetStart : MonoBehaviour
     string type;
     string mode;
     int interactableCount; //lis‰‰ sivulle!!
-    int rowCount = 3; //t‰‰ kabns!!!
+
+    public int columnCount; //t‰‰ kabns!!!
 
     public GameObject gridPrefab;
 
@@ -41,8 +42,8 @@ public class SetStart : MonoBehaviour
         type = setupData.ReturnType(0);
         mode = setupData.ReturnMode(0);
         //interactableCount = setupData.ReturnInteractableCount(0); lis‰‰ ku on lis‰tty json
-        interactableCount = 10;
-
+        interactableCount = 5;
+        columnCount = interactableCount;
         rig = GameObject.FindGameObjectWithTag("Player");
 
     }
@@ -114,7 +115,7 @@ public class SetStart : MonoBehaviour
             }
             else
             {
-                for (int j = 0; j < rowCount; j++)
+                for (int j = 0; j < columnCount; j++)
                 {
                     for (int i = 0; i < interactableCount; i++)
                     {

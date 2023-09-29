@@ -9,6 +9,11 @@ public class CollidableObjects : MonoBehaviour
 
     public List<GameObject> objects = new();
 
+    [SerializeField]
+    List<int> randomOrder = new List<int>();
+
+    bool orderRandomized;
+
     private void OnEnable()
     {
         if (!objects.Any())
@@ -62,6 +67,41 @@ public class CollidableObjects : MonoBehaviour
         Debug.Log("my (" + i +") nearest was " + nearest.gameObject.GetComponent<InteractableActivityManager>().myOrderIndex);
 
         return nearest.gameObject;
+    }
+
+    public void RandomizeOrderIndex()  // this is cool mut pit‰‰ vaihtaa nappien paikkaa, ei index koska lol
+    {
+        for (int i = 0; i < objects.Count; i++)
+        {
+            randomOrder.Add(i);
+        }
+
+        for (int i = randomOrder.Count-1; i >= 0; i--)
+        {
+            var r = Random.Range(0, i);
+            var temp = randomOrder[r];
+            randomOrder[r] = randomOrder[i];
+            randomOrder[i] = temp;
+            
+        }
+        Debug.Log("order randomized");
+        RandomOrderSet(true);
+
+    }
+
+    public void RandomOrderSet(bool b)
+    {
+        orderRandomized = b;
+    }
+
+    public bool RandomOrderReady()
+    {
+        return orderRandomized;
+    }
+
+    public int GetRandomOrder(int i)
+    {
+        return randomOrder[i];
     }
 }
          

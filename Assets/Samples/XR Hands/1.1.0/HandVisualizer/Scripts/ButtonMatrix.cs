@@ -12,10 +12,10 @@ public class ButtonMatrix : MonoBehaviour
 
     FadeIn fader;
 
-
+    SetStart setData;
     //int socketCount = 5;
 
-    int columnCount = 3; //t‰‰ setupdatast!!!!
+    int columnCount; //t‰‰ setupdatast!!!!   also cap matrix to 9x9!!!
 
     [SerializeField]
     int currentRow = 0;
@@ -47,15 +47,17 @@ public class ButtonMatrix : MonoBehaviour
 
         collidables = GetComponent<CollidableObjects>();
         grid = GetComponent<GridToPanel>();
+        setData = GameObject.FindGameObjectWithTag("SessionManager").GetComponentInChildren<SetStart>();
 
+        objsPerColumn = setData.columnCount;
+        columnCount = setData.columnCount;
 
-
-        for (int i = 0; i < columnCount; i++)
+        for (int i = 0; i < objsPerColumn; i++)
         {
             columns.Add(0f);
         }
 
-        objsPerColumn = collidables.objects.Count / columnCount;
+        
 
         for (int i = 0; i < objsPerColumn; i++)
         {
@@ -70,6 +72,10 @@ public class ButtonMatrix : MonoBehaviour
         SetUpRows();
 
         yield return new WaitUntil(AllocateRows);
+
+        collidables.RandomizeOrderIndex();
+
+        yield return new WaitUntil(collidables.RandomOrderReady);
         ArrangeInteractables();
 
 
@@ -207,9 +213,13 @@ public class ButtonMatrix : MonoBehaviour
         for (int i = 0; i < collidables.objects.Count; i++)
         {
 
-            collidables.objects[i].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0);
-            collidables.objects[i].transform.eulerAngles = new Vector3(90f, collidables.objects[i].transform.eulerAngles.y,  
-                    collidables.objects[i].transform.eulerAngles.z);
+
+
+            var r = collidables.GetRandomOrder(i);
+
+            collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0);
+            collidables.objects[r].transform.eulerAngles = new Vector3(90f, collidables.objects[r].transform.eulerAngles.y,
+                    collidables.objects[r].transform.eulerAngles.z);
 
             rowNum++;
             if (rowNum == objsPerColumn)
@@ -217,12 +227,18 @@ public class ButtonMatrix : MonoBehaviour
                 rowNum = 0;
                 columnNum++;
             }
-            collidables.objects[i].SetActive(true);
+            collidables.objects[r].SetActive(true);
+
+
         }
 
-        
+
     }
 
+    public void MatrixInteractionCheck()
+    {
+
+    }
     public bool AllocateRows()
     {
         return rowsSet;

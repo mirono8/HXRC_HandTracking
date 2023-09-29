@@ -47,6 +47,7 @@ public class InteractableActivityManager : MonoBehaviour
     RandomButtons randomButtons;
 
     ButtonMatrix matrix;
+
     public int myOrderIndex;
 
     public bool interactSuccess;
@@ -94,6 +95,8 @@ public class InteractableActivityManager : MonoBehaviour
 
     public SessionManager sessionManager;
 
+
+
     LayerMask ignoreInRaycast;
     private void Awake()
     {
@@ -104,6 +107,7 @@ public class InteractableActivityManager : MonoBehaviour
         else
         {
             matrix = transform.parent.GetComponentInParent<ButtonMatrix>();
+            rayCasting = false;
         }
     }
     
@@ -133,7 +137,10 @@ public class InteractableActivityManager : MonoBehaviour
         myRigidbody = GetComponentInChildren<Rigidbody>();
         collidables = GetComponentInParent<CollidableObjects>();
 
+
         myOrderIndex = collidables.objects.FindIndex(x => x == gameObject);
+
+
         if (randomButtons != null)
         {
             if (myOrderIndex == 0 && randomButtons.oneByOne)
@@ -181,6 +188,7 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
+    
     public void ToggleKinematic(bool toggleOn) // at set start, to prevent interactables from colliding during the initial position set
     {
         if (myRigidbody != null)
@@ -353,9 +361,12 @@ public class InteractableActivityManager : MonoBehaviour
     {
         Debug.Log("start interaction event");
 
-        if (randomButtons.oneByOne && myOrderIndex == 0)
+        if (randomButtons != null)
         {
-            yield return new WaitForSeconds(1);
+            if (randomButtons.oneByOne && myOrderIndex == 0)
+            {
+                yield return new WaitForSeconds(1);
+            }
         }
 
         if (!randomButtons)
@@ -817,12 +828,18 @@ public class InteractableActivityManager : MonoBehaviour
                 if (interactSuccess)
                     OneByOneSuccesscheck();
             }
+            else
+            {
+                if (interactSuccess)
+                    AllAtOnceSuccessCheck();
+            }
         }
         else
         {
             if (interactSuccess)
-                AllAtOnceSuccessCheck();
+                AllAtOnceSuccessCheck();// matrix.MatrixInteractionCheck();
         }
+        
         
 
         myRot = myRigidbody.transform.localEulerAngles; // käytä tätä switch interactionsuccess checkis
