@@ -11,7 +11,9 @@ public class SetStart : MonoBehaviour
     string size;
     string type;
     string mode;
-    int interactableCount; //lis‰‰ sivulle!!
+
+    [SerializeField]
+    int interactableCount; //lis‰‰ netti sivulle!!
 
     public int columnCount; //t‰‰ kabns!!!
 
@@ -148,105 +150,115 @@ public class SetStart : MonoBehaviour
             }
 
             StartCoroutine(WaitForFade());
-        } 
+        }
     }
 
-        public void ClearCurrentSet() // clears data from the current set after completion 
+    public void ClearCurrentSet() // clears data from the current set after completion 
+    {
+        if (currentSetGameObjs.Any())
         {
-            if (currentSetGameObjs.Any())
+            for (int i = 0; i < currentSetGameObjs.Count; i++)
             {
-                for (int i = 0; i < currentSetGameObjs.Count; i++)
-                {
-                    currentSetGameObjs[i].GetComponent<InteractableActivityManager>().intersectionCollider.enabled = false;
+                currentSetGameObjs[i].GetComponent<InteractableActivityManager>().intersectionCollider.enabled = false;
 
-                    if (currentSetGameObjs[i].activeSelf)
-                        currentSetGameObjs[i].SetActive(false);
-                }
-                currentSetGameObjs.Clear();
-                grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
+                if (currentSetGameObjs[i].activeSelf)
+                    currentSetGameObjs[i].SetActive(false);
+            }
+            currentSetGameObjs.Clear();
+            grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
+        }
+    }
+
+    public void GameObjectsToTrack() // starts tracking gameobjects of the current set
+    {
+        if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
+        {
+            for (int i = 0; i < interactableCount; i++)
+            {
+                grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
             }
         }
+    }
 
-        public void GameObjectsToTrack() // starts tracking gameobjects of the current set
+    public void RunSet() // gives the go signal for the grid
+    {
+        if (mode != "matrix")
         {
-            if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
+            if (mode != "all")
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
-                }
-            }
-        }
-
-        public void RunSet() // gives the go signal for the grid
-        {
-            if (mode != "matrix")
-            {
-                if (mode != "all")
-                {
-                    grid.GetComponent<RandomButtons>().oneByOne = true;
-                }
-                else
-                {
-                    grid.GetComponent<RandomButtons>().oneByOne = false;
-                }
-
-                StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
-
+                grid.GetComponent<RandomButtons>().oneByOne = true;
             }
             else
             {
-                //matrix stuff reloaded!
-
+                grid.GetComponent<RandomButtons>().oneByOne = false;
             }
-        }
 
-        public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
+            StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
+
+        }
+        else
         {
-            StartCoroutine(fadeIn.FadeCanvasIn());
-            Debug.Log("waiting");
-            yield return new WaitWhile(fadeIn.FaderStatus);
+            //matrix stuff reloaded!
 
-            if (grid.GetComponent<RandomButtons>())
-            {
-                yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
-            }
-            else
-            {
-                //matrix stuff!!
-            }
-
-            rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
-
-            rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
-
-            Debug.Log("i can wait no longer");
-            rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);
-            StartCoroutine(fadeIn.FadeCanvasOut());
-
-            Debug.Log("wait for fade over");
         }
+    }
 
-        public void GetCurrentSetNumber(int i)
+    public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
+    {
+        StartCoroutine(fadeIn.FadeCanvasIn());
+        Debug.Log("waiting");
+        yield return new WaitWhile(fadeIn.FaderStatus);
+
+        if (grid.GetComponent<RandomButtons>())
         {
-            currentSetNumber = i;
+            yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
         }
-        public void AssignSetParams(int round, bool reusePanel = false) // assigns current sets enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
+        else
         {
-            size = setupData.ReturnSize(round);
-            type = setupData.ReturnType(round);
-            mode = setupData.ReturnMode(round);
-            interactableCount = setupData.ReturnInteractableCount(round);
-
-            Debug.Log("new params " + size + type);
-
-            if (!reusePanel) {
-                grid = setGrid[round];
-            }
-            else
-            {
-                GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel();
-                Debug.Log("reusing panel " + grid.transform.parent.gameObject.name);
-            }
+            //matrix stuff!!
         }
-    } 
+
+        rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
+
+        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+
+        Debug.Log("i can wait no longer");
+        rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);
+        StartCoroutine(fadeIn.FadeCanvasOut());
+
+        Debug.Log("wait for fade over");
+    }
+
+    public string CurrentSessionMode()
+    {
+        return mode;
+    }
+
+    public int CurrentInteractableCount()
+    {
+        return interactableCount;
+    }
+    public void GetCurrentSetNumber(int i)
+    {
+        currentSetNumber = i;
+    }
+    public void AssignSetParams(int round, bool reusePanel = false) // assigns current sets enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
+    {
+        size = setupData.ReturnSize(round);
+        type = setupData.ReturnType(round);
+        mode = setupData.ReturnMode(round);
+        interactableCount = setupData.ReturnInteractableCount(round);
+
+        Debug.Log("new params " + size + type);
+
+        if (!reusePanel)
+        {
+            grid = setGrid[round];
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel();
+            Debug.Log("reusing panel " + grid.transform.parent.gameObject.name);
+        }
+    }
+}

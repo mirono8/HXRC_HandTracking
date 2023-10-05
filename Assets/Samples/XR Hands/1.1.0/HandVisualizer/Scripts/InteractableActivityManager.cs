@@ -826,7 +826,10 @@ public class InteractableActivityManager : MonoBehaviour
         {
             highlighted = true;
         }
-        else { highlighted = false; }
+        else
+        {
+            highlighted = false;
+        }
 
         if (type == InteractableType.Button)
         {
@@ -862,7 +865,9 @@ public class InteractableActivityManager : MonoBehaviour
         else
         {
             if (interactSuccess)
-                AllAtOnceSuccessCheck();// matrix.MatrixInteractionCheck();
+            {
+                AllAtOnceSuccessCheck();
+            }
         }
         
         

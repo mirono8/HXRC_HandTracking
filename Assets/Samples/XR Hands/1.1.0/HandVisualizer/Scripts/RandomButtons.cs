@@ -10,6 +10,8 @@ public class RandomButtons : MonoBehaviour
 
     public List<Vector3> originalPositions = new List<Vector3>();
 
+    public List<Vector3> originalRotations = new List<Vector3>();
+
     public List<int> intersecting = new List<int>();
 
     public Vector3 panelScale;
@@ -36,6 +38,12 @@ public class RandomButtons : MonoBehaviour
         {
             originalPositions.Add(x.transform.localPosition);
         }
+
+        foreach (GameObject x in collidables.objects)
+        {
+            originalRotations.Add(x.transform.localRotation.eulerAngles);
+        }
+
         panelScale = GetComponent<GridToPanel>().panelScale;
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
 
@@ -69,8 +77,7 @@ public class RandomButtons : MonoBehaviour
 
             if (oneByOne)
             {
-                collidables.objects[i].transform.eulerAngles = new Vector3(90f, collidables.objects[i].transform.eulerAngles.y,   
-                    collidables.objects[i].transform.eulerAngles.z);
+                RotateByType(collidables.objects[i]);
             }
 
             if (!oneByOne)
@@ -165,11 +172,34 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-        collidables.objects[index].transform.eulerAngles = new Vector3(90f, collidables.objects[index].transform.eulerAngles.y,   //TÄÄ OLI SE ISO ISSUE MOLEMMISSA TARKISTUSTAVOISSA, PITÄÄ HETI KÄÄNTÄÄ OIKEIN PÄIN, EI VIEL PERFECT MUT JATKA
-                    collidables.objects[index].transform.eulerAngles.z);
+        RotateByType(collidables.objects[index]);
 
         yield return false;
         checkingBounds = false;
+    }
+
+    public void RotateByType(GameObject g)
+    {
+        var type = g.GetComponent<InteractableActivityManager>().type;
+
+        switch (type)
+        {
+            case InteractableActivityManager.InteractableType.Button:
+
+                g.transform.eulerAngles = new Vector3(90f, g.transform.eulerAngles.y,
+                   g.transform.eulerAngles.z);
+
+                break;
+
+            case InteractableActivityManager.InteractableType.Switch:
+
+                Debug.Log("rotatas");
+                g.transform.eulerAngles = new Vector3(-90f, g.transform.eulerAngles.y + 180f,
+                 g.transform.eulerAngles.z);
+
+                break;
+
+        }
     }
 
     public bool LoopStatus() // is the randomizer still ongoing, this is for script sequencing purposes
@@ -233,8 +263,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x,
                 collidables.objects[i].transform.localPosition.y, 0f);
 
-                collidables.objects[i].transform.eulerAngles = new Vector3(90f, collidables.objects[i].transform.eulerAngles.y,   //muuta hardcoded rot pois!½!!
-                    collidables.objects[i].transform.eulerAngles.z);// panelManager.GetPanelBackward(GetComponent<GridToPanel>().SendPanel());
+                RotateByType(collidables.objects[i]);
 
                 collidables.objects[i].GetComponent<InteractableActivityManager>().ToggleKinematic(false);
                 setReady = true;

@@ -81,7 +81,7 @@ public class GridToPanel : MonoBehaviour
             gridActual.transform.eulerAngles = panelManager.GetPanelRotation(panel);
 
             cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + ((gridActual.transform.forward / 2));
-
+            cameraWarpPoint.LookAt(gridActual.transform);
             //KÄÄNNÄ BNAPIT OIKEIN PÄIN KOSKA PREFAB MUUYTTU!!!
 
             

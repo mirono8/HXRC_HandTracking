@@ -54,18 +54,21 @@ public class GetSetupData : MonoBehaviour
         defaultData.size = "medium";
         defaultData.type = "switch";
         defaultData.mode = "matrix";
+        defaultData.iCount = 5;
         sets.Add(defaultData);
 
         ParsedData defaultData1 = new();
         defaultData1.size = "medium";
         defaultData1.type = "switch";
         defaultData1.mode = "all";
+        defaultData1.iCount = 5;
         sets.Add(defaultData1);
 
         ParsedData defaultData2 = new();
         defaultData2.size = "medium";
         defaultData2.type = "button";
         defaultData2.mode = "oneByOne";
+        defaultData2.iCount = 5;
         sets.Add(defaultData2);
     }
 
@@ -104,11 +107,17 @@ public class GetSetupData : MonoBehaviour
 
                 // string mode = node[indexOfLatest]["gameData"]["setsList"][i][2].ToString().ToLower().Replace("\"", "");
                 //sets[i].mode = mode
-                //LISÄÄ REACT JA SIT UNCOMMENT
+
+
+
+
+
+
+                //LISÄÄ REACT JA SIT UNCOMMENT   vvvvv NÄÄ ON PLACEHOLDER
                 sets[i].mode = "all";
 
                 //int iCount = node[indexOfLatest]["gameData"]["setsList"][i][3].ToInt()
-                sets[i].iCount = 10;
+                sets[i].iCount = 5; //
 
             }
         }

@@ -109,7 +109,17 @@ public class SessionManager : MonoBehaviour
 
     private void Update()
     {
-        if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear) // starts next set, there's probably a better way to do this :)
-            TryStartNextSet();
+        if (setStart.CurrentSessionMode() != "matrix")
+        {
+            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear) // starts next set, there's probably a better way to do this :)
+                TryStartNextSet();
+        }
+        else
+        {
+            if (panelManager.panels[currentSet].panel.GetComponentInChildren<ButtonMatrix>().IsSetDone())
+            {
+                TryStartNextSet();
+            }
+        }
     }
 }

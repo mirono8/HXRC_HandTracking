@@ -16,7 +16,7 @@ public class ButtonMatrix : MonoBehaviour
     //int socketCount = 5;
 
     int columnCount; //t‰‰ setupdatast!!!!   also cap matrix to 9x9!!!
-
+ 
     [SerializeField]
     int currentRow = 0;
 
@@ -37,17 +37,23 @@ public class ButtonMatrix : MonoBehaviour
 
     float columnInterval;
 
+    [SerializeField]
+    int interactions = 0;
+
+    bool readyToTrack;
+
+
     private void Start()
     {
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
-       
+        setData = GameObject.FindGameObjectWithTag("SessionManager").GetComponentInChildren<SetStart>();
     }
     public IEnumerator ReadyForSetup()
     {
 
         collidables = GetComponent<CollidableObjects>();
         grid = GetComponent<GridToPanel>();
-        setData = GameObject.FindGameObjectWithTag("SessionManager").GetComponentInChildren<SetStart>();
+        
 
         objsPerColumn = setData.columnCount;
         columnCount = setData.columnCount;
@@ -56,8 +62,6 @@ public class ButtonMatrix : MonoBehaviour
         {
             columns.Add(0f);
         }
-
-        
 
         for (int i = 0; i < objsPerColumn; i++)
         {
@@ -79,7 +83,7 @@ public class ButtonMatrix : MonoBehaviour
         ArrangeInteractables();
 
 
-        //SOCKET PLACEMENTS DONE, NEXT ROWS AND THEN BUTTON LOGIC
+        readyToTrack = true;
     }
 
     void SetUpColumns()
@@ -251,6 +255,23 @@ public class ButtonMatrix : MonoBehaviour
 
         }
     }
+
+    public void MatrixInteractionCheck() 
+    {
+        interactions = 0;
+        for (int i = 0; i < collidables.objects.Count; i++)
+        {
+            if (collidables.objects[i].GetComponent<InteractableActivityManager>().interactSuccess)
+            {
+                interactions++;
+            }
+        }
+    }
+
+    public bool IsSetDone()
+    {
+        return interactions == setData.CurrentInteractableCount();
+    }
     public bool AllocateRows()
     {
         return rowsSet;
@@ -266,4 +287,9 @@ public class ButtonMatrix : MonoBehaviour
         return fader.FaderStatus();
     }
 
+    private void Update()
+    {
+        if(readyToTrack)
+            MatrixInteractionCheck();
+    }
 }
