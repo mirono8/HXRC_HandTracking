@@ -253,7 +253,23 @@ public class InteractableActivityManager : MonoBehaviour
         if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
         {
             // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
-            if (!randomButtons.oneByOne || sessionMode == SessionMode.Matrix)
+            if (sessionMode != SessionMode.Matrix)
+            {
+                if (!randomButtons.oneByOne)
+                {
+                    if (!highlighted)
+                    {
+                        ResetPosition();
+                    }
+                    else
+                        interactSuccess = true;
+                }
+                else
+                {
+                    interactSuccess = true;
+                }
+            }
+            else
             {
                 if (!highlighted)
                 {
@@ -261,10 +277,6 @@ public class InteractableActivityManager : MonoBehaviour
                 }
                 else
                     interactSuccess = true;
-            }
-            else 
-            {
-                interactSuccess = true;
             }
         }
     }
@@ -274,8 +286,23 @@ public class InteractableActivityManager : MonoBehaviour
 
         if (myRigidbody.gameObject.transform.localEulerAngles.x >= downPosition)
         {
-
-            if (!randomButtons.oneByOne || sessionMode == SessionMode.Matrix)
+            if (sessionMode != SessionMode.Matrix)
+            {
+                if (!randomButtons.oneByOne)
+                {
+                    if (!highlighted)
+                    {
+                        ResetPosition();
+                    }
+                    else
+                        interactSuccess = true;
+                }
+                else
+                {
+                    interactSuccess = true;
+                }
+            }
+            else
             {
                 if (!highlighted)
                 {
@@ -284,10 +311,8 @@ public class InteractableActivityManager : MonoBehaviour
                 else
                     interactSuccess = true;
             }
-            else
-            {
-                interactSuccess = true;
-            }
+
+            
         }
 
     }
@@ -792,7 +817,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         CheckMyRays();   
     }
-    private void Update()  // all checks and other things are being run in here
+    private void Update()  // all checks and other things are being run in here (yrjistä)
     {
         if (!interactSuccess)
             myDuration += Time.deltaTime;

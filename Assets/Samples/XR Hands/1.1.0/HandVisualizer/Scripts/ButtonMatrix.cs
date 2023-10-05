@@ -205,39 +205,51 @@ public class ButtonMatrix : MonoBehaviour
         rowsSet = true;
     }
 
-    void ArrangeInteractables()
+    void ArrangeInteractables()  //shuffle interactables in the grid
     {
         Debug.Log("allonsy");
         var columnNum = 0;
         var rowNum = 0;
         for (int i = 0; i < collidables.objects.Count; i++)
         {
-
-
-
             var r = collidables.GetRandomOrder(i);
 
             collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0);
-            collidables.objects[r].transform.eulerAngles = new Vector3(90f, collidables.objects[r].transform.eulerAngles.y,
-                    collidables.objects[r].transform.eulerAngles.z);
+
+            RotateByType(collidables.objects[r]);
 
             rowNum++;
+
             if (rowNum == objsPerColumn)
             {
                 rowNum = 0;
                 columnNum++;
             }
+
             collidables.objects[r].SetActive(true);
-
-
         }
-
-
     }
 
-    public void MatrixInteractionCheck()
+    public void RotateByType(GameObject g)
     {
+        var type = g.GetComponent<InteractableActivityManager>().type;
+        switch (type)
+        {
+            case InteractableActivityManager.InteractableType.Button:
 
+                g.transform.eulerAngles = new Vector3(90f, g.transform.eulerAngles.y,
+                   g.transform.eulerAngles.z);
+
+                break;
+
+            case InteractableActivityManager.InteractableType.Switch:
+
+                g.transform.eulerAngles = new Vector3(-90f, g.transform.eulerAngles.y + 90f,
+                  g.transform.eulerAngles.z + 90f);
+
+                break;
+
+        }
     }
     public bool AllocateRows()
     {

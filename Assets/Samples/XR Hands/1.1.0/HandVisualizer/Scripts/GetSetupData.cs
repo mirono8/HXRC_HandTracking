@@ -52,7 +52,7 @@ public class GetSetupData : MonoBehaviour
         Debug.Log("defaulted");
         ParsedData defaultData = new();
         defaultData.size = "medium";
-        defaultData.type = "button";
+        defaultData.type = "switch";
         defaultData.mode = "matrix";
         sets.Add(defaultData);
 
