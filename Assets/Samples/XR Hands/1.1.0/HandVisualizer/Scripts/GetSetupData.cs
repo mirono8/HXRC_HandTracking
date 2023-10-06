@@ -50,26 +50,97 @@ public class GetSetupData : MonoBehaviour
     void GoByDefault()
     {
         Debug.Log("defaulted");
-        ParsedData defaultData = new();
-        defaultData.size = "medium";
-        defaultData.type = "switch";
-        defaultData.mode = "matrix";
-        defaultData.iCount = 5;
-        sets.Add(defaultData);
 
-        ParsedData defaultData1 = new();
-        defaultData1.size = "medium";
-        defaultData1.type = "switch";
-        defaultData1.mode = "all";
-        defaultData1.iCount = 5;
-        sets.Add(defaultData1);
+        //GRIDS
+        for (int i = 0; i < 3; i++)
+        {
+            ParsedData defaultData = new();
+            defaultData.size = "medium";
+            defaultData.type = "button";
+            defaultData.mode = "matrix";
+            defaultData.iCount = 6;
+            sets.Add(defaultData);
 
-        ParsedData defaultData2 = new();
-        defaultData2.size = "medium";
-        defaultData2.type = "button";
-        defaultData2.mode = "oneByOne";
-        defaultData2.iCount = 5;
-        sets.Add(defaultData2);
+            ParsedData defaultData1 = new();
+            defaultData1.size = "medium";
+            defaultData1.type = "button";
+            defaultData1.mode = "matrix";
+            defaultData1.iCount = 9;
+            sets.Add(defaultData1);
+
+            ParsedData defaultData2 = new();
+            defaultData2.size = "medium";
+            defaultData2.type = "button";
+            defaultData2.mode = "matrix";
+            defaultData2.iCount = 3;
+            sets.Add(defaultData2);
+        }
+
+
+        //ONE BY ONE
+        ParsedData defaultData3 = new();
+        defaultData3.size = "medium";
+        defaultData3.type = "button";
+        defaultData3.mode = "onebyone";
+        defaultData3.iCount = 10;
+        sets.Add(defaultData3);
+
+        ParsedData defaultData4 = new();
+        defaultData4.size = "small";
+        defaultData4.type = "button";
+        defaultData4.mode = "onebyone";
+        defaultData4.iCount = 10;
+        sets.Add(defaultData4);
+
+        ParsedData defaultData5 = new();
+        defaultData5.size = "large";
+        defaultData5.type = "button";
+        defaultData5.mode = "onebyone";
+        defaultData5.iCount = 10;
+        sets.Add(defaultData5);
+
+        for(int i = 0; i < 3; i++)
+        {
+            ParsedData defaultData6 = new();
+            defaultData6.size = "random";
+            defaultData6.type = "button";
+            defaultData6.mode = "onebyone";
+            defaultData6.iCount = 10;
+            sets.Add(defaultData6);
+        }
+
+        //ALL AT ONCE
+        ParsedData defaultData7 = new();
+        defaultData7.size = "medium";
+        defaultData7.type = "button";
+        defaultData7.mode = "all";
+        defaultData7.iCount = 10;
+        sets.Add(defaultData7);
+
+        ParsedData defaultData8 = new();
+        defaultData8.size = "small";
+        defaultData8.type = "button";
+        defaultData8.mode = "all";
+        defaultData8.iCount = 10;
+        sets.Add(defaultData8);
+
+        ParsedData defaultData9 = new();
+        defaultData9.size = "large";
+        defaultData9.type = "button";
+        defaultData9.mode = "all";
+        defaultData9.iCount = 10;
+        sets.Add(defaultData9);
+
+        for (int i = 0; i < 3; i++)
+        {
+            ParsedData defaultData10 = new();
+            defaultData10.size = "random";
+            defaultData10.type = "button";
+            defaultData10.mode = "all";
+            defaultData10.iCount = 10;
+            sets.Add(defaultData10);
+        }
+
     }
 
     public void CreateFromJson(string s)

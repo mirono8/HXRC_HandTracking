@@ -92,6 +92,9 @@ public class FadeIn : MonoBehaviour
                // start = true;
 
                 countdown.text = "Initializing next set..";
+
+                //TÄNNE MODE INSTRUCTIONS  // CONTINUE NAPPI KOLMEN SETIN JÄLKEE
+
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 1.25f));
                 //gameObject.SetActive(false);

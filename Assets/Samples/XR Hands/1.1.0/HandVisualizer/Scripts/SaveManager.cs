@@ -218,7 +218,7 @@ public class SaveManager : MonoBehaviour
     {
         CheckOnNull();
 
-        //interactable events here!!!!!
+        //interactable events here!!!!!     //alikansio aina startissa maybe!
 
         // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
         var j = JsonUtility.ToJson(combinedData);

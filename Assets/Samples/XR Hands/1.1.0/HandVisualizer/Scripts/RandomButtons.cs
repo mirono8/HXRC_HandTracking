@@ -73,6 +73,8 @@ public class RandomButtons : MonoBehaviour
             collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
                 collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
 
+            RotateByType(collidables.objects[i]);
+
             yield return new WaitForEndOfFrame();
 
             if (oneByOne)
@@ -182,6 +184,8 @@ public class RandomButtons : MonoBehaviour
     {
         var type = g.GetComponent<InteractableActivityManager>().type;
 
+        g.GetComponent<InteractableActivityManager>().timesRotated++;
+
         switch (type)
         {
             case InteractableActivityManager.InteractableType.Button:
@@ -194,8 +198,7 @@ public class RandomButtons : MonoBehaviour
             case InteractableActivityManager.InteractableType.Switch:
 
                 Debug.Log("rotatas");
-                g.transform.eulerAngles = new Vector3(-90f, g.transform.eulerAngles.y + 180f,
-                 g.transform.eulerAngles.z);
+                g.transform.localEulerAngles = new Vector3(270, 180, 0);
 
                 break;
 
@@ -290,8 +293,10 @@ public class RandomButtons : MonoBehaviour
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
                 collidables.objects[index].transform.localPosition.y, 0f);
 
-        //intersectaa viel välil joskus lul
+        RotateByType(collidables.objects[index]);
+
     }
+
     public bool IsOneByOne() // get mode
     {
         return oneByOne;

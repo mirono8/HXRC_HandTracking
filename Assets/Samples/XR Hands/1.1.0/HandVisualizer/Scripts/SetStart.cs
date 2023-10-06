@@ -10,6 +10,7 @@ public class SetStart : MonoBehaviour
 
     string size;
     string type;
+    [SerializeField]
     string mode;
 
     [SerializeField]
@@ -37,6 +38,7 @@ public class SetStart : MonoBehaviour
 
     int currentSetNumber;
 
+    bool readyToRun;
 
     private void OnEnable()
     {
@@ -44,8 +46,8 @@ public class SetStart : MonoBehaviour
         type = setupData.ReturnType(0);
         mode = setupData.ReturnMode(0);
         //interactableCount = setupData.ReturnInteractableCount(0); lis‰‰ ku on lis‰tty json
-        interactableCount = 5;
-        columnCount = interactableCount;
+        interactableCount = setupData.ReturnInteractableCount(0);
+        columnCount = interactableCount; //ehk‰ kaks eri arvoo?
         rig = GameObject.FindGameObjectWithTag("Player");
 
     }
@@ -171,17 +173,21 @@ public class SetStart : MonoBehaviour
 
     public void GameObjectsToTrack() // starts tracking gameobjects of the current set
     {
+        var gridActual = grid.transform.GetChild(0);
+        Debug.Log("oppa");
         if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
         {
-            for (int i = 0; i < interactableCount; i++)
+            for (int i = 0; i < gridActual.childCount; i++)
             {
                 grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
             }
         }
     }
 
-    public void RunSet() // gives the go signal for the grid
+    public IEnumerator RunSet() // gives the go signal for the grid
     {
+        yield return new WaitForSeconds(0.3f);
+
         if (mode != "matrix")
         {
             if (mode != "all")
@@ -199,9 +205,12 @@ public class SetStart : MonoBehaviour
         else
         {
             //matrix stuff reloaded!
+            Debug.Log("matrix go!!");
+            StartCoroutine(grid.GetComponent<ButtonMatrix>().ReadyForSetup());
 
         }
     }
+
 
     public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
     {
@@ -216,6 +225,7 @@ public class SetStart : MonoBehaviour
         else
         {
             //matrix stuff!!
+            yield return new WaitUntil(grid.GetComponent<ButtonMatrix>().AllocateRows);
         }
 
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
@@ -248,7 +258,7 @@ public class SetStart : MonoBehaviour
         type = setupData.ReturnType(round);
         mode = setupData.ReturnMode(round);
         interactableCount = setupData.ReturnInteractableCount(round);
-
+        columnCount = interactableCount;
         Debug.Log("new params " + size + type);
 
         if (!reusePanel)

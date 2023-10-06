@@ -96,6 +96,7 @@ public class InteractableActivityManager : MonoBehaviour
     public SessionManager sessionManager;
 
 
+    public int timesRotated;
 
     LayerMask ignoreInRaycast;
     private void Awake()
@@ -522,6 +523,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void AllAtOnceSuccessCheck() // same as above but for sets where all interactables show up at once
     {
+        // MUUTA TÄÄ KÄYMÄÄ KAIKKI LÄPI!!!!
         if (highlighted)
         {
             if (myOrderIndex != collidables.objects.Count - 1)  //if i am not the last
@@ -817,6 +819,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         CheckMyRays();   
     }
+
     private void Update()  // all checks and other things are being run in here (yrjistä)
     {
         if (!interactSuccess)

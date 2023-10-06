@@ -85,7 +85,7 @@ public class SessionManager : MonoBehaviour
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
             setStart.GameObjectsToTrack();
-            setStart.RunSet();
+            StartCoroutine(setStart.RunSet());
         }
         else
         {
@@ -116,7 +116,7 @@ public class SessionManager : MonoBehaviour
         }
         else
         {
-            if (panelManager.panels[currentSet].panel.GetComponentInChildren<ButtonMatrix>().IsSetDone())
+            if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>().IsSetDone())
             {
                 TryStartNextSet();
             }

@@ -42,6 +42,7 @@ public class ButtonMatrix : MonoBehaviour
 
     bool readyToTrack;
 
+    int interactionsGoal = 10;
 
     private void Start()
     {
@@ -57,6 +58,8 @@ public class ButtonMatrix : MonoBehaviour
 
         objsPerColumn = setData.columnCount;
         columnCount = setData.columnCount;
+
+
 
         for (int i = 0; i < objsPerColumn; i++)
         {
@@ -248,8 +251,7 @@ public class ButtonMatrix : MonoBehaviour
 
             case InteractableActivityManager.InteractableType.Switch:
 
-                g.transform.eulerAngles = new Vector3(-90f, g.transform.eulerAngles.y + 90f,
-                  g.transform.eulerAngles.z + 90f);
+                g.transform.localEulerAngles = new Vector3(270, 180, 0);
 
                 break;
 
@@ -258,6 +260,15 @@ public class ButtonMatrix : MonoBehaviour
 
     public void MatrixInteractionCheck() 
     {
+        if (collidables.objects.Count < 10)
+        {
+            interactionsGoal = collidables.objects.Count;
+        }
+        else
+        {
+            interactionsGoal = 10;
+        }
+
         interactions = 0;
         for (int i = 0; i < collidables.objects.Count; i++)
         {
@@ -270,7 +281,8 @@ public class ButtonMatrix : MonoBehaviour
 
     public bool IsSetDone()
     {
-        return interactions == setData.CurrentInteractableCount();
+
+        return interactions == interactionsGoal;
     }
     public bool AllocateRows()
     {
@@ -289,7 +301,7 @@ public class ButtonMatrix : MonoBehaviour
 
     private void Update()
     {
-        if(readyToTrack)
+        if (readyToTrack)
             MatrixInteractionCheck();
     }
 }

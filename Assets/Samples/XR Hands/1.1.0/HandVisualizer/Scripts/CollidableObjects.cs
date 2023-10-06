@@ -69,7 +69,7 @@ public class CollidableObjects : MonoBehaviour
         return nearest.gameObject;
     }
 
-    public void RandomizeOrderIndex()  // this is cool mut pit‰‰ vaihtaa nappien paikkaa, ei index koska lol
+    public void RandomizeOrderIndex()  
     {
         for (int i = 0; i < objects.Count; i++)
         {
