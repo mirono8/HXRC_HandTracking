@@ -18,7 +18,7 @@ public class ButtonMatrix : MonoBehaviour
     int columnCount; //t‰‰ setupdatast!!!!   also cap matrix to 9x9!!!
  
     [SerializeField]
-    int currentRow = 0;
+    int currentRow = 0;   //bugaa uudelleenk‰ytt‰ess‰ paneelia!
 
     [SerializeField]
     int objsPerColumn;
@@ -42,6 +42,7 @@ public class ButtonMatrix : MonoBehaviour
 
     bool readyToTrack;
 
+    [SerializeField]
     int interactionsGoal = 10;
 
     private void Start()
@@ -205,7 +206,12 @@ public class ButtonMatrix : MonoBehaviour
             Debug.Log("bumba");
             for (int i = 0; i < rows.Count; i++)
             {
-                rows[i] = rows[i] - rowInterval/2;
+                rows[i] = rows[i] - rowInterval / 2;
+            }
+
+            for (int i = 0; i < columns.Count; i++)
+            {
+                columns[i] = columns[i] - columnInterval / 2;
             }
         }
 
@@ -262,7 +268,7 @@ public class ButtonMatrix : MonoBehaviour
     {
         if (collidables.objects.Count < 10)
         {
-            interactionsGoal = collidables.objects.Count;
+            interactionsGoal = collidables.objects.Count;    //t‰s kohtaa yks skipataa highlightaamisesta koska en tii‰, syy allaatonce interaciton checkis
         }
         else
         {

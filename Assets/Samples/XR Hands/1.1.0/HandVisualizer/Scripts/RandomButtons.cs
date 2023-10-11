@@ -67,8 +67,8 @@ public class RandomButtons : MonoBehaviour
         for (int i = 0; i < collidables.objects.Count; i++)
         {
             // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
-            var deviationInPanel = new Vector3(UnityEngine.Random.Range(panelScale.x * -0.4f, panelScale.x * 0.4f),
-                UnityEngine.Random.Range(panelScale.y * -0.4f, panelScale.y * 0.4f));
+            var deviationInPanel = new Vector3(UnityEngine.Random.Range(panelScale.x * -0.5f, panelScale.x * 0.5f),
+                UnityEngine.Random.Range(panelScale.y * -0.5f, panelScale.y * 0.5f));
 
             collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
                 collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);

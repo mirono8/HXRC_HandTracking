@@ -69,17 +69,20 @@ public class SessionManager : MonoBehaviour
         currentSet++;
         if (currentSet < setCount)
         {
-            panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
+
+            setStart.ClearComponents();
 
             //currentSet++;
-            if (panelManager.panels.Count <= currentSet)
+            if (currentSet < panelManager.panels.Count )
             {
-                setStart.AssignSetParams(currentSet, true);
+                panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
+                setStart.AssignSetParams(currentSet);
                 setStart.GetCurrentSetNumber(currentSet);
             }
             else
             {
-                setStart.AssignSetParams(currentSet);
+                panelManager.ToggleHighlighting(panelManager.ReusePanel());
+                setStart.AssignSetParams(currentSet, true);
                 setStart.GetCurrentSetNumber(currentSet);
             }
             setStart.ClearCurrentSet();
@@ -116,9 +119,12 @@ public class SessionManager : MonoBehaviour
         }
         else
         {
-            if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>().IsSetDone())
+            if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>())
             {
-                TryStartNextSet();
+                if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>().IsSetDone())
+                {
+                    TryStartNextSet();
+                }
             }
         }
     }

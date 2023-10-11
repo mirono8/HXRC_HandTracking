@@ -57,11 +57,20 @@ public class PanelManager : MonoBehaviour
 
     public GameObject ReusePanel()
     {
-        var x = panels.Find(x => x.panel == x.reusePanel);
+        var x = panels.Find(x => x.panel == !x.reusePanel);
         if (x != null)
         {
             x.occupado = false;
+            x.reusePanel = true;
             return x.panel;
+        }
+        else
+        {
+            for (int i = 0; i < panels.Count; i++)
+            {
+                panels[i].reusePanel = false;
+                ReusePanel();
+            }
         }
         return null;
     }

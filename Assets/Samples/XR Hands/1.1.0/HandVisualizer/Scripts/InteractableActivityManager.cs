@@ -111,7 +111,7 @@ public class InteractableActivityManager : MonoBehaviour
             rayCasting = false;
         }
     }
-    
+
     void Start()
     {
         GetMyColliders();
@@ -189,7 +189,7 @@ public class InteractableActivityManager : MonoBehaviour
          }
      }*/
 
-    
+
     public void ToggleKinematic(bool toggleOn) // at set start, to prevent interactables from colliding during the initial position set
     {
         if (myRigidbody != null)
@@ -199,13 +199,29 @@ public class InteractableActivityManager : MonoBehaviour
 
                 myRigidbody.Sleep();
                 myRigidbody.isKinematic = true;
+
+                if (type == InteractableType.Button)
+                    myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+
+                if (type == InteractableType.Switch)
+                    myRigidbody.gameObject.transform.localEulerAngles = new Vector3(upPosition, 180f, 180f);
+
+                interactSuccess = false;
             }
             else if (!toggleOn)
             {
                 myRigidbody.WakeUp();
                 myRigidbody.isKinematic = false;
+
+                if (type == InteractableType.Button)
+                    myRigidbody.gameObject.transform.localPosition = new Vector3(myRigidbody.gameObject.transform.localPosition.x, upPosition, myRigidbody.gameObject.transform.localPosition.z);
+
+                if (type == InteractableType.Switch)
+                    myRigidbody.gameObject.transform.localEulerAngles = new Vector3(upPosition, 180f, 180f);
+
+                interactSuccess = false;
             }
-                
+
         }
     }
     void GetMyColliders() // finds colliders of this interactable, to ignore some in other scripts
@@ -222,7 +238,7 @@ public class InteractableActivityManager : MonoBehaviour
         result = null;
         for (int i = 0; i < transform.childCount; i++)
         {
-            
+
             result = transform.GetChild(i).GetComponents<Collider>();
             if (result != null)
             {
@@ -313,7 +329,7 @@ public class InteractableActivityManager : MonoBehaviour
                     interactSuccess = true;
             }
 
-            
+
         }
 
     }
@@ -358,7 +374,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         myRigidbody.gameObject.transform.localPosition = new Vector3(0, 0.007f, 0);
 
-        if(!interactSuccess)
+        if (!interactSuccess)
             myRigidbody.gameObject.transform.localEulerAngles = new Vector3(myRigidbody.gameObject.transform.localEulerAngles.x, 180f, 180f);
         else
             myRigidbody.gameObject.transform.localEulerAngles = new Vector3(downPosition, 180f, 180f);
@@ -410,8 +426,8 @@ public class InteractableActivityManager : MonoBehaviour
         interactableEvent = new SaveManager.InteractableEvent();
         interactableEvent.trajectory = new();
 
-        interactableEvent.interactableSize = size.ToString().Substring(0,1).ToLower();
-        interactableEvent.interactableType = type.ToString().Substring(0,1).ToLower();
+        interactableEvent.interactableSize = size.ToString().Substring(0, 1).ToLower();
+        interactableEvent.interactableType = type.ToString().Substring(0, 1).ToLower();
 
 
     }
@@ -475,7 +491,7 @@ public class InteractableActivityManager : MonoBehaviour
 
         return result;
     }
-#endregion
+    #endregion
 
 
     private void OnEnable()
@@ -487,7 +503,7 @@ public class InteractableActivityManager : MonoBehaviour
 
             rendererToChange.material = highlightMaterial;
         }
-        
+
     }
 
 
@@ -499,9 +515,9 @@ public class InteractableActivityManager : MonoBehaviour
 
             rendererToChange.material = originalMaterial;
         }
-        
+
     }
-    
+
     public void OneByOneSuccesscheck() // continuous check for interaction success, for sets where interactables show up one by one
     {
         if (interactSuccess)
@@ -513,7 +529,7 @@ public class InteractableActivityManager : MonoBehaviour
             else
             {
 
-              //  GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
+                //  GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
             }
 
             if (gameObject.activeSelf == true)
@@ -523,8 +539,31 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void AllAtOnceSuccessCheck() // same as above but for sets where all interactables show up at once
     {
-        // MUUTA TÄÄ KÄYMÄÄ KAIKKI LÄPI!!!!
         if (highlighted)
+        {
+            if (sessionMode != SessionMode.Matrix)
+            {
+                AllAtOnceCheckFunction(true);
+            }
+            else
+            {
+                AllAtOnceCheckFunction(false);
+            }
+        }
+        else
+        {
+            if (!MoveOn())
+            {
+                interactSuccess = false;
+                Debug.Log("order LUL " + " from orderindex of " + myOrderIndex);
+                //ResetPosition();
+            }
+        }
+    } 
+
+    public void AllAtOnceCheckFunction(bool b) {
+
+        if (b)
         {
             if (myOrderIndex != collidables.objects.Count - 1)  //if i am not the last
             {
@@ -540,7 +579,7 @@ public class InteractableActivityManager : MonoBehaviour
                 else
                 {
                     Debug.Log("next was too close");
-                    if(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex == collidables.objects.Count - 1)
+                    if (nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex == collidables.objects.Count - 1)
                     {
                         Debug.Log("it's fine its the last one");
 
@@ -560,24 +599,23 @@ public class InteractableActivityManager : MonoBehaviour
                 SetMoveOn(true);
                 EndInteractionEvent();
             }
-            else
-            {
-
-                //GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>().TryStartNextSet();
-            }
         }
         else
         {
-            if (!MoveOn())
+            rendererToChange.material = originalMaterial;
+
+            if (collidables.objects[myOrderIndex + 1] != null)
             {
-                interactSuccess = false;
-                Debug.Log("order LUL " + " from orderindex of " + myOrderIndex);
-                //ResetPosition();
+                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
             }
+
+
+            SetMoveOn(true);
+            EndInteractionEvent();
+
         }
     }
-
-    
     void SetMoveOn(bool b) // set is done
     {
        moveOn = b;

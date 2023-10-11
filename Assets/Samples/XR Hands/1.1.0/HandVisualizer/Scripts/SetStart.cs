@@ -155,6 +155,22 @@ public class SetStart : MonoBehaviour
         }
     }
 
+    public void ClearComponents()
+    {
+        if (grid.GetComponent<RandomButtons>() != null)
+        {
+            Debug.Log("destroy randombuttons");
+            Destroy(grid.GetComponent<RandomButtons>());
+        }
+        else
+        {
+            Debug.Log("destroy matrix");
+            Destroy(grid.GetComponent<ButtonMatrix>());
+        }
+
+        grid.GetComponent<CollidableObjects>().ResetRandomOrder();
+    }
+
     public void ClearCurrentSet() // clears data from the current set after completion 
     {
         if (currentSetGameObjs.Any())
@@ -165,9 +181,13 @@ public class SetStart : MonoBehaviour
 
                 if (currentSetGameObjs[i].activeSelf)
                     currentSetGameObjs[i].SetActive(false);
+
+                currentSetGameObjs[i].transform.parent = GameObject.FindGameObjectWithTag("Garbage").transform;
             }
             currentSetGameObjs.Clear();
             grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
+
+            
         }
     }
 

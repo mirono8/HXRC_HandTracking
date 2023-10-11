@@ -89,6 +89,11 @@ public class CollidableObjects : MonoBehaviour
 
     }
 
+    public void ResetRandomOrder()
+    {
+        randomOrder.Clear();
+        RandomOrderSet(false);
+    }
     public void RandomOrderSet(bool b)
     {
         orderRandomized = b;

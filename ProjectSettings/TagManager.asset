@@ -11,6 +11,7 @@ TagManager:
   - PanelManager
   - SessionManager
   - Fade
+  - Garbage
   layers:
   - Default
   - TransparentFX
