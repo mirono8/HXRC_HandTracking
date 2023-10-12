@@ -16,21 +16,20 @@ public class CollidableObjects : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!objects.Any())
-            StartCoroutine(PopulateCollidables()); 
+      /*  if (!objects.Any())
+            StartCoroutine(PopulateCollidables()); */
     }
 
-    IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
+    public IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
     {
         yield return new WaitForSeconds(1);
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+     /*   for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
             objects.Add(transform.GetChild(0).transform.GetChild(i).gameObject);
 
-        }
+        }*/
         foreach (GameObject obj in objects)
         {
-            Debug.Log("initial kinematic toggle on!!!!");
             obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
         }
 
@@ -42,7 +41,7 @@ public class CollidableObjects : MonoBehaviour
         {
             //matrix resurrection stuff!
             StartCoroutine(gameObject.GetComponent<ButtonMatrix>().ReadyForSetup());
-        } 
+        }
     }
 
     public GameObject GetNearestNeighbor(int i) // finds the nearest interactable, so as to not make it the next highlighted object in other scripts

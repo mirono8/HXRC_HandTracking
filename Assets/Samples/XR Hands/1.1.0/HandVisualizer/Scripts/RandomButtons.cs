@@ -18,6 +18,8 @@ public class RandomButtons : MonoBehaviour
 
     public bool oneByOne;
 
+    public bool largeSet;
+
     PanelManager panelManager;
 
     [SerializeField]
@@ -37,6 +39,8 @@ public class RandomButtons : MonoBehaviour
         foreach (GameObject x in collidables.objects)
         {
             originalPositions.Add(x.transform.localPosition);
+
+            ZAngleOffset(x);
         }
 
         foreach (GameObject x in collidables.objects)
@@ -64,14 +68,26 @@ public class RandomButtons : MonoBehaviour
     public IEnumerator SetRandomPositions() // sets random positions for the interactables of current set based on panel size and mode
     {
         loopOngoing = true;
+        var areaPosMultiplier = 0.4f;
+        var areaNegMultiplier = -0.4f;
+
+        if (largeSet && !oneByOne)
+        {
+             areaPosMultiplier = 0.5f;
+             areaNegMultiplier = -0.5f;
+        }
+
+
         for (int i = 0; i < collidables.objects.Count; i++)
         {
+            var zVar = collidables.objects[i].GetComponent<InteractableActivityManager>().ZOffset;
+
             // var deviation = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
-            var deviationInPanel = new Vector3(UnityEngine.Random.Range(panelScale.x * -0.5f, panelScale.x * 0.5f),
-                UnityEngine.Random.Range(panelScale.y * -0.5f, panelScale.y * 0.5f));
+            var deviationInPanel = new Vector3(UnityEngine.Random.Range(panelScale.x * areaNegMultiplier, panelScale.x * areaPosMultiplier),
+                UnityEngine.Random.Range(panelScale.y * areaNegMultiplier, panelScale.y  *areaPosMultiplier));
 
             collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x + deviationInPanel.x,
-                collidables.objects[i].transform.localPosition.y + deviationInPanel.y, 0f);
+                collidables.objects[i].transform.localPosition.y + deviationInPanel.y, zVar);
 
             RotateByType(collidables.objects[i]);
 
@@ -170,9 +186,10 @@ public class RandomButtons : MonoBehaviour
 
 
         //  collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = false;
+        var zVar = collidables.objects[index].GetComponent<InteractableActivityManager>().ZOffset;
 
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
-                collidables.objects[index].transform.localPosition.y, 0f);
+                collidables.objects[index].transform.localPosition.y, zVar);
 
         RotateByType(collidables.objects[index]);
 
@@ -263,8 +280,10 @@ public class RandomButtons : MonoBehaviour
             Debug.Log("loop end in grid with children count of " + originalPositions.Count);
             for (int i = 0; i < collidables.objects.Count; i++)
             {
+                var zVar = collidables.objects[i].GetComponent<InteractableActivityManager>().ZOffset;
+
                 collidables.objects[i].transform.localPosition = new Vector3(collidables.objects[i].transform.localPosition.x,
-                collidables.objects[i].transform.localPosition.y, 0f);
+                collidables.objects[i].transform.localPosition.y, zVar);
 
                 RotateByType(collidables.objects[i]);
 
@@ -285,13 +304,14 @@ public class RandomButtons : MonoBehaviour
 
     public void SetIntersectingPositions(int index) // used by the recursive loop, sets the positions of intersecting objects again randomly
     {
+        var zVar = collidables.objects[index].GetComponent<InteractableActivityManager>().ZOffset;
 
         Debug.Log("intersecting set");
-        var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f));
+        var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f), zVar);
         collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]] + deviationAgain;
 
         collidables.objects[index].transform.localPosition = new Vector3(collidables.objects[index].transform.localPosition.x,
-                collidables.objects[index].transform.localPosition.y, 0f);
+                collidables.objects[index].transform.localPosition.y, zVar);
 
         RotateByType(collidables.objects[index]);
 
@@ -318,6 +338,28 @@ public class RandomButtons : MonoBehaviour
                     intersecting.Add(j);
                 }
             }
+        }
+    }
+
+    public void ZAngleOffset(GameObject g)
+    {
+        var interactable = g.GetComponent<InteractableActivityManager>();
+        var size = interactable.size;
+
+        switch (size)
+        {
+            case InteractableActivityManager.InteractableSize.Small:
+
+                interactable.ZOffset = 0.005f;
+
+                break;
+
+            case InteractableActivityManager.InteractableSize.Large:
+
+                interactable.ZOffset = 0.004f;
+
+                break;
+
         }
     }
 

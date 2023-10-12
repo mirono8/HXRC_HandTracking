@@ -51,6 +51,16 @@ public class GetSetupData : MonoBehaviour
     {
         Debug.Log("defaulted");
 
+        //uncomment for set debugging use
+        ParsedData bogo = new();
+        bogo.size = "medium";
+        bogo.type = "button";
+        bogo.mode = "matrix";
+        bogo.iCount = 3;
+        sets.Add(bogo);
+
+
+
         //GRIDS
         for (int i = 0; i < 3; i++)
         {

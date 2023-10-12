@@ -43,6 +43,11 @@ public class GridToPanel : MonoBehaviour
         panelManager = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
         panel = panelManager.GiveMeAPanel();
 
+        if (panel == null)
+        {
+            panel = transform.parent.gameObject;
+        }
+
         gridActual = transform.GetChild(0).gameObject;
 
         if (panel != null)
@@ -82,11 +87,11 @@ public class GridToPanel : MonoBehaviour
 
             cameraWarpPoint.position = new Vector3(gridActual.transform.position.x, gridActual.transform.position.y, gridActual.transform.position.z) + ((gridActual.transform.forward / 2));
             cameraWarpPoint.LookAt(gridActual.transform);
-            //KÄÄNNÄ BNAPIT OIKEIN PÄIN KOSKA PREFAB MUUYTTU!!!
+
 
             
             // cameraWarpPoint.transform.localPosition = panelManager.GetPanelTransform(panel).localPosition + warpDistance;
-            //  cameraWarpPoint.transform.eulerAngles = panelManager.GetPanelRotation(panel);  // ei oo tarkallee siin mis pitäs, ehkä forward auttaa
+            //  cameraWarpPoint.transform.eulerAngles = panelManager.GetPanelRotation(panel);  
 
         }
     }

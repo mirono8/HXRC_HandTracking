@@ -227,7 +227,7 @@ public class ButtonMatrix : MonoBehaviour
         {
             var r = collidables.GetRandomOrder(i);
 
-            collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0);
+            collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0.005f);
 
             RotateByType(collidables.objects[r]);
 

@@ -38,7 +38,7 @@ public class SetStart : MonoBehaviour
 
     int currentSetNumber;
 
-    bool readyToRun;
+    bool once;
 
     private void OnEnable()
     {
@@ -71,6 +71,9 @@ public class SetStart : MonoBehaviour
         {
             //grid.GetComponent<RandomButtons>().enabled = true;
             grid.AddComponent<RandomButtons>();
+
+            if(size == "large")
+                grid.GetComponent<RandomButtons>().largeSet = true;
 
             if (mode != "all")
             {
@@ -151,6 +154,8 @@ public class SetStart : MonoBehaviour
                 }
             }
 
+            StartCoroutine(grid.GetComponent<CollidableObjects>().PopulateCollidables());
+
             StartCoroutine(WaitForFade());
         }
     }
@@ -182,7 +187,7 @@ public class SetStart : MonoBehaviour
                 if (currentSetGameObjs[i].activeSelf)
                     currentSetGameObjs[i].SetActive(false);
 
-                currentSetGameObjs[i].transform.parent = GameObject.FindGameObjectWithTag("Garbage").transform;
+               // currentSetGameObjs[i].transform.parent = GameObject.FindGameObjectWithTag("Garbage").transform;
             }
             currentSetGameObjs.Clear();
             grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
@@ -219,14 +224,15 @@ public class SetStart : MonoBehaviour
                 grid.GetComponent<RandomButtons>().oneByOne = false;
             }
 
-            StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup());
+           // StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup()); 
 
         }
         else
         {
             //matrix stuff reloaded!
             Debug.Log("matrix go!!");
-            StartCoroutine(grid.GetComponent<ButtonMatrix>().ReadyForSetup());
+            //StartCoroutine(grid.GetComponent<ButtonMatrix>().ReadyForSetup()); 
+
 
         }
     }
@@ -272,8 +278,10 @@ public class SetStart : MonoBehaviour
     {
         currentSetNumber = i;
     }
-    public void AssignSetParams(int round, bool reusePanel = false) // assigns current sets enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
+    public void AssignSetParams(int round, bool reusePanel = false) // assigns current set's enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
     {
+        var p = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
+
         size = setupData.ReturnSize(round);
         type = setupData.ReturnType(round);
         mode = setupData.ReturnMode(round);
@@ -281,14 +289,33 @@ public class SetStart : MonoBehaviour
         columnCount = interactableCount;
         Debug.Log("new params " + size + type);
 
+       p.LastPanelUsed(grid.transform.parent.gameObject);
+
+        Destroy(grid);
+
         if (!reusePanel)
         {
             grid = setGrid[round];
         }
         else
         {
-            GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel();
-            Debug.Log("reusing panel " + grid.transform.parent.gameObject.name);
+            if (!once)
+            {
+                for (int i = 0; i < p.panels.Count; i++)
+                {
+                    p.FreeThisPanel(p.panels[i].panel);
+                }
+
+                once = true;
+            }
+
+            grid = setGrid[round];
+            grid.SetActive(true);
+
+           // grid.transform.parent = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().GiveMeAPanel().transform; //GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel().transform;
+            Debug.Log("reusing panel");
         }
+
+        
     }
 }

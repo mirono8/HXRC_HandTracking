@@ -18,6 +18,10 @@ public class PanelManager : MonoBehaviour
     Color original;
     Color variant;
     GameObject panelToHighlight;
+
+    [SerializeField]
+    GameObject latestPanel;
+
     [Serializable]
     public class Panel
     {
@@ -46,16 +50,44 @@ public class PanelManager : MonoBehaviour
     public GameObject GiveMeAPanel()
     {
         var x = panels.Find(x => !x.occupado);
-        if (x != null)
+
+        if (x != null && x.panel != latestPanel)
         {
             x.occupado = true;
+            Debug.Log("its giving panel");
+            /* if (latestPanel != null)
+             {
+                 var y = panels.Find(y => y.panel == latestPanel);
+                 Debug.Log(y + "is freed");
+                 y.occupado = false;
+             }*/
+            FreeNextPanel(x.panel);
             return x.panel;
         }
-        else { return null; }
-
+        else 
+        {
+            Debug.Log("fail!!!!!!!!");
+            return null;
+        }
     }
 
-    public GameObject ReusePanel()
+    public void FreeNextPanel(GameObject current)
+    {
+        //tee vaa listast seuraava lol
+        var x = panels.Find(x => x.panel == current);
+        var i = panels.IndexOf(x);
+
+        if (i != panels.Count - 1)
+        {
+            panels[i+1].occupado = false;
+        }
+        else
+        {
+            panels[0].occupado = false;
+        }
+    }
+
+    public GameObject ReusePanel()  //rendered useless with freethispanel? test
     {
         var x = panels.Find(x => x.panel == !x.reusePanel);
         if (x != null)
@@ -73,6 +105,29 @@ public class PanelManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void FreeThisPanel(GameObject g)
+    {
+        var x = panels.Find(x => x.panel == g);
+
+        if (x != null)
+        {
+            Debug.Log("freerf");
+            x.occupado = false;
+        }
+    }
+
+    public void LastPanelUsed(GameObject g)
+    {
+
+        latestPanel = g;
+
+    }
+
+    public GameObject LatestPanel()
+    {
+        return latestPanel;
     }
 
     public Transform GetPanelTransform(GameObject panel)

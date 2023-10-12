@@ -95,6 +95,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public SessionManager sessionManager;
 
+    public float ZOffset;
 
     public int timesRotated;
 
@@ -194,7 +195,6 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (myRigidbody != null)
         {
-            Debug.Log("toggling kinematics");
             if (toggleOn) {
 
                 myRigidbody.Sleep();
@@ -603,13 +603,13 @@ public class InteractableActivityManager : MonoBehaviour
         else
         {
             rendererToChange.material = originalMaterial;
+            Debug.Log("last order index" + myOrderIndex);
 
-            if (collidables.objects[myOrderIndex + 1] != null)
+            if (myOrderIndex != collidables.objects.Count - 1) //(collidables.objects[myOrderIndex + 1] != null)
             {
                 collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                 StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
             }
-
 
             SetMoveOn(true);
             EndInteractionEvent();

@@ -36,13 +36,21 @@ public class SessionManager : MonoBehaviour
 
         setCount = setStart.setupData.sets.Count;
 
+        panelManager.FindAllPanels();
+
         if (setCount != 0)
         {
             for (int i = 0; i < setCount - 1; i++)
             {
                 setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
-                
+                setStart.setGrid[i].SetActive(false);
+
+                if (i < panelManager.panels.Count)
+                {
+                    setStart.setGrid[i].SetActive(true);
+                }
             }
+            setStart.setGrid[setCount-1].SetActive(false);
 
         }
         else
@@ -50,7 +58,7 @@ public class SessionManager : MonoBehaviour
             Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
-        panelManager.FindAllPanels();
+        
 
         setStart.GetCurrentSetNumber(currentSet);
 
@@ -62,6 +70,8 @@ public class SessionManager : MonoBehaviour
         panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
 
         setStart.SetupInteractables();
+
+        setStart.GameObjectsToTrack();
     }
 
     public void TryStartNextSet() // tries to start the next set if there are multiple
@@ -81,7 +91,7 @@ public class SessionManager : MonoBehaviour
             }
             else
             {
-                panelManager.ToggleHighlighting(panelManager.ReusePanel());
+               // panelManager.ToggleHighlighting(panelManager.ReusePanel());       //use freethispanel!
                 setStart.AssignSetParams(currentSet, true);
                 setStart.GetCurrentSetNumber(currentSet);
             }
@@ -119,9 +129,9 @@ public class SessionManager : MonoBehaviour
         }
         else
         {
-            if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>())
+            if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
             {
-                if (setStart.setGrid[currentSet].GetComponentInChildren<ButtonMatrix>().IsSetDone())
+                if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())
                 {
                     TryStartNextSet();
                 }
