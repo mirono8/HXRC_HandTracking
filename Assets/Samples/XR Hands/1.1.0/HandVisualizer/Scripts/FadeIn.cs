@@ -6,7 +6,11 @@ using TMPro;
 
 public class FadeIn : MonoBehaviour
 {
-    public TMP_Text countdown;
+    [SerializeField]
+    TMP_Text countdown;
+
+      [SerializeField]
+    TMP_Text info;
 
     [SerializeField]
     float timer;
@@ -26,8 +30,9 @@ public class FadeIn : MonoBehaviour
     // The current velocity of the movement
     private Vector3 velocity;
 
-
     public GameObject canvasCamera;
+
+    public GameObject UI;
 
     public IEnumerator FadeCanvasOut()
     {
@@ -43,8 +48,12 @@ public class FadeIn : MonoBehaviour
             if (timer <= 0)
             {
                 countdown.text = "Start!";
+
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 1f));
+
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1f));
+
+                info.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1));
 
             }
 
@@ -82,9 +91,6 @@ public class FadeIn : MonoBehaviour
              debug = false;
          }*/
 
-
-
-        // tee smoothaus canvakseen!!!
         do
         {
             if (fader.color.a < 1 && faded)
@@ -96,9 +102,12 @@ public class FadeIn : MonoBehaviour
                 //TÄNNE MODE INSTRUCTIONS  // CONTINUE NAPPI KOLMEN SETIN JÄLKEE
 
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
-                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 1.25f));
+
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *0.75f));
+
+                info.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.75f));
                 //gameObject.SetActive(false);
-                
+
 
             }
             else
@@ -107,6 +116,7 @@ public class FadeIn : MonoBehaviour
             }
 
             yield return null;
+
         } while (faded);
 
         
@@ -117,6 +127,45 @@ public class FadeIn : MonoBehaviour
         return faded;
     }
 
+    public void ChangeFaderStatus()
+    {
+        if (!faded)
+        {
+            faded = true;
+        }
+        else
+        {
+            faded = false;
+        }
+    }
+
+    public void FaderInfoText(string s)
+    {
+        switch (s)
+        {
+            case "all":
+                info.text = "Interactable objects appear simultaneously on the panel.\n  Interact with the highlighted interactable.";
+                break;
+
+            case "onebyone":
+                info.text = "Interactable objects appear one by one on the panel.\n  Interact with the highlighted interactable.";
+                break;
+
+            case "matrix":
+                info.text = "Interactable objects appear in a grid on the panel.\n  Interact with the highlighted interactable.";
+                break;
+
+        }
+        
+    }
+
+    public void WaitForUser()
+    {
+        UI.SetActive(true);
+        Debug.Log("waiting for user input");
+
+        //JUNNNAAAAA, FIX!!!
+    }
 
     private void FixedUpdate()
     {

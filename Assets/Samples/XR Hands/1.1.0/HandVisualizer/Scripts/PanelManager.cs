@@ -54,7 +54,7 @@ public class PanelManager : MonoBehaviour
         if (x != null && x.panel != latestPanel)
         {
             x.occupado = true;
-            Debug.Log("its giving panel");
+          //
             /* if (latestPanel != null)
              {
                  var y = panels.Find(y => y.panel == latestPanel);

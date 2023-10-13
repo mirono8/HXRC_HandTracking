@@ -14,6 +14,9 @@ public class SetStart : MonoBehaviour
     string mode;
 
     [SerializeField]
+    int rounds;   //after all panels are used once
+
+    [SerializeField]
     int interactableCount; //lis‰‰ netti sivulle!!
 
     public int columnCount; //t‰‰ kabns!!!
@@ -40,6 +43,8 @@ public class SetStart : MonoBehaviour
 
     bool once;
 
+    public bool automaticFade;
+
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -50,6 +55,7 @@ public class SetStart : MonoBehaviour
         columnCount = interactableCount; //ehk‰ kaks eri arvoo?
         rig = GameObject.FindGameObjectWithTag("Player");
 
+        automaticFade = true;
     }
 
     private void Start()
@@ -156,7 +162,9 @@ public class SetStart : MonoBehaviour
 
             StartCoroutine(grid.GetComponent<CollidableObjects>().PopulateCollidables());
 
+           
             StartCoroutine(WaitForFade());
+            
         }
     }
 
@@ -240,9 +248,26 @@ public class SetStart : MonoBehaviour
 
     public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
     {
+        fadeIn.FaderInfoText(mode);
+
         StartCoroutine(fadeIn.FadeCanvasIn());
+
+        if (!automaticFade)
+        {
+            Debug.Log("wait for user in setstart");
+          //  fadeIn.ChangeFaderStatus();
+            fadeIn.WaitForUser();
+        }
+ 
         Debug.Log("waiting");
-        yield return new WaitWhile(fadeIn.FaderStatus);
+        if (!automaticFade)
+        {
+            yield return new WaitUntil(fadeIn.FaderStatus);
+        }
+        else
+        {
+            yield return new WaitWhile(fadeIn.FaderStatus);
+        }
 
         if (grid.GetComponent<RandomButtons>())
         {
@@ -260,8 +285,11 @@ public class SetStart : MonoBehaviour
 
         Debug.Log("i can wait no longer");
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);
-        StartCoroutine(fadeIn.FadeCanvasOut());
 
+        if (automaticFade)
+        {
+            StartCoroutine(fadeIn.FadeCanvasOut());
+        }
         Debug.Log("wait for fade over");
     }
 
@@ -278,6 +306,12 @@ public class SetStart : MonoBehaviour
     {
         currentSetNumber = i;
     }
+
+    public int CurrentRound()
+    {
+        return rounds;
+    }
+
     public void AssignSetParams(int round, bool reusePanel = false) // assigns current set's enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
     {
         var p = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>();
@@ -316,6 +350,6 @@ public class SetStart : MonoBehaviour
             Debug.Log("reusing panel");
         }
 
-        
+        rounds++;
     }
 }

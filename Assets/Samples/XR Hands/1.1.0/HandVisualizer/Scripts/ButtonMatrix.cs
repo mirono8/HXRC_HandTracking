@@ -106,7 +106,7 @@ public class ButtonMatrix : MonoBehaviour
             if (i != 0)
             {
                 var origin = columns[0];
-                Debug.Log("modulo" + (i % 2));
+              //  Debug.Log("modulo" + (i % 2));
                 if (i % 2 == 0)
                 {
                     if (j > 0)
@@ -157,13 +157,13 @@ public class ButtonMatrix : MonoBehaviour
         for (int i = 0; i < objsPerColumn; i++)
         {
             // var socketByIteration = i + (iteration * objsPerRow);
-            Debug.Log("iteration number " + i + ", row " + currentRow);
+           // Debug.Log("iteration number " + i + ", row " + currentRow);
             if (i != 0)
             {
                 //sockets[i] = new Vector3((-pWidth / 2) + (socketInterval * (i+1)) /2, 0, 0);
 
                 var origin = rows[0];
-                Debug.Log("modulo" + (i % 2));
+               // Debug.Log("modulo" + (i % 2));
                 if (i % 2 == 0)
                 {
                     //even
@@ -268,7 +268,7 @@ public class ButtonMatrix : MonoBehaviour
     {
         if (collidables.objects.Count < 10)
         {
-            interactionsGoal = collidables.objects.Count;    //täs kohtaa yks skipataa highlightaamisesta koska en tiiä, syy allaatonce interaciton checkis
+            interactionsGoal = collidables.objects.Count;    
         }
         else
         {

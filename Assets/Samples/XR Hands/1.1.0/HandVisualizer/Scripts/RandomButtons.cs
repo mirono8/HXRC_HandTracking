@@ -100,7 +100,7 @@ public class RandomButtons : MonoBehaviour
 
             if (!oneByOne)
             {
-                Debug.Log("setting" + i + " indexed active");
+              //  Debug.Log("setting" + i + " indexed active");
                 collidables.objects[i].SetActive(true);
 
                 
@@ -145,7 +145,7 @@ public class RandomButtons : MonoBehaviour
                 collidables.objects[index].GetComponent<InteractableActivityManager>().rayCasting = true;
                 if (!intersecting.Contains(index))
                 {
-                    Debug.Log(index + " added to intersecting");
+                  //  Debug.Log(index + " added to intersecting");
                     intersecting.Add(index);
 
                 }
@@ -157,7 +157,7 @@ public class RandomButtons : MonoBehaviour
                 {
                     if (!intersecting.Contains(index))
                     {
-                        Debug.Log(index + " added to intersecting");
+                      //  Debug.Log(index + " added to intersecting");
                         intersecting.Add(index);
 
                     }
@@ -167,7 +167,7 @@ public class RandomButtons : MonoBehaviour
                 {
                     if (intersecting.Contains(index))
                     {
-                        Debug.Log("removing " + index);
+                      //  Debug.Log("removing " + index);
                         intersecting.Remove(index);
                     }
                 }
@@ -177,7 +177,7 @@ public class RandomButtons : MonoBehaviour
 
                 if (intersecting.Contains(index))
                 {
-                    Debug.Log("removing " + index);
+                   // Debug.Log("removing " + index);
                     intersecting.Remove(index);
                 }
             }
@@ -214,7 +214,7 @@ public class RandomButtons : MonoBehaviour
 
             case InteractableActivityManager.InteractableType.Switch:
 
-                Debug.Log("rotatas");
+             //   Debug.Log("rotatas");
                 g.transform.localEulerAngles = new Vector3(270, 180, 0);
 
                 break;
@@ -245,12 +245,12 @@ public class RandomButtons : MonoBehaviour
     public IEnumerator LoopingIntersectSetter() // iterates through interactables that intersect each other
     {
         setReady = false;
-        Debug.Log("Starting loop");
+        //Debug.Log("Starting loop");
 
         while (intersecting.Count > 0)
         {
             // yield return new WaitForEndOfFrame();
-            Debug.Log("while loop!");
+           // Debug.Log("while loop!");
             yield return null;
             if (intersecting.Count > 0)
             {
@@ -272,7 +272,7 @@ public class RandomButtons : MonoBehaviour
 
         if (intersecting.Count > 0)
         {
-            Debug.Log("Second loop in looping setter");
+            //Debug.Log("Second loop in looping setter");
             StartCoroutine(LoopingIntersectSetter());
         }
         else
@@ -306,7 +306,7 @@ public class RandomButtons : MonoBehaviour
     {
         var zVar = collidables.objects[index].GetComponent<InteractableActivityManager>().ZOffset;
 
-        Debug.Log("intersecting set");
+      //  Debug.Log("intersecting set");
         var deviationAgain = new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.2f, 0.2f), zVar);
         collidables.objects[intersecting[index]].transform.localPosition = originalPositions[intersecting[index]] + deviationAgain;
 

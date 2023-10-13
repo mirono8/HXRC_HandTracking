@@ -227,7 +227,7 @@ public class InteractableActivityManager : MonoBehaviour
     void GetMyColliders() // finds colliders of this interactable, to ignore some in other scripts
     {
         var result = transform.GetComponents<Collider>();
-        Debug.Log(result.Length + "found colliders length");
+       // Debug.Log(result.Length + "found colliders length");
         if (result != null)
         {
             foreach (var c in result)
@@ -640,7 +640,7 @@ public class InteractableActivityManager : MonoBehaviour
            */
 
             //CARDINALS
-            Debug.DrawRay(rayStartLeft.position, transform.TransformDirection(Vector3.right), Color.white);  
+          /*  Debug.DrawRay(rayStartLeft.position, transform.TransformDirection(Vector3.right), Color.white);  
             Debug.DrawRay(rayStartUp.position, transform.TransformDirection(Vector3.forward*-1), Color.blue);
             Debug.DrawRay(rayStartRight.position, transform.TransformDirection(Vector3.left), Color.red);
             Debug.DrawRay(rayStartDown.position, transform.TransformDirection(Vector3.forward), Color.black);
@@ -652,7 +652,7 @@ public class InteractableActivityManager : MonoBehaviour
             Debug.DrawRay(rayStartDownRight.position, transform.TransformDirection(-1,0,1), Color.yellow);
             Debug.DrawRay(rayStartDownLeft.position, transform.TransformDirection(1,0,1), Color.yellow);
 
-
+            */
         }
         //   RAYCAST, TRYING RaycastAll
         /* RaycastHit hit = new RaycastHit();

@@ -17,7 +17,9 @@ public class SessionManager : MonoBehaviour
 
     PanelManager panelManager;
 
-    FadeIn fader;
+    [SerializeField]
+    int roundsToPause;   
+
     private void Awake()
     {
         setStart = GetComponentInChildren<SetStart>(true);
@@ -26,7 +28,6 @@ public class SessionManager : MonoBehaviour
 
     private void Start()
     {
-        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
         StartCoroutine(GetInitialState());
     }
 
@@ -58,7 +59,14 @@ public class SessionManager : MonoBehaviour
             Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
-        
+        if (setStart.CurrentRound() == roundsToPause)
+        {
+            setStart.automaticFade = false;
+        }
+        else
+        {
+            setStart.automaticFade = true;
+        }
 
         setStart.GetCurrentSetNumber(currentSet);
 
@@ -77,6 +85,7 @@ public class SessionManager : MonoBehaviour
     public void TryStartNextSet() // tries to start the next set if there are multiple
     {
         currentSet++;
+
         if (currentSet < setCount)
         {
 
@@ -95,6 +104,16 @@ public class SessionManager : MonoBehaviour
                 setStart.AssignSetParams(currentSet, true);
                 setStart.GetCurrentSetNumber(currentSet);
             }
+
+            if (setStart.CurrentRound() == roundsToPause)
+            {
+                setStart.automaticFade = false;
+            }
+            else
+            {
+                setStart.automaticFade = true;
+            }
+
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
             setStart.GameObjectsToTrack();
