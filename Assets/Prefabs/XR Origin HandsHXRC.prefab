@@ -3310,6 +3310,7 @@ MonoBehaviour:
   smoothTime: 0.3
   smoothRotationTime: 0.5
   canvasCamera: {fileID: 5049741252739572604}
+  UI: {fileID: 0}
 --- !u!1 &6162501809687007977
 GameObject:
   m_ObjectHideFlags: 0

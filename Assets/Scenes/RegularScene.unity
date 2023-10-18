@@ -130,20 +130,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2009968642}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &296520053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296520049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99aea81cb6cb9d14fbc2e970e991c2c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeIn: {fileID: 1619323736}
-  UIObj: {fileID: 575756807}
 --- !u!65 &296520054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,6 +143,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.060000002, z: 0.0045}
   m_Center: {x: 0, y: 0, z: 0.00225}
+--- !u!114 &296520058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296520049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99aea81cb6cb9d14fbc2e970e991c2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeIn: {fileID: 1619323736}
+  canvas: {fileID: 1533233987}
 --- !u!1 &575756807
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +414,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4108124381048770941, guid: 457a0d2628fbf2b4986b3c4f009100a3,
     type: 3}
   m_PrefabInstance: {fileID: 1409799677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1533233987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4468817729298595305, guid: e2561646e5275db45bd19407fb9c4874,
+    type: 3}
+  m_PrefabInstance: {fileID: 2009968642}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1599922922
 GameObject:
@@ -953,6 +959,11 @@ PrefabInstance:
       propertyPath: setupData
       value: 
       objectReference: {fileID: 2054778453}
+    - target: {fileID: 6480257608926865283, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: automaticFade
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6480257609365778201, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_Name

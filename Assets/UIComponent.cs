@@ -10,12 +10,12 @@ public class UIComponent : MonoBehaviour
     Vector3 savePos;
 
     [SerializeField]
-    GameObject UIObj;
+    GameObject canvas;
 
     private void OnEnable()
     {
         savePos = GameObject.FindGameObjectWithTag("Player").transform.position;
-        //tähän joku fixed käden mitta, käytä touchpad prefab
+        //tähän joku fixed käden mitta, käytä touchpad prefab, parempi positio!
 
         transform.position = savePos + new Vector3(0, savePos.y * -1, 0.353f);
 
@@ -27,7 +27,10 @@ public class UIComponent : MonoBehaviour
         {
             StartCoroutine(fadeIn.FadeCanvasOut());
 
-            UIObj.SetActive(false);
+            //UIObj.SetActive(false);
+            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
+            canvas.SetActive(false);
         }
     }
 
