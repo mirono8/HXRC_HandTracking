@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CollidableObjects : MonoBehaviour
 {
-
     public List<GameObject> objects = new();
 
     [SerializeField]
@@ -16,8 +15,10 @@ public class CollidableObjects : MonoBehaviour
 
     private void OnEnable()
     {
-      /*  if (!objects.Any())
-            StartCoroutine(PopulateCollidables()); */
+        /*  if (!objects.Any())
+              StartCoroutine(PopulateCollidables()); */
+
+        
     }
 
     public IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
@@ -88,6 +89,8 @@ public class CollidableObjects : MonoBehaviour
 
     }
 
+
+
     public void ResetRandomOrder()
     {
         randomOrder.Clear();
@@ -107,5 +110,6 @@ public class CollidableObjects : MonoBehaviour
     {
         return randomOrder[i];
     }
+
 }
          

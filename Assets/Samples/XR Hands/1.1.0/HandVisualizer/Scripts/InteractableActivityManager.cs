@@ -4,6 +4,8 @@ using UnityEngine;
 using HandData;
 using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
+using UnityEngine.UI;
+using TMPro;
 
 public class InteractableActivityManager : MonoBehaviour
 {
@@ -100,6 +102,10 @@ public class InteractableActivityManager : MonoBehaviour
     public int timesRotated;
 
     LayerMask ignoreInRaycast;
+
+    public TMP_Text testText;
+    public int testInt;
+
     private void Awake()
     {
         if (sessionMode != SessionMode.Matrix)
@@ -403,6 +409,8 @@ public class InteractableActivityManager : MonoBehaviour
     {
         Debug.Log("start interaction event");
 
+        
+
         if (randomButtons != null)
         {
             if (randomButtons.oneByOne && myOrderIndex == 0)
@@ -436,6 +444,9 @@ public class InteractableActivityManager : MonoBehaviour
     {
         interactableEvent.duration = myDuration.ToString();
 
+      /*  testInt = myOrderIndex;
+        testText.text = testInt.ToString();
+      */
         Debug.Log("end interaction event");
         if (interactor == Interactor.Left)
         {
@@ -447,7 +458,7 @@ public class InteractableActivityManager : MonoBehaviour
                 {
                     interactableEvent.trajectory.Add(leftHandPos[i]);
                 }
-
+                Debug.Log(Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString());   //TÄSSÄ LOGCAT VIRHE?
                 interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = leftHandPos[^1];
 
@@ -463,8 +474,10 @@ public class InteractableActivityManager : MonoBehaviour
                     interactableEvent.trajectory.Add(rightHandPos[i]);
                 }
 
+                Debug.Log(Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString());
                 interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = rightHandPos[^1];
+               // Debug.Log(Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString());
             }
         }
         Debug.Log(interactableEvent.interactableSize + interactableEvent.interactableType + interactableEvent.duration);
@@ -489,6 +502,7 @@ public class InteractableActivityManager : MonoBehaviour
             float.Parse(sArray[1]),
             float.Parse(sArray[2]));
 
+        Debug.Log(result + " from string to vector");
         return result;
     }
     #endregion

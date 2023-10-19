@@ -176,6 +176,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
             handGameObjects.ToggleDrawMesh(m_DrawMeshes && isTracked);
             handGameObjects.ToggleDebugDrawJoints(m_DebugDrawJoints && isTracked);
             handGameObjects.SetVelocityType(isTracked ? m_VelocityType : VelocityType.None);
+           
         }
 
         void OnTrackingAcquired(XRHand hand)
@@ -280,6 +281,8 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
             static Vector3[] s_LinePointsReuse = new Vector3[2];
             const float k_LineWidth = 0.005f;
 
+            
+            
             public HandGameObjects(
                 Handedness handedness,
                 Transform parent,
@@ -312,11 +315,17 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 m_HandRoot = Instantiate(meshPrefab, parent);
                 m_HandRoot.transform.localPosition = Vector3.zero;
                 m_HandRoot.transform.localRotation = Quaternion.identity;
+                
 
                 Transform wristRootXform = null;
                 for (int childIndex = 0; childIndex < m_HandRoot.transform.childCount; ++childIndex)
                 {
                     var child = m_HandRoot.transform.GetChild(childIndex);
+
+                    int canvasRenderLayer = LayerMask.NameToLayer("CanvasFirst");
+
+                    child.gameObject.layer = canvasRenderLayer; //added for  visibility during loading canvas
+
                     if (child.gameObject.name.EndsWith(XRHandJointID.Wrist.ToString()))
                         wristRootXform = child;
                     else if (child.gameObject.name.EndsWith("Hand") && meshMaterial != null && child.TryGetComponent<SkinnedMeshRenderer>(out var renderer))

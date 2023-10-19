@@ -24,6 +24,8 @@ public class SaveManager : MonoBehaviour
     [SerializeField]
     float timeSinceLastStamp = 0;
 
+
+    float testTime = 0;
     [SerializeField]
     public class DataWrapper
     {
@@ -122,6 +124,10 @@ public class SaveManager : MonoBehaviour
 
         combinedData.elapsedTime += Time.deltaTime;
 
+
+        testTime += Time.deltaTime;
+
+
         if (combinedData.currentTask.isCompleted)
         {
             Save();
@@ -198,6 +204,7 @@ public class SaveManager : MonoBehaviour
 
         block.collisionEvent = new string(hand.myHandedness.ToString().FirstToUpper() + " hand " + collision.collidingFinger.ToLower() + " -> " + collision.otherCollider + " at " + collision.startTime);
 
+      //  Debug.Log(block.collisionEvent.ToString());
         if (hand.myHandedness == HandDataOut.Hand.MyHandedness.left)
         {
             combinedData.left.blocks.Add(block);
@@ -211,13 +218,32 @@ public class SaveManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        
         Save(); //for now
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Save();
+        }
+
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+        {
+            Save();
+            
+        }
+    }
     public void Save()
     {
         CheckOnNull();
 
+        Debug.Log("SAVING");
         //interactable events here!!!!!     //alikansio aina startissa maybe!
 
         // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
@@ -225,10 +251,21 @@ public class SaveManager : MonoBehaviour
 
         // var json = JsonUtility.ToJson(combinedData);
 
-        var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
+#if UNITY_EDITOR
+
+   var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
+
+#else
+
+   var saveFolder = Application.persistentDataPath;
+
+#endif
+
+
 
         File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
     }
+    
 
     public void CheckOnNull()
     {

@@ -157,6 +157,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeIn: {fileID: 1619323736}
   canvas: {fileID: 1533233987}
+  UIParent: {fileID: 575756807}
+--- !u!1 &359128434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5049741252739572604, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1409799677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &575756807
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +310,21 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1262970632283854088, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262970632353794131, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262970633346161733, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2263663246827497001, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_Camera
@@ -368,11 +390,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin HandsHXRC
       objectReference: {fileID: 0}
+    - target: {fileID: 4758611614167171443, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758611614167171443, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 320
+      objectReference: {fileID: 0}
     - target: {fileID: 5046472623623618058, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: UI
       value: 
       objectReference: {fileID: 575756807}
+    - target: {fileID: 5065275904586855224, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.49
+      objectReference: {fileID: 0}
     - target: {fileID: 8597679242028701369, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -534,6 +571,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1409799677}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1701732590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359128434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ad6ab187dc232499192de2ae73b09c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1775910573
 GameObject:
   m_ObjectHideFlags: 0

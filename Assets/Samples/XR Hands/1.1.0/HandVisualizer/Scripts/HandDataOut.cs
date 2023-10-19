@@ -270,6 +270,7 @@ namespace HandData
 
         public void SendCollisionData(Hand hand, TrackColliders.CollisionEvent collision)
         {
+          //  Debug.Log("Collision event happened");
             if (hand.myHandedness == Hand.MyHandedness.left)
             {
                  foreach (var fingertips in leftHand.fingerColliders)

@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "230YC01D86003D",
+    "m_SelectedDeviceId": "230YC01D86018S",
     "m_SelectedPackage": {
-        "deviceId": "230YC01D86003D",
-        "name": "com.prvncher.MetaXRI",
-        "processId": 19120,
+        "deviceId": "230YC01D86018S",
+        "name": "com.oculus.xrstreamingclient",
+        "processId": 29765,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -31,6 +31,36 @@
             "name": "com.prvncher.MetaXRI",
             "processId": 19120,
             "exited": false
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.oculus.xrstreamingclient",
+            "processId": 3313,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 7184,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 24929,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.oculus.shellenv",
+            "processId": 2120,
+            "exited": false
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.oculus.xrstreamingclient",
+            "processId": 29765,
+            "exited": false
         }
     ],
     "m_Tags": {
@@ -41,7 +71,7 @@
             },
             {
                 "m_Name": "No Filter",
-                "m_Selected": true
+                "m_Selected": false
             },
             {
                 "m_Name": "",
@@ -57,7 +87,7 @@
             },
             {
                 "m_Name": "Unity",
-                "m_Selected": false
+                "m_Selected": true
             },
             {
                 "m_Name": "CRASH",

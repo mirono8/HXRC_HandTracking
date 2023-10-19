@@ -11,7 +11,7 @@ public class SessionManager : MonoBehaviour
     [SerializeField]
     int setCount;
     [SerializeField]
-    int currentSet;
+    int currentSet = 0;
 
     public bool allClear = false;
 
@@ -148,6 +148,7 @@ public class SessionManager : MonoBehaviour
         }
         else
         {
+            
             if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
             {
                 if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())

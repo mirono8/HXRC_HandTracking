@@ -34,6 +34,7 @@ public class FadeIn : MonoBehaviour
 
     public GameObject UI;
 
+    public Color infoTextColor;
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -49,11 +50,11 @@ public class FadeIn : MonoBehaviour
             {
                 countdown.text = "Start!";
 
-                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 0.1f));  //kerroin hidastaa
+                fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 1f));  //kerroin hidastaa
 
-                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 0.1f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1f));
 
-                info.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 0.1f));
+                info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a - (0.02f * 1f));
 
             }
 
@@ -61,6 +62,9 @@ public class FadeIn : MonoBehaviour
             {
                 start = false;
                 faded = true;
+                info.color = infoTextColor;
+                info.alpha = 0;
+                UI.GetComponentInChildren<UIComponent>().ResetComponents();
             }
 
             yield return null;
@@ -103,9 +107,9 @@ public class FadeIn : MonoBehaviour
 
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
 
-                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *0.75f));
+                countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *1f));
 
-                info.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.75f));
+                info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a + (0.02f * 1f));
                 //gameObject.SetActive(false);
 
 
@@ -113,6 +117,8 @@ public class FadeIn : MonoBehaviour
             else
             {
                 faded = false;
+                info.color = infoTextColor;
+                //info.alpha = 0;
             }
 
             yield return null;
@@ -164,9 +170,13 @@ public class FadeIn : MonoBehaviour
         UI.SetActive(true);
         Debug.Log("waiting for user input");
 
-        //JUNNNAAAAA, FIX!!!
+        
     }
 
+    private void Start()
+    {
+        infoTextColor = info.color;
+    }
     private void FixedUpdate()
     {
         if (!start)
