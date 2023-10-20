@@ -8,6 +8,7 @@ public class FollowMainCamera : MonoBehaviour
 
     GameObject mainCamera;
 
+    FadeIn fadeIn;
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -17,5 +18,6 @@ public class FollowMainCamera : MonoBehaviour
     void Update()
     {
         transform.position = mainCamera.transform.position;
+
     }
 }

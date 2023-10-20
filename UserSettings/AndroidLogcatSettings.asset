@@ -2,8 +2,8 @@
     "m_SelectedDeviceId": "230YC01D86018S",
     "m_SelectedPackage": {
         "deviceId": "230YC01D86018S",
-        "name": "com.oculus.xrstreamingclient",
-        "processId": 29765,
+        "name": "com.HXRC.XRSpaceHandTracking",
+        "processId": 7300,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -34,32 +34,32 @@
         },
         {
             "deviceId": "230YC01D86018S",
-            "name": "com.oculus.xrstreamingclient",
-            "processId": 3313,
-            "exited": true
-        },
-        {
-            "deviceId": "230YC01D86018S",
             "name": "com.HXRC.XRSpaceHandTracking",
-            "processId": 7184,
-            "exited": true
-        },
-        {
-            "deviceId": "230YC01D86018S",
-            "name": "com.HXRC.XRSpaceHandTracking",
-            "processId": 24929,
+            "processId": 22232,
             "exited": true
         },
         {
             "deviceId": "230YC01D86018S",
             "name": "com.oculus.shellenv",
-            "processId": 2120,
-            "exited": false
+            "processId": 2145,
+            "exited": true
         },
         {
             "deviceId": "230YC01D86018S",
-            "name": "com.oculus.xrstreamingclient",
-            "processId": 29765,
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 31959,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 6510,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 7300,
             "exited": false
         }
     ],

@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using TMPro;
+using System.Globalization;
 
 public class InteractableActivityManager : MonoBehaviour
 {
@@ -103,8 +104,6 @@ public class InteractableActivityManager : MonoBehaviour
 
     LayerMask ignoreInRaycast;
 
-    public TMP_Text testText;
-    public int testInt;
 
     private void Awake()
     {
@@ -458,7 +457,7 @@ public class InteractableActivityManager : MonoBehaviour
                 {
                     interactableEvent.trajectory.Add(leftHandPos[i]);
                 }
-                Debug.Log(Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString());   //TÄSSÄ LOGCAT VIRHE?
+             //   Debug.Log(Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString());   
                 interactableEvent.distance = Vector3.Distance(StringToVector3(leftHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = leftHandPos[^1];
 
@@ -474,7 +473,7 @@ public class InteractableActivityManager : MonoBehaviour
                     interactableEvent.trajectory.Add(rightHandPos[i]);
                 }
 
-                Debug.Log(Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString());
+               // Debug.Log(Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString());
                 interactableEvent.distance = Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString();
                 interactableEvent.endPoint = rightHandPos[^1];
                // Debug.Log(Vector3.Distance(StringToVector3(rightHandPos[0]), gameObject.transform.position).ToString());
@@ -482,25 +481,33 @@ public class InteractableActivityManager : MonoBehaviour
         }
         Debug.Log(interactableEvent.interactableSize + interactableEvent.interactableType + interactableEvent.duration);
 
-        saveManager.combinedData.interactableEvents.events.Add(interactableEvent); //välil (aina) nullreference, vaikuttaa janssoniin vaa, fix
+        saveManager.combinedData.interactableEvents.events.Add(interactableEvent); 
     }
 
     public static Vector3 StringToVector3(string sVector) // converts gathered position data from string to Vector3, not my code but modified
     {
         // Remove the parentheses
+
+       // Debug.Log("string to split = " + sVector);
+
         if (sVector.StartsWith("(") && sVector.EndsWith(")"))
         {
             sVector = sVector.Substring(1, sVector.Length - 2);
         }
 
         // split the items
-        string[] sArray = sVector.Split(',');
+        string[] sArray = sVector.Split(',',' ',System.StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string s in sArray) {
+
+            Debug.Log("split string " +s + "\n");
+        }
 
         // store as a Vector3
         Vector3 result = new Vector3(
-            float.Parse(sArray[0]),
-            float.Parse(sArray[1]),
-            float.Parse(sArray[2]));
+            float.Parse(sArray[0], NumberFormatInfo.InvariantInfo),
+            float.Parse(sArray[1], NumberFormatInfo.InvariantInfo),
+            float.Parse(sArray[2], NumberFormatInfo.InvariantInfo));
 
         Debug.Log(result + " from string to vector");
         return result;

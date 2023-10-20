@@ -11,7 +11,7 @@ TagManager:
   - PanelManager
   - SessionManager
   - Fade
-  - Garbage
+  - CanvasCamera
   layers:
   - Default
   - TransparentFX

@@ -18,7 +18,9 @@ public class SessionManager : MonoBehaviour
     PanelManager panelManager;
 
     [SerializeField]
-    int roundsToPause;   
+    int roundsToPause;
+
+    bool firstSet = true;
 
     private void Awake()
     {
@@ -59,7 +61,7 @@ public class SessionManager : MonoBehaviour
             Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
-        if (setStart.CurrentRound() == roundsToPause)
+        if (setStart.CurrentRound() % roundsToPause == 0)
         {
             setStart.automaticFade = false;
         }
@@ -80,10 +82,13 @@ public class SessionManager : MonoBehaviour
         setStart.SetupInteractables();
 
         setStart.GameObjectsToTrack();
+
+        firstSet = false;
     }
 
     public void TryStartNextSet() // tries to start the next set if there are multiple
     {
+        
         currentSet++;
 
         if (currentSet < setCount)
@@ -148,12 +153,15 @@ public class SessionManager : MonoBehaviour
         }
         else
         {
-            
-            if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
+
+            if (!firstSet)  //buildaa ja testaa toimiiks t‰‰, sit fixaa one eye homma ja touchpad..
             {
-                if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())
+                if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
                 {
-                    TryStartNextSet();
+                    if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())
+                    {
+                        TryStartNextSet();
+                    }
                 }
             }
         }

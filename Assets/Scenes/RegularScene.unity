@@ -158,6 +158,7 @@ MonoBehaviour:
   fadeIn: {fileID: 1619323736}
   canvas: {fileID: 1533233987}
   UIParent: {fileID: 575756807}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &359128434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5049741252739572604, guid: 457a0d2628fbf2b4986b3c4f009100a3,
@@ -195,37 +196,6 @@ Transform:
   - {fileID: 2009968643}
   m_Father: {fileID: 1409799680}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1128059602
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1128059603}
-  m_Layer: 0
-  m_Name: GarbageCollection
-  m_TagString: Garbage
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1128059603
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128059602}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0066641727, y: 0.1530236, z: 0.4786595}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308025002
 GameObject:
@@ -405,6 +375,11 @@ PrefabInstance:
       propertyPath: UI
       value: 
       objectReference: {fileID: 575756807}
+    - target: {fileID: 5049741252739572604, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: CanvasCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 5065275904586855224, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1011,7 +986,7 @@ PrefabInstance:
     - target: {fileID: 6480257608926865283, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: automaticFade
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6480257609365778201, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
@@ -1021,7 +996,7 @@ PrefabInstance:
     - target: {fileID: 6480257609365778202, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: roundsToPause
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6480257609365778203, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}

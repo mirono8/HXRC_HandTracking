@@ -322,7 +322,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 {
                     var child = m_HandRoot.transform.GetChild(childIndex);
 
-                    int canvasRenderLayer = LayerMask.NameToLayer("CanvasFirst");
+                    int canvasRenderLayer = LayerMask.NameToLayer("Hands");
 
                     child.gameObject.layer = canvasRenderLayer; //added for  visibility during loading canvas
 

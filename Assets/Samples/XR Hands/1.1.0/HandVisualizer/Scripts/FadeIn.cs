@@ -65,6 +65,7 @@ public class FadeIn : MonoBehaviour
                 info.color = infoTextColor;
                 info.alpha = 0;
                 UI.GetComponentInChildren<UIComponent>().ResetComponents();
+                GameObject.FindGameObjectWithTag("CanvasCamera").GetComponent<Camera>().cullingMask = LayerMask.GetMask("CanvasFirst");
             }
 
             yield return null;
@@ -103,8 +104,7 @@ public class FadeIn : MonoBehaviour
 
                 countdown.text = "Initializing next set..";
 
-                //TÄNNE MODE INSTRUCTIONS  // CONTINUE NAPPI KOLMEN SETIN JÄLKEE
-
+                
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
 
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *1f));
@@ -118,6 +118,7 @@ public class FadeIn : MonoBehaviour
             {
                 faded = false;
                 info.color = infoTextColor;
+                GameObject.FindGameObjectWithTag("CanvasCamera").GetComponent<Camera>().cullingMask = LayerMask.GetMask("CanvasFirst", "Hands");
                 //info.alpha = 0;
             }
 
