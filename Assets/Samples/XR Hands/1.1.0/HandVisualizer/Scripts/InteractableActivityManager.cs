@@ -120,8 +120,9 @@ public class InteractableActivityManager : MonoBehaviour
 
     void Start()
     {
-        GetMyColliders();
+       //GetMyColliders();
 
+       // collidables.ToggleColliders(false);
         originalMaterial = rendererToChange.material;
         ignoreInRaycast = LayerMask.GetMask("BlockHands");
         leftHandPos = new();
@@ -229,7 +230,7 @@ public class InteractableActivityManager : MonoBehaviour
 
         }
     }
-    void GetMyColliders() // finds colliders of this interactable, to ignore some in other scripts
+    public void GetMyColliders() // finds colliders of this interactable, to ignore some in other scripts
     {
         var result = transform.GetComponents<Collider>();
        // Debug.Log(result.Length + "found colliders length");
@@ -241,6 +242,7 @@ public class InteractableActivityManager : MonoBehaviour
             }
         }
         result = null;
+
         for (int i = 0; i < transform.childCount; i++)
         {
 
@@ -255,6 +257,7 @@ public class InteractableActivityManager : MonoBehaviour
             result = null;
         }
     }
+
     public void SetMySize() // sets interactable size based on the JSON
     {
 

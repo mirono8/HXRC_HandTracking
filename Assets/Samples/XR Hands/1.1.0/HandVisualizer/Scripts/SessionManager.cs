@@ -61,9 +61,10 @@ public class SessionManager : MonoBehaviour
             Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
-        if (setStart.CurrentRound() % roundsToPause == 0)
+        if (setStart.CurrentRound() == roundsToPause || firstSet)
         {
             setStart.automaticFade = false;
+            setStart.ResetRoundCounter();
         }
         else
         {
@@ -82,6 +83,8 @@ public class SessionManager : MonoBehaviour
         setStart.SetupInteractables();
 
         setStart.GameObjectsToTrack();
+
+        
 
         firstSet = false;
     }
@@ -113,6 +116,7 @@ public class SessionManager : MonoBehaviour
             if (setStart.CurrentRound() == roundsToPause)
             {
                 setStart.automaticFade = false;
+                setStart.ResetRoundCounter();
             }
             else
             {

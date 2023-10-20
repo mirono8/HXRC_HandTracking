@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "230YC01D86018S",
         "name": "com.HXRC.XRSpaceHandTracking",
-        "processId": 7300,
+        "processId": 27029,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -35,24 +35,6 @@
         {
             "deviceId": "230YC01D86018S",
             "name": "com.HXRC.XRSpaceHandTracking",
-            "processId": 22232,
-            "exited": true
-        },
-        {
-            "deviceId": "230YC01D86018S",
-            "name": "com.oculus.shellenv",
-            "processId": 2145,
-            "exited": true
-        },
-        {
-            "deviceId": "230YC01D86018S",
-            "name": "com.HXRC.XRSpaceHandTracking",
-            "processId": 31959,
-            "exited": true
-        },
-        {
-            "deviceId": "230YC01D86018S",
-            "name": "com.HXRC.XRSpaceHandTracking",
             "processId": 6510,
             "exited": true
         },
@@ -60,6 +42,30 @@
             "deviceId": "230YC01D86018S",
             "name": "com.HXRC.XRSpaceHandTracking",
             "processId": 7300,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 24259,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.android.permissioncontroller",
+            "processId": 1547,
+            "exited": false
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 8917,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D86018S",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 27029,
             "exited": false
         }
     ],

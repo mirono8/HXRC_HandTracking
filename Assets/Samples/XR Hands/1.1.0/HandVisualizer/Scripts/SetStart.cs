@@ -162,9 +162,11 @@ public class SetStart : MonoBehaviour
 
             StartCoroutine(grid.GetComponent<CollidableObjects>().PopulateCollidables());
 
-           
-            StartCoroutine(WaitForFade());
             
+
+            StartCoroutine(WaitForFade());
+
+           // grid.GetComponent<CollidableObjects>().ToggleColliders(false);
         }
     }
 
@@ -250,7 +252,10 @@ public class SetStart : MonoBehaviour
     {
         fadeIn.FaderInfoText(mode);
 
+        
         StartCoroutine(fadeIn.FadeCanvasIn());
+
+        grid.GetComponent<CollidableObjects>().ToggleColliders(false);
 
         if (!automaticFade)
         {
@@ -290,6 +295,8 @@ public class SetStart : MonoBehaviour
         {
             StartCoroutine(fadeIn.FadeCanvasOut());
         }
+
+        grid.GetComponent<CollidableObjects>().ToggleColliders(true);
         Debug.Log("wait for fade over");
     }
 
@@ -310,6 +317,11 @@ public class SetStart : MonoBehaviour
     public int CurrentRound()
     {
         return rounds;
+    }
+
+    public void ResetRoundCounter()
+    {
+        rounds = 0;
     }
 
     public void AssignSetParams(int round, bool reusePanel = false) // assigns current set's enumerables and finds the next free panel to use / reuses a panel if there are no unused panels
@@ -350,6 +362,7 @@ public class SetStart : MonoBehaviour
             Debug.Log("reusing panel");
         }
 
+        
         rounds++;
     }
 }

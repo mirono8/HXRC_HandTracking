@@ -32,6 +32,10 @@ public class CollidableObjects : MonoBehaviour
         foreach (GameObject obj in objects)
         {
             obj.GetComponent<InteractableActivityManager>().ToggleKinematic(true);
+
+            obj.GetComponent<InteractableActivityManager>().GetMyColliders();
+
+            ToggleColliders(false);
         }
 
         if (gameObject.GetComponent<RandomButtons>())
@@ -68,6 +72,22 @@ public class CollidableObjects : MonoBehaviour
 
         return nearest.gameObject;
     }
+
+    public void ToggleColliders(bool b)
+    {
+
+        Debug.Log("toggling interactable colliders as " + b);
+        for (int i = 0; i < objects.Count; i++)
+        {
+            var interactable = objects[i].GetComponent<InteractableActivityManager>();
+
+            for (int j = 0; j < interactable.colliders.Count; j++)
+            {
+                interactable.colliders[j].enabled = b;
+            }
+        }
+    }
+
 
     public void RandomizeOrderIndex()  
     {

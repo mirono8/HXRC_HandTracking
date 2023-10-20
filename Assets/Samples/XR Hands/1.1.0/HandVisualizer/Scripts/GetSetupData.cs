@@ -52,13 +52,13 @@ public class GetSetupData : MonoBehaviour
         Debug.Log("defaulted");
 
         //uncomment for set debugging use
-       /* ParsedData bogo = new();
-        bogo.size = "medium";
+        ParsedData bogo = new();
+        bogo.size = "random";
         bogo.type = "button";
-        bogo.mode = "matrix";
-        bogo.iCount = 3;
+        bogo.mode = "all";
+        bogo.iCount = 10;
         sets.Add(bogo);
-       */
+       
 
 
         //GRIDS

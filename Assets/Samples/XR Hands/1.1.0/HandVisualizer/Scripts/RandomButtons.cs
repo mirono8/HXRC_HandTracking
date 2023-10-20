@@ -368,12 +368,7 @@ public class RandomButtons : MonoBehaviour
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
     }
 
-    private void Update()
-    {
 
-        if (Input.GetButtonDown("FunnyTestKey")) // for debugging purposes
-            DoubleCheck();
-    }
 
    
 }
