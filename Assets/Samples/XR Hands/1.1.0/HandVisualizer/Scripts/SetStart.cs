@@ -45,6 +45,9 @@ public class SetStart : MonoBehaviour
 
     public bool automaticFade;
 
+    public TrackColliders leftHandColliders;
+    public TrackColliders rightHandColliders;
+
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -255,7 +258,10 @@ public class SetStart : MonoBehaviour
         
         StartCoroutine(fadeIn.FadeCanvasIn());
 
-        grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+     //   grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+        leftHandColliders.ToggleTrigger();
+        rightHandColliders.ToggleTrigger();
+        
 
         if (!automaticFade)
         {
@@ -295,8 +301,10 @@ public class SetStart : MonoBehaviour
         {
             StartCoroutine(fadeIn.FadeCanvasOut());
         }
-
-        grid.GetComponent<CollidableObjects>().ToggleColliders(true);
+        
+      //  grid.GetComponent<CollidableObjects>().ToggleColliders(true);
+        leftHandColliders.ToggleTrigger();
+        rightHandColliders.ToggleTrigger();
         Debug.Log("wait for fade over");
     }
 

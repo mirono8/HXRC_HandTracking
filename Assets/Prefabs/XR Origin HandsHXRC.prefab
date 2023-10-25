@@ -3311,6 +3311,7 @@ MonoBehaviour:
   smoothRotationTime: 0.5
   canvasCamera: {fileID: 5049741252739572604}
   UI: {fileID: 0}
+  infoTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6162501809687007977
 GameObject:
   m_ObjectHideFlags: 0
@@ -4077,6 +4078,7 @@ MonoBehaviour:
   - {fileID: 718268481}
   - {fileID: 705861522}
   - {fileID: 199230425}
+  physicsColliders: []
   handedness: 1
 --- !u!1 &7249354229388830020
 GameObject:
@@ -4419,6 +4421,7 @@ MonoBehaviour:
   - {fileID: 1601449550}
   - {fileID: 1119436666}
   - {fileID: 1458898568}
+  physicsColliders: []
   handedness: 0
 --- !u!1 &8596231525309069014
 GameObject:

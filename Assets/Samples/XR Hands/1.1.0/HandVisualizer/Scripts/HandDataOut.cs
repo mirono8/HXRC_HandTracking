@@ -314,6 +314,7 @@ namespace HandData
         {
             return hand.handPosition;
         }
+
         //------------------------------------------- Track finger positions ------------------------------//
         public bool IndexClosed(XRHand hand)
         {

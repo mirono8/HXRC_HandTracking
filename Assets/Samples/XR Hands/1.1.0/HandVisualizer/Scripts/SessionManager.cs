@@ -22,6 +22,9 @@ public class SessionManager : MonoBehaviour
 
     bool firstSet = true;
 
+
+ 
+
     private void Awake()
     {
         setStart = GetComponentInChildren<SetStart>(true);
@@ -31,6 +34,7 @@ public class SessionManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetInitialState());
+
     }
 
     IEnumerator GetInitialState() // loads intial state of the session from the scene
@@ -84,7 +88,7 @@ public class SessionManager : MonoBehaviour
 
         setStart.GameObjectsToTrack();
 
-        
+       
 
         firstSet = false;
     }
@@ -125,6 +129,9 @@ public class SessionManager : MonoBehaviour
 
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
+
+        
+
             setStart.GameObjectsToTrack();
             StartCoroutine(setStart.RunSet());
         }

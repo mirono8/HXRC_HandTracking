@@ -15,6 +15,9 @@ public class TrackColliders : MonoBehaviour
                                                              //USED IN
     public List<SphereCollider> proximalSphereColliders;     //LEVER GRABBING
 
+
+    public List<SphereCollider> physicsColliders = new();
+
     [HideInInspector]
     public enum Hand
     {
@@ -43,6 +46,16 @@ public class TrackColliders : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var spheres = transform.GetChild(i).GetComponents<SphereCollider>();
+
+            physicsColliders.Add(spheres[1]);
+            
+        }
+    }
     public class CollisionEvent
     {
         public string startTime;
@@ -71,5 +84,14 @@ public class TrackColliders : MonoBehaviour
     public Hand GetMyHandedness(TrackColliders finger)
     {
         return finger.handedness;
+    }
+
+    public void ToggleTrigger()
+    {
+        for (int i = 0; i < physicsColliders.Count; i++)
+        {
+            physicsColliders[i].isTrigger = !physicsColliders[i].isTrigger;
+
+        }
     }
 }

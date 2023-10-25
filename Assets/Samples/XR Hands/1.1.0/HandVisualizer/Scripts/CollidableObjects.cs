@@ -35,7 +35,7 @@ public class CollidableObjects : MonoBehaviour
 
             obj.GetComponent<InteractableActivityManager>().GetMyColliders();
 
-            ToggleColliders(false);
+           // ToggleColliders(false);
         }
 
         if (gameObject.GetComponent<RandomButtons>())
