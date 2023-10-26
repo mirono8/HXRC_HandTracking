@@ -157,15 +157,26 @@ public class SessionManager : MonoBehaviour
 
     private void Update()
     {
-        if (setStart.CurrentSessionMode() != "matrix")
+        if (setStart.CurrentSessionMode() == "onebyone")
         {
-            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear) // starts next set, there's probably a better way to do this :)
+            // starts next set, there's probably a better way to do this :)
+            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear)
                 TryStartNextSet();
+        }
+        else if (setStart.CurrentSessionMode() == "all")
+        {
+            var i = setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>();
+
+            if (i.collidables != null)
+            {
+                if (setStart.currentSetGameObjs.Any() && i.collidables.GetInteractSuccessCount() == i.collidables.objects.Count  && !allClear)
+                    TryStartNextSet();
+            }
         }
         else
         {
 
-            if (!firstSet)  //buildaa ja testaa toimiiks t‰‰, sit fixaa one eye homma ja touchpad..
+            if (!firstSet)  
             {
                 if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
                 {

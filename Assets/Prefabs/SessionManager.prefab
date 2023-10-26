@@ -49,6 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setupData: {fileID: 0}
+  mode: 
+  rounds: 0
+  interactableCount: 0
+  columnCount: 0
   gridPrefab: {fileID: 1010598251696885542, guid: 81207652a60c62b4880cced46fa6869b,
     type: 3}
   interactablePrefabs:
@@ -61,6 +65,9 @@ MonoBehaviour:
   grid: {fileID: 0}
   fadeIn: {fileID: 0}
   rig: {fileID: 0}
+  automaticFade: 1
+  leftHandColliders: {fileID: 0}
+  rightHandColliders: {fileID: 0}
 --- !u!1 &6480257609365778201
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +118,7 @@ MonoBehaviour:
   setCount: 0
   currentSet: 0
   allClear: 0
+  roundsToPause: 3
 --- !u!1 &6480257609559367528
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +166,7 @@ MonoBehaviour:
   panels: []
   panelScale: {x: 0.84615386, y: 0.84615386, z: 0.025245002}
   highlight: 0
+  latestPanel: {fileID: 0}
 --- !u!1 &6480257610173753434
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 1453859661635399154, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1453859661635399154, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
@@ -473,7 +482,7 @@ PrefabInstance:
     - target: {fileID: 1453859661635399154, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1453859661635399154, guid: 9f5b41c26fd830043a513465ac8c9d72,
         type: 3}

@@ -85,6 +85,7 @@ public class FingerCollisionDetector : MonoBehaviour
                             //fingerTipColliderTip = colliders.fingertips[i];
                             fingertipListIndex = i;
                             // Debug.Log(fingerTipColliderTip.finger);
+                            Debug.Log("SAVING NEW COLLISION EVENT TO JSON");
                             collisionEvent = new()
                             {
                                 startTime = DateTime.Now.ToString("HH-mm-ss"),

@@ -44,7 +44,7 @@ public class InteractableActivityManager : MonoBehaviour
     List<string> leftHandPos;
     List<string> rightHandPos;
 
-    CollidableObjects collidables;
+    public CollidableObjects collidables;
 
     [SerializeField]
     RandomButtons randomButtons;
@@ -567,6 +567,7 @@ public class InteractableActivityManager : MonoBehaviour
         {
             if (sessionMode != SessionMode.Matrix)
             {
+                collidables.AddToInteracted(myOrderIndex);
                 AllAtOnceCheckFunction(true);
             }
             else
@@ -589,40 +590,64 @@ public class InteractableActivityManager : MonoBehaviour
 
         if (b)
         {
-            if (myOrderIndex != collidables.objects.Count - 1)  //if i am not the last
+            if (collidables.GetInteractSuccessCount() != collidables.objects.Count -1)  //if (myOrderIndex != collidables.objects.Count - 1)  
             {
                 rendererToChange.material = originalMaterial;
 
                 var nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
-                if (nearestNeighbor != collidables.objects[myOrderIndex + 1]) // if my nearest neighbor is not next in order
-                {
-                    collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                    StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
 
+                
+                if (myOrderIndex != collidables.objects.Count - 1)//if i am not the last
+                {
+                    if (nearestNeighbor != collidables.objects[myOrderIndex + 1]) // if my nearest neighbor is not next in order  
+                    {
+                        collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                        StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+
+
+                    }
+                    else
+                    {
+                        if (nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex != collidables.objects.Count - 1) //if nearest is not last in order
+                        {
+                            var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);
+
+                            next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                            StartCoroutine(next.GetComponent<InteractableActivityManager>().StartInteractionEvent());
+
+                        }
+                        else
+                        {
+
+                            nearestNeighbor.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                            StartCoroutine(nearestNeighbor.GetComponent<InteractableActivityManager>().StartInteractionEvent());
+
+                        }
+                    }
                 }
                 else
                 {
-                    Debug.Log("next was too close");
-                    if (nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex == collidables.objects.Count - 1)
-                    {
-                        Debug.Log("it's fine its the last one");
+                    var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);
 
-                        nearestNeighbor.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                        StartCoroutine(nearestNeighbor.GetComponent<InteractableActivityManager>().StartInteractionEvent());
-
-                    }
-                    else if (collidables.objects[myOrderIndex + 2] != null)
-                    {
-                        collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                        StartCoroutine(collidables.objects[myOrderIndex + 2].GetComponent<InteractableActivityManager>().StartInteractionEvent());
-                    }
-                    else
-                        Debug.Log("shouldnt't be here");
+                    next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                    StartCoroutine(next.GetComponent<InteractableActivityManager>().StartInteractionEvent());
                 }
 
+                
                 SetMoveOn(true);
                 EndInteractionEvent();
+                collidables.AddToCounter();
             }
+            else //i am the last object
+            {
+                rendererToChange.material = originalMaterial;
+                
+                SetMoveOn(true);
+                EndInteractionEvent();
+                collidables.AddToCounter();
+            }
+
+
         }
         else
         {

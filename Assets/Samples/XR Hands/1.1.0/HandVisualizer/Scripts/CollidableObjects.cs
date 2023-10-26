@@ -11,8 +11,13 @@ public class CollidableObjects : MonoBehaviour
     [SerializeField]
     List<int> randomOrder = new List<int>();
 
+    [SerializeField]
+    List<int> interactedObjs = new List<int>();
+
     bool orderRandomized;
 
+    [SerializeField]
+    int interactSuccessCount = 0;
     private void OnEnable()
     {
         /*  if (!objects.Any())
@@ -21,6 +26,15 @@ public class CollidableObjects : MonoBehaviour
         
     }
 
+    public int GetInteractSuccessCount()
+    {
+        return interactSuccessCount;
+    }
+
+    public void AddToCounter()
+    {
+        interactSuccessCount++;
+    }
     public IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
     {
         yield return new WaitForSeconds(1);
@@ -35,7 +49,7 @@ public class CollidableObjects : MonoBehaviour
 
             obj.GetComponent<InteractableActivityManager>().GetMyColliders();
 
-           // ToggleColliders(false);
+
         }
 
         if (gameObject.GetComponent<RandomButtons>())
@@ -73,17 +87,38 @@ public class CollidableObjects : MonoBehaviour
         return nearest.gameObject;
     }
 
+    public void AddToInteracted(int i)
+    {
+        if(!interactedObjs.Contains(i))
+            interactedObjs.Add(i);
+    }
+
+    public GameObject PickNextUnusedInteractable(int i)
+    {
+        for (int objIndex = 0; objIndex < objects.Count; objIndex++)
+        {
+            if (objIndex != i)
+            {
+                if (!interactedObjs.Contains(objIndex))
+                {
+                    Debug.Log("skipped order, picked index of " + objIndex);
+                    return objects[objIndex];
+                }
+            }
+        }
+        return null;
+    }
     public void ToggleColliders(bool b)
     {
 
-        Debug.Log("toggling interactable colliders as " + b);
+       // Debug.Log("toggling interactable colliders as " + b);
         for (int i = 0; i < objects.Count; i++)
         {
             var interactable = objects[i].GetComponent<InteractableActivityManager>();
 
             for (int j = 0; j < interactable.colliders.Count; j++)
             {
-                interactable.colliders[j].enabled = b;
+                interactable.colliders[j].isTrigger = b;
             }
         }
     }

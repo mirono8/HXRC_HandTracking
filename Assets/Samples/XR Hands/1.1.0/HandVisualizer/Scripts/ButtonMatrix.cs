@@ -55,7 +55,7 @@ public class ButtonMatrix : MonoBehaviour
 
         collidables = GetComponent<CollidableObjects>();
         grid = GetComponent<GridToPanel>();
-        
+        collidables.ToggleColliders(true);
 
         objsPerColumn = setData.columnCount;
         columnCount = setData.columnCount;
@@ -268,7 +268,7 @@ public class ButtonMatrix : MonoBehaviour
     {
         if (collidables.objects.Count < 10)
         {
-            interactionsGoal = collidables.objects.Count;    
+            interactionsGoal = collidables.objects.Count;    //asettaa gridin alle 10 obj kokoisen gridin interaction goalin obj määräksi
         }
         else
         {

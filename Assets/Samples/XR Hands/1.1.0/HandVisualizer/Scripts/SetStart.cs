@@ -169,7 +169,7 @@ public class SetStart : MonoBehaviour
 
             StartCoroutine(WaitForFade());
 
-           // grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+            grid.GetComponent<CollidableObjects>().ToggleColliders(false);
         }
     }
 
@@ -258,7 +258,7 @@ public class SetStart : MonoBehaviour
         
         StartCoroutine(fadeIn.FadeCanvasIn());
 
-     //   grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+        grid.GetComponent<CollidableObjects>().ToggleColliders(true);
         leftHandColliders.ToggleTrigger();
         rightHandColliders.ToggleTrigger();
         
@@ -302,7 +302,7 @@ public class SetStart : MonoBehaviour
             StartCoroutine(fadeIn.FadeCanvasOut());
         }
         
-      //  grid.GetComponent<CollidableObjects>().ToggleColliders(true);
+        grid.GetComponent<CollidableObjects>().ToggleColliders(false);
         leftHandColliders.ToggleTrigger();
         rightHandColliders.ToggleTrigger();
         Debug.Log("wait for fade over");

@@ -52,8 +52,9 @@ public class GetSetupData : MonoBehaviour
         Debug.Log("defaulted");
 
         //uncomment for set debugging use
+
         ParsedData bogo = new();
-        bogo.size = "random";
+        bogo.size = "medium";
         bogo.type = "button";
         bogo.mode = "all";
         bogo.iCount = 10;

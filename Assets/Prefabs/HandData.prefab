@@ -79,7 +79,7 @@ MonoBehaviour:
       trackColliders: {fileID: 0}
     fingerColliders: []
   rightHand:
-    myHandedness: 0
+    myHandedness: 1
     handPosition: {x: 0, y: 0, z: 0}
     forward: {x: 0, y: 0, z: 0}
     isGrabbing: 0
@@ -150,9 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392c5f68ff6cdb044b141fd6afe3c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideWithDefaults: 1
   timer: 0
-  data:
-    id: 0
-    size: 
-    type: 
+  sets: []
   onSessionStart: {fileID: 0}

@@ -36,6 +36,8 @@ public class RandomButtons : MonoBehaviour
 
         collidables = GetComponent<CollidableObjects>();
 
+        collidables.ToggleColliders(true);
+
         foreach (GameObject x in collidables.objects)
         {
             originalPositions.Add(x.transform.localPosition);
@@ -367,8 +369,6 @@ public class RandomButtons : MonoBehaviour
     {
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
     }
-
-
 
    
 }
