@@ -36,6 +36,8 @@ public class SessionManager : MonoBehaviour
         StartCoroutine(GetInitialState());
 
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
+
+        
     }
 
     IEnumerator GetInitialState() // loads intial state of the session from the scene
@@ -43,6 +45,7 @@ public class SessionManager : MonoBehaviour
         yield return new WaitUntil(SessionActiveStatus);
 
         setCount = setStart.setupData.sets.Count;
+        InjectSetCount();
 
         panelManager.FindAllPanels();
 
@@ -98,6 +101,7 @@ public class SessionManager : MonoBehaviour
     {
         
         currentSet++;
+        InjectCurrentSet();
 
         if (currentSet < setCount)
         {
@@ -159,6 +163,16 @@ public class SessionManager : MonoBehaviour
     public bool FaderStatus()
     {
         return fader.FaderStatus();
+    }
+
+    public void InjectSetCount()
+    {
+        fader.SetSetCount(setCount);
+    }
+
+    public void InjectCurrentSet()
+    {
+        fader.SetCurrentSet(currentSet);
     }
     private void Update()
     {

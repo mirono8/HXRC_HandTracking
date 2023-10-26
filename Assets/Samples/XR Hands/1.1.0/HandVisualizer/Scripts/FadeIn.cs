@@ -9,8 +9,14 @@ public class FadeIn : MonoBehaviour
     [SerializeField]
     TMP_Text countdown;
 
-      [SerializeField]
+    [SerializeField]
     TMP_Text info;
+
+    [SerializeField]
+    TMP_Text setData;
+
+    int setCount;
+    int currentSet;
 
     [SerializeField]
     float timer;
@@ -35,6 +41,8 @@ public class FadeIn : MonoBehaviour
     public GameObject UI;
 
     public Color infoTextColor;
+
+    
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -55,6 +63,8 @@ public class FadeIn : MonoBehaviour
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1f));
 
                 info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a - (0.02f * 1f));
+
+                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, setData.color.a - (0.02f * 1f));
 
             }
 
@@ -95,7 +105,7 @@ public class FadeIn : MonoBehaviour
              start = false;
              debug = false;
          }*/
-
+        setData.text = currentSet.ToString() + "/" + setCount.ToString();
         do
         {
             if (fader.color.a < 1 && faded)
@@ -105,11 +115,14 @@ public class FadeIn : MonoBehaviour
                 countdown.text = "Initializing next set..";
 
                 
+
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
 
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *1f));
 
                 info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a + (0.02f * 1f));
+
+                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, setData.color.a + (0.02f * 1f));
                 //gameObject.SetActive(false);
 
 
@@ -174,9 +187,19 @@ public class FadeIn : MonoBehaviour
         
     }
 
+    public void SetSetCount(int i)
+    {
+        setCount = i;
+    }
+
+    public void SetCurrentSet(int i)
+    {
+        currentSet = i;
+    }
     private void Start()
     {
         infoTextColor = info.color;
+        setData.text = currentSet.ToString() + "/" + setCount.ToString();
     }
     private void FixedUpdate()
     {
