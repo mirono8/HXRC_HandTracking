@@ -627,6 +627,7 @@ public class InteractableActivityManager : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("going for last pick");
                     var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);
 
                     next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;

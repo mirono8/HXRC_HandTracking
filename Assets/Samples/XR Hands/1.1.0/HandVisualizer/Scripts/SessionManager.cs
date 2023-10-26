@@ -22,7 +22,7 @@ public class SessionManager : MonoBehaviour
 
     bool firstSet = true;
 
-
+    FadeIn fader;
  
 
     private void Awake()
@@ -35,6 +35,7 @@ public class SessionManager : MonoBehaviour
     {
         StartCoroutine(GetInitialState());
 
+        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
     }
 
     IEnumerator GetInitialState() // loads intial state of the session from the scene
@@ -155,6 +156,10 @@ public class SessionManager : MonoBehaviour
         return setStart.gameObject.activeSelf;
     }
 
+    public bool FaderStatus()
+    {
+        return fader.FaderStatus();
+    }
     private void Update()
     {
         if (setStart.CurrentSessionMode() == "onebyone")

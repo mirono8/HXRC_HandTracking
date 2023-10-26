@@ -15,7 +15,7 @@ public class FingerCollisionDetector : MonoBehaviour
 
     //Track fader status and change colliders to triggers accordingly
 
-    
+    SessionManager sessionManager;
     private enum ThisHand
     {
         left,right
@@ -27,13 +27,14 @@ public class FingerCollisionDetector : MonoBehaviour
         handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
         colliders = GetComponentInParent<TrackColliders>();
 
+        sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
         
     }
     private void OnTriggerEnter(Collider other)
     {
         
 
-        if (other.gameObject.GetComponentInParent<CollidableObjects>())
+        if (other.gameObject.GetComponentInParent<CollidableObjects>() && sessionManager.FaderStatus())
         {
             
             if (colliders.handedness == TrackColliders.Hand.left)
@@ -138,7 +139,7 @@ public class FingerCollisionDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.transform.GetComponentInParent<CollidableObjects>())
+        if (other.gameObject.transform.GetComponentInParent<CollidableObjects>() && sessionManager.FaderStatus())
         {
             // colliders.tipColliders[fingertipListIndex].colliding = false;
             if ((int)thisHand == (int)handData.leftHand.myHandedness)
