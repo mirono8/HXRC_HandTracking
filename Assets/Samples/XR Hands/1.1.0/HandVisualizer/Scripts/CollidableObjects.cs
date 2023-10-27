@@ -73,6 +73,7 @@ public class CollidableObjects : MonoBehaviour
         {
             if (obj != objects[i])
             {
+
                 Vector3 directionToTarget = obj.transform.position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
                 if (dSqrToTarget < closestDistanceSqr)
@@ -124,9 +125,9 @@ public class CollidableObjects : MonoBehaviour
     }
 
 
-    public void RandomizeOrderIndex()  
+    public void RandomizeOrderIndex(int extraObjs)  
     {
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < objects.Count - extraObjs; i++)
         {
             randomOrder.Add(i);
         }
@@ -143,8 +144,6 @@ public class CollidableObjects : MonoBehaviour
         RandomOrderSet(true);
 
     }
-
-
 
     public void ResetRandomOrder()
     {

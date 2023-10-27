@@ -74,13 +74,15 @@ public class InteractableActivityManager : MonoBehaviour
 
     public Collider intersectionCollider;
 
-    private bool moveOn;
+    public bool moveOn;
 
     public bool tooClose;
 
     public bool rayCasting = true;
 
     public bool boundsCollide;
+
+    public bool interactionEventStarted = false;
 
     public Transform RaycastStartPos;
 
@@ -409,37 +411,40 @@ public class InteractableActivityManager : MonoBehaviour
     #region JSONDataCollection
     public IEnumerator StartInteractionEvent()  // Aloittaa tämän interactablen datan seurannan JSONia varten  // <- this but in english
     {
-        Debug.Log("start interaction event");
-
-        
-
-        if (randomButtons != null)
+        if (!interactionEventStarted)
         {
-            if (randomButtons.oneByOne && myOrderIndex == 0)
+            interactionEventStarted = true;
+            Debug.Log("start interaction event");
+
+
+
+            if (randomButtons != null)
             {
-                yield return new WaitForSeconds(1);
+                if (randomButtons.oneByOne && myOrderIndex == 0)
+                {
+                    yield return new WaitForSeconds(1);
+                }
             }
+
+            if (!randomButtons)
+            {
+                yield return new WaitUntil(matrix.PassFaderStatus);
+            }
+            else
+            {
+                yield return new WaitUntil(randomButtons.PassFaderStatus);
+            }
+
+            Debug.Log("interaction starting, fade over");
+            myDuration = 0;
+
+            interactableEvent = new SaveManager.InteractableEvent();
+            interactableEvent.trajectory = new();
+
+            interactableEvent.interactableSize = size.ToString().Substring(0, 1).ToLower();
+            interactableEvent.interactableType = type.ToString().Substring(0, 1).ToLower();
+
         }
-
-        if (!randomButtons)
-        {
-            yield return new WaitUntil(matrix.PassFaderStatus);
-        }
-        else
-        {
-            yield return new WaitUntil(randomButtons.PassFaderStatus);
-        }
-
-        Debug.Log("interaction starting, fade over");
-        myDuration = 0;
-
-        interactableEvent = new SaveManager.InteractableEvent();
-        interactableEvent.trajectory = new();
-
-        interactableEvent.interactableSize = size.ToString().Substring(0, 1).ToLower();
-        interactableEvent.interactableType = type.ToString().Substring(0, 1).ToLower();
-
-
     }
 
     public void EndInteractionEvent() // ends the tracking of the interaction event for this interactable, saves the data to JSON
@@ -528,6 +533,7 @@ public class InteractableActivityManager : MonoBehaviour
             rendererToChange.material = highlightMaterial;
         }
 
+
     }
 
 
@@ -572,6 +578,7 @@ public class InteractableActivityManager : MonoBehaviour
             }
             else
             {
+                collidables.AddToInteracted(myOrderIndex);
                 AllAtOnceCheckFunction(false);
             }
         }
@@ -657,21 +664,26 @@ public class InteractableActivityManager : MonoBehaviour
 
             if (myOrderIndex != collidables.objects.Count - 1) //(collidables.objects[myOrderIndex + 1] != null)
             {
-                collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
-                StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                if (collidables.objects[myOrderIndex + 1] != null)
+                {
+                    collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
+                
+                    StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                }
             }
-
+            
             SetMoveOn(true);
             EndInteractionEvent();
+            collidables.AddToCounter();
 
         }
     }
-    void SetMoveOn(bool b) // set is done
+    void SetMoveOn(bool b) // move to next interactable
     {
        moveOn = b;
     }
 
-    bool MoveOn() // set is done
+    bool MoveOn() // move to next interactable
     {
         return moveOn;
     }
@@ -910,8 +922,10 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void Update()  // all checks and other things are being run in here (yrjistä)
     {
-        if (!interactSuccess)
+        if (!interactSuccess && sessionManager.CurrentState() == States.State.Active)
+        {
             myDuration += Time.deltaTime;
+        }
 
         if (rendererToChange.sharedMaterial == highlightMaterial)
         {

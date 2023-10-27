@@ -34,7 +34,7 @@ public class FingerCollisionDetector : MonoBehaviour
     {
         
 
-        if (other.gameObject.GetComponentInParent<CollidableObjects>() && sessionManager.FaderStatus())
+        if (other.gameObject.GetComponentInParent<CollidableObjects>() && sessionManager.CurrentState() == States.State.Active)
         {
             
             if (colliders.handedness == TrackColliders.Hand.left)
@@ -139,7 +139,7 @@ public class FingerCollisionDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.transform.GetComponentInParent<CollidableObjects>() && sessionManager.FaderStatus())
+        if (other.gameObject.transform.GetComponentInParent<CollidableObjects>() && sessionManager.CurrentState() == States.State.Active)
         {
             // colliders.tipColliders[fingertipListIndex].colliding = false;
             if ((int)thisHand == (int)handData.leftHand.myHandedness)

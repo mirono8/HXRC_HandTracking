@@ -86,11 +86,11 @@ public class TrackColliders : MonoBehaviour
         return finger.handedness;
     }
 
-    public void ToggleTrigger()
+    public void ToggleTrigger(bool b)
     {
         for (int i = 0; i < physicsColliders.Count; i++)
         {
-            physicsColliders[i].isTrigger = !physicsColliders[i].isTrigger;
+            physicsColliders[i].isTrigger = b;
 
         }
     }

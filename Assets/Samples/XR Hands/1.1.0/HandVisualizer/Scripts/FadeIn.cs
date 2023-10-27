@@ -88,23 +88,7 @@ public class FadeIn : MonoBehaviour
     public IEnumerator FadeCanvasIn()
     {
         Debug.Log("Fading in");
-        /* if (fader.color.a <= 1 && faded)
-         {
-             start = true;
 
-             countdown.text = "Initializing next set..";
-             fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 0.25f));
-             countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f * 0.25f));
-             //gameObject.SetActive(false);
-             debug = true;
-
-         }
-         else
-         {
-             faded = false;
-             start = false;
-             debug = false;
-         }*/
         setData.text = currentSet.ToString() + "/" + setCount.ToString();
         do
         {
@@ -212,8 +196,7 @@ public class FadeIn : MonoBehaviour
             timer -= Time.deltaTime;
         }
 
-
-        Vector3 targetPos = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 10f));
+        Vector3 targetPos = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 13f));
 
 
         Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetPos), ref velocity, smoothTime);

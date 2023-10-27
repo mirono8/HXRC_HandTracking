@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SessionManager : MonoBehaviour
+public class SessionManager : States
 {
 
     public SetStart setStart;
@@ -103,6 +103,8 @@ public class SessionManager : MonoBehaviour
         currentSet++;
         InjectCurrentSet();
 
+        ChangeState(State.Paused);
+
         if (currentSet < setCount)
         {
 
@@ -131,6 +133,8 @@ public class SessionManager : MonoBehaviour
             {
                 setStart.automaticFade = true;
             }
+
+            
 
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
@@ -176,6 +180,15 @@ public class SessionManager : MonoBehaviour
     }
     private void Update()
     {
+        if (fader.FaderStatus())
+        {
+            ChangeState(State.Active);
+        }
+        else
+        {
+            ChangeState(State.Paused);
+        }
+
         if (setStart.CurrentSessionMode() == "onebyone")
         {
             // starts next set, there's probably a better way to do this :)
@@ -184,17 +197,19 @@ public class SessionManager : MonoBehaviour
         }
         else if (setStart.CurrentSessionMode() == "all")
         {
-            var i = setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>();
 
-            if (i.collidables != null)
+
+            if (setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>() != null)
             {
-                if (setStart.currentSetGameObjs.Any() && i.collidables.GetInteractSuccessCount() == i.collidables.objects.Count  && !allClear)
+                if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().collidables.GetInteractSuccessCount()
+                    == setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().collidables.objects.Count && !allClear)
+                {
                     TryStartNextSet();
+                }
             }
         }
         else
         {
-
             if (!firstSet)  
             {
                 if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())

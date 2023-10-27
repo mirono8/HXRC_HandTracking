@@ -53,12 +53,12 @@ public class GetSetupData : MonoBehaviour
 
         //uncomment for set debugging use
 
-      /*  ParsedData bogo = new();
+        ParsedData bogo = new();
         bogo.size = "medium";
         bogo.type = "button";
-        bogo.mode = "all";
-        bogo.iCount = 10;
-        sets.Add(bogo);  */
+        bogo.mode = "matrix";
+        bogo.iCount = 3;
+        sets.Add(bogo);  
        
 
 

@@ -8,6 +8,8 @@ public class SetStart : MonoBehaviour
 {
     public GetSetupData setupData;
 
+    SessionManager sessionManager;
+
     string size;
     string type;
     [SerializeField]
@@ -57,14 +59,20 @@ public class SetStart : MonoBehaviour
         interactableCount = setupData.ReturnInteractableCount(0);
         columnCount = interactableCount; //ehkä kaks eri arvoo?
         rig = GameObject.FindGameObjectWithTag("Player");
-
+        sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
         automaticFade = true;
     }
 
     private void Start()
     {
+        
         grid = Instantiate(gridPrefab, gameObject.transform);
         setGrid.Add(grid);
+    }
+
+    private void Update()
+    {
+        DisableCollision();
     }
 
     public void SetupInteractables() // sets the interactables for current set active and adjusts them based on loaded values
@@ -160,6 +168,19 @@ public class SetStart : MonoBehaviour
 
                         currentSetGameObjs.Add(x);
                     }
+                }
+
+                if (currentSetGameObjs.Count < grid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
+                {
+                    var x = Instantiate(temp, grid.transform.GetChild(0));
+                    x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
+                    x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
+                    x.GetComponent<InteractableActivityManager>().SetMySize();
+
+                    grid.GetComponent<ButtonMatrix>().extraObjs.Add(x);
+                    //x.SetActive(false);
+
+                    currentSetGameObjs.Add(x);
                 }
             }
 
@@ -258,9 +279,6 @@ public class SetStart : MonoBehaviour
         
         StartCoroutine(fadeIn.FadeCanvasIn());
 
-        grid.GetComponent<CollidableObjects>().ToggleColliders(true);
-        leftHandColliders.ToggleTrigger();
-        rightHandColliders.ToggleTrigger();
         
 
         if (!automaticFade)
@@ -302,10 +320,24 @@ public class SetStart : MonoBehaviour
             StartCoroutine(fadeIn.FadeCanvasOut());
         }
         
-        grid.GetComponent<CollidableObjects>().ToggleColliders(false);
-        leftHandColliders.ToggleTrigger();
-        rightHandColliders.ToggleTrigger();
+        
         Debug.Log("wait for fade over");
+    }
+
+    public void DisableCollision()
+    {
+        if (sessionManager.CurrentState() == States.State.Paused)
+        {
+            grid.GetComponent<CollidableObjects>().ToggleColliders(true);
+            leftHandColliders.ToggleTrigger(true);
+            rightHandColliders.ToggleTrigger(true);
+        }
+        else
+        {
+            grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+            leftHandColliders.ToggleTrigger(false);
+            rightHandColliders.ToggleTrigger(false);
+        }
     }
 
     public string CurrentSessionMode()

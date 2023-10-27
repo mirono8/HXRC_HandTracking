@@ -25,7 +25,8 @@ public class SaveManager : MonoBehaviour
     float timeSinceLastStamp = 0;
 
 
-    float testTime = 0;
+    SessionManager sessionManager;
+
     [SerializeField]
     public class DataWrapper
     {
@@ -99,6 +100,7 @@ public class SaveManager : MonoBehaviour
     private void Awake()
     {
         data = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
+        sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
     }
 
     private void Start()
@@ -122,11 +124,12 @@ public class SaveManager : MonoBehaviour
     {
         timeSinceLastStamp += Time.deltaTime;
 
-        combinedData.elapsedTime += Time.deltaTime;
-
-
-        testTime += Time.deltaTime;
-
+        if (sessionManager.CurrentState() == States.State.Active)
+        {
+            combinedData.elapsedTime += Time.deltaTime;
+        }
+       
+        
 
         if (combinedData.currentTask.isCompleted)
         {
@@ -139,24 +142,8 @@ public class SaveManager : MonoBehaviour
             EventMe();*/
     }
 
-    public void EventMe()
-    {
-        var x = new InteractableEvent();
-        x.startPoint = "adssad";
-
-        x.endPoint = "omegalul";
 
 
-        x.interactableType = "sanonko";
-
-        x.interactableSize = "humongous";
-
-
-        x.distance = "long";
-
-        x.duration = "eternal";
-        combinedData.interactableEvents.events.Add(x);
-    }
     public DataBlock BlockMe()
     {
 
@@ -239,21 +226,24 @@ public class SaveManager : MonoBehaviour
             
         }
     }
+
+
     public void Save()
     {
-        CheckOnNull();
+        
+            CheckOnNull();
 
-        Debug.Log("SAVING");
-        //interactable events here!!!!!     //alikansio aina startissa maybe!
+            Debug.Log("SAVING");
+            //interactable events here!!!!!     //alikansio aina startissa maybe!
 
-        // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
-        var j = JsonUtility.ToJson(combinedData);
+            // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
+            var j = JsonUtility.ToJson(combinedData);
 
-        // var json = JsonUtility.ToJson(combinedData);
+            // var json = JsonUtility.ToJson(combinedData);
 
 #if UNITY_EDITOR
 
-   var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
+            var saveFolder = Directory.CreateDirectory(dirPath + "JSONFiles/");
 
 #else
 
@@ -263,7 +253,8 @@ public class SaveManager : MonoBehaviour
 
 
 
-        File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
+            File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
+        
     }
     
 

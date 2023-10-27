@@ -2,6 +2,7 @@ using HandData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ButtonMatrix : MonoBehaviour
@@ -18,7 +19,7 @@ public class ButtonMatrix : MonoBehaviour
     int columnCount; //t‰‰ setupdatast!!!!   also cap matrix to 9x9!!!
  
     [SerializeField]
-    int currentRow = 0;   //bugaa uudelleenk‰ytt‰ess‰ paneelia!
+    int currentRow = 0;   
 
     [SerializeField]
     int objsPerColumn;
@@ -42,18 +43,23 @@ public class ButtonMatrix : MonoBehaviour
 
     bool readyToTrack;
 
-    [SerializeField]
-    int interactionsGoal = 10;
+    public int interactionsGoal = 10;
+
+    [SerializeField]  // if you want more interactions than the amount of available buttons
+    bool rollover = true;
+
+    public List<GameObject> extraObjs = new();
 
     private void Start()
     {
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
         setData = GameObject.FindGameObjectWithTag("SessionManager").GetComponentInChildren<SetStart>();
+        collidables = GetComponent<CollidableObjects>();
     }
     public IEnumerator ReadyForSetup()
     {
 
-        collidables = GetComponent<CollidableObjects>();
+        
         grid = GetComponent<GridToPanel>();
         collidables.ToggleColliders(true);
 
@@ -81,7 +87,7 @@ public class ButtonMatrix : MonoBehaviour
 
         yield return new WaitUntil(AllocateRows);
 
-        collidables.RandomizeOrderIndex();
+        collidables.RandomizeOrderIndex(extraObjs.Count);
 
         yield return new WaitUntil(collidables.RandomOrderReady);
         ArrangeInteractables();
@@ -223,24 +229,58 @@ public class ButtonMatrix : MonoBehaviour
         Debug.Log("allonsy");
         var columnNum = 0;
         var rowNum = 0;
-        for (int i = 0; i < collidables.objects.Count; i++)
+        for (int i = 0; i < objsPerColumn * columnCount; i++)
         {
-            var r = collidables.GetRandomOrder(i);
-
-            collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0.005f);
-
-            RotateByType(collidables.objects[r]);
-
-            rowNum++;
-
-            if (rowNum == objsPerColumn)
+            if (!extraObjs.Contains(collidables.objects[i]))
             {
-                rowNum = 0;
-                columnNum++;
-            }
+                var r = collidables.GetRandomOrder(i);
 
-            collidables.objects[r].SetActive(true);
+                collidables.objects[r].transform.localPosition = new Vector3(rows[rowNum], columns[columnNum], 0.005f);
+
+                RotateByType(collidables.objects[r]);
+
+                rowNum++;
+
+                if (rowNum == objsPerColumn)
+                {
+                    rowNum = 0;
+                    columnNum++;
+                }
+
+                collidables.objects[r].SetActive(true);
+            }
         }
+
+        if (extraObjs.Count > 0)
+        {
+            for (int i = 0; i < extraObjs.Count; i++)
+            {
+                ArrangeExtras(i);
+            }
+        }
+    }
+
+    public void ArrangeExtras(int index)
+    {
+        Debug.Log("last normal interactable index " + (objsPerColumn * columnCount + index));
+        Vector3 previousPos = collidables.objects[(objsPerColumn * columnCount) + index].gameObject.transform.localPosition;
+
+        var randomRow = UnityEngine.Random.Range(0, rows.Count - 1);
+        var randomColumn = UnityEngine.Random.Range(0, columns.Count - 1);
+
+        Vector3 extraPos = new Vector3(rows[randomRow], columns[randomColumn], 0.005f);
+
+        if (extraPos != previousPos)
+        {
+            extraObjs[index].transform.localPosition = extraPos;
+            RotateByType(extraObjs[index]);
+        }
+        else
+        {
+            Debug.Log("same position in extras");
+        }
+
+        
     }
 
     public void RotateByType(GameObject g)
@@ -266,7 +306,7 @@ public class ButtonMatrix : MonoBehaviour
 
     public void MatrixInteractionCheck() 
     {
-        if (collidables.objects.Count < 10)
+        if (collidables.objects.Count < 10 && !rollover)
         {
             interactionsGoal = collidables.objects.Count;    //asettaa gridin alle 10 obj kokoisen gridin interaction goalin obj m‰‰r‰ksi
         }
@@ -275,20 +315,40 @@ public class ButtonMatrix : MonoBehaviour
             interactionsGoal = 10;
         }
 
-        interactions = 0;
-        for (int i = 0; i < collidables.objects.Count; i++)
+
+        if (extraObjs.Any())  // all this fuckery for one extra button
         {
-            if (collidables.objects[i].GetComponent<InteractableActivityManager>().interactSuccess)
+            for (int i = 0; i < extraObjs.Count; i++)
             {
-                interactions++;
+                var x = collidables.objects.Find(x => x.activeSelf && x.transform.localPosition == extraObjs[i].transform.localPosition);
+
+                if (x != null && x.GetComponent<InteractableActivityManager>().interactSuccess)
+                {
+                    if (!extraObjs[i].activeSelf && x.GetComponent<InteractableActivityManager>().moveOn)
+                    {
+                        x.SetActive(false);
+                        extraObjs[i].SetActive(true);  //TEST
+                        if (!extraObjs[i].GetComponent<InteractableActivityManager>().interactionEventStarted && collidables.GetInteractSuccessCount() >= collidables.objects.Count - extraObjs.Count)
+                        {
+                           extraObjs[i].GetComponent<InteractableActivityManager>().rendererToChange.material = extraObjs[i].GetComponent<InteractableActivityManager>().highlightMaterial;
+                           StartCoroutine(extraObjs[i].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                        }
+                    }
+                }
             }
         }
     }
 
     public bool IsSetDone()
     {
-
-        return interactions == interactionsGoal;
+        if (collidables.objects.Any())
+        {
+            return collidables.GetInteractSuccessCount() == interactionsGoal;
+        }
+        else
+        {
+            return false; 
+        }
     }
     public bool AllocateRows()
     {
