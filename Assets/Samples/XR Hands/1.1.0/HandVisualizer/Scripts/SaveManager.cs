@@ -21,7 +21,7 @@ public class SaveManager : MonoBehaviour
 
     readonly float stampInterval = 0.05f;
 
-    [SerializeField]
+    
     float timeSinceLastStamp = 0;
 
 
@@ -31,6 +31,7 @@ public class SaveManager : MonoBehaviour
     public class DataWrapper
     {
         //[JsonProperty("eT")]
+        
         public float elapsedTime;
 
        // [JsonProperty("T")]
@@ -233,9 +234,9 @@ public class SaveManager : MonoBehaviour
         
             CheckOnNull();
 
-            Debug.Log("SAVING");
+            Debug.Log("SAVING, elapset time " + combinedData.elapsedTime);
             //interactable events here!!!!!     //alikansio aina startissa maybe!
-
+            
             // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
             var j = JsonUtility.ToJson(combinedData);
 

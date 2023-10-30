@@ -343,12 +343,10 @@ public class ButtonMatrix : MonoBehaviour
             interactionsGoal = 10;
         }
 
-
-        if (extraObjs.Any())  // all this fuckery for one extra button
+        if (extraObjs.Any() && rollover)  // all this fuckery for one extra button
         {
             for (int i = 0; i < extraObjs.Count; i++)
             {
-
                 var x = collidables.objects.Find(x => x.activeSelf && x.transform.localPosition == extraObjs[i].transform.localPosition);
 
                 if (x != null && x.GetComponent<InteractableActivityManager>().interactSuccess)
@@ -356,7 +354,7 @@ public class ButtonMatrix : MonoBehaviour
                     if (!extraObjs[i].activeSelf && x.GetComponent<InteractableActivityManager>().moveOn)
                     {
                         x.SetActive(false);
-                        extraObjs[i].SetActive(true);  //TEST
+                        extraObjs[i].SetActive(true);
 
                         if (i == 0)
                         {
