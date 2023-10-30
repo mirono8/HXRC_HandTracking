@@ -50,6 +50,8 @@ public class ButtonMatrix : MonoBehaviour
 
     public List<GameObject> extraObjs = new();
 
+    public List<Vector3> previousPositions = new();
+
     private void Start()
     {
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
@@ -239,6 +241,11 @@ public class ButtonMatrix : MonoBehaviour
 
                 RotateByType(collidables.objects[r]);
 
+                if (i == (objsPerColumn * columnCount) - 1) //if last, put in previous
+                {
+                    previousPositions.Add(collidables.objects[i].transform.localPosition);
+                }
+
                 rowNum++;
 
                 if (rowNum == objsPerColumn)
@@ -248,7 +255,11 @@ public class ButtonMatrix : MonoBehaviour
                 }
 
                 collidables.objects[r].SetActive(true);
+
+                
             }
+
+            
         }
 
         if (extraObjs.Count > 0)
@@ -262,25 +273,42 @@ public class ButtonMatrix : MonoBehaviour
 
     public void ArrangeExtras(int index)
     {
+        
         Debug.Log("last normal interactable index " + (objsPerColumn * columnCount + index));
         Vector3 previousPos = collidables.objects[(objsPerColumn * columnCount) + index].gameObject.transform.localPosition;
 
-        var randomRow = UnityEngine.Random.Range(0, rows.Count - 1);
-        var randomColumn = UnityEngine.Random.Range(0, columns.Count - 1);
+        if (previousPositions.Any())
+        {
+            previousPos = previousPositions[^1];
+        }
+        var randomRow = UnityEngine.Random.Range(0, rows.Count);
+        var randomColumn = UnityEngine.Random.Range(0, columns.Count);
+
+        Debug.Log(randomRow);
+        Debug.Log(randomColumn);
 
         Vector3 extraPos = new Vector3(rows[randomRow], columns[randomColumn], 0.005f);
 
-        if (extraPos != previousPos)
+        Debug.Log(extraPos + " pos of extraobj " + index + ", previous pos was " + previousPos);
+
+        if (extraPos != previousPos && previousPos != Vector3.zero)
         {
             extraObjs[index].transform.localPosition = extraPos;
             RotateByType(extraObjs[index]);
+            previousPositions.Add(extraPos);
+        }
+        else if (previousPos == Vector3.zero)
+        {
+            Debug.Log("recursion since previous was extra, ei pit‰s en‰‰ tulla t‰nne");
+           // previousVectors.Add(previousPos);
+            //ArrangeExtras(index, previousVectors);
         }
         else
         {
-            Debug.Log("same position in extras");
-        }
+            Debug.Log("same position as previous, calling again");
 
-        
+           ArrangeExtras(index);
+        }
     }
 
     public void RotateByType(GameObject g)
@@ -304,7 +332,7 @@ public class ButtonMatrix : MonoBehaviour
         }
     }
 
-    public void MatrixInteractionCheck() 
+    public void MatrixInteractionCheck()
     {
         if (collidables.objects.Count < 10 && !rollover)
         {
@@ -320,6 +348,7 @@ public class ButtonMatrix : MonoBehaviour
         {
             for (int i = 0; i < extraObjs.Count; i++)
             {
+
                 var x = collidables.objects.Find(x => x.activeSelf && x.transform.localPosition == extraObjs[i].transform.localPosition);
 
                 if (x != null && x.GetComponent<InteractableActivityManager>().interactSuccess)
@@ -328,16 +357,21 @@ public class ButtonMatrix : MonoBehaviour
                     {
                         x.SetActive(false);
                         extraObjs[i].SetActive(true);  //TEST
-                        if (!extraObjs[i].GetComponent<InteractableActivityManager>().interactionEventStarted && collidables.GetInteractSuccessCount() >= collidables.objects.Count - extraObjs.Count)
+
+                        if (i == 0)
                         {
-                           extraObjs[i].GetComponent<InteractableActivityManager>().rendererToChange.material = extraObjs[i].GetComponent<InteractableActivityManager>().highlightMaterial;
-                           StartCoroutine(extraObjs[i].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                            if (!extraObjs[i].GetComponent<InteractableActivityManager>().interactionEventStarted && collidables.GetInteractSuccessCount() >= collidables.objects.Count - extraObjs.Count)
+                            {
+                                extraObjs[i].GetComponent<InteractableActivityManager>().rendererToChange.material = extraObjs[i].GetComponent<InteractableActivityManager>().highlightMaterial;
+                                StartCoroutine(extraObjs[i].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 
     public bool IsSetDone()
     {

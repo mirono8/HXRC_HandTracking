@@ -172,15 +172,18 @@ public class SetStart : MonoBehaviour
 
                 if (currentSetGameObjs.Count < grid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
                 {
-                    var x = Instantiate(temp, grid.transform.GetChild(0));
-                    x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
-                    x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
-                    x.GetComponent<InteractableActivityManager>().SetMySize();
+                    for (int i = currentSetGameObjs.Count; i < grid.GetComponent<ButtonMatrix>().interactionsGoal; i++)
+                    {
+                        var x = Instantiate(temp, grid.transform.GetChild(0));
+                        x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
+                        x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
+                        x.GetComponent<InteractableActivityManager>().SetMySize();
 
-                    grid.GetComponent<ButtonMatrix>().extraObjs.Add(x);
-                    //x.SetActive(false);
+                        grid.GetComponent<ButtonMatrix>().extraObjs.Add(x);
+                        //x.SetActive(false);
 
-                    currentSetGameObjs.Add(x);
+                        currentSetGameObjs.Add(x);
+                    }
                 }
             }
 
