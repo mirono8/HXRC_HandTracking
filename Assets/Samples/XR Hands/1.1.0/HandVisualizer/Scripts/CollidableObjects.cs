@@ -95,11 +95,11 @@ public class CollidableObjects : MonoBehaviour
 
     }
 
-    public void MatrixExtraButtons()
+    public void MatrixExtraButtons(GameObject g)
     {
         if (gameObject.GetComponent<ButtonMatrix>())
         {
-            gameObject.GetComponent<ButtonMatrix>().ShowExtraButtons();
+            gameObject.GetComponent<ButtonMatrix>().ShowExtraButtons(g);
         }
     }
 

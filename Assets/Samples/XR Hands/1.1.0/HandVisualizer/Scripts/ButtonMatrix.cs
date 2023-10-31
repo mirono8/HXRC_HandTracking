@@ -52,6 +52,18 @@ public class ButtonMatrix : MonoBehaviour
 
     public List<Vector3> previousPositions = new();
 
+    public List<Group> groupList = new();
+
+    [Serializable]
+    public class Group
+    {
+        /*public GameObject activeObject;
+        public GameObject inactiveObject;*/
+
+        public List<GameObject> groupedObjs = new();
+        public bool processed = false;
+    }
+
     private void Start()
     {
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
@@ -271,6 +283,134 @@ public class ButtonMatrix : MonoBehaviour
                 ArrangeExtras(i);
             }
         }
+
+        AssignOverlappingPairs();
+    }
+
+    public void AssignOverlappingPairs()
+    {
+        for (int i = 0; i < collidables.objects.Count - extraObjs.Count; i++)
+        {
+            groupList.Add(new Group());
+            groupList[i].groupedObjs.Add(collidables.objects[i]);
+            
+        }
+
+        for (int i = 0; i < collidables.objects.Count - extraObjs.Count; i++)
+        {
+
+            List<GameObject> overlapping = extraObjs.FindAll(x => x.transform.localPosition == collidables.objects[i].transform.localPosition);
+
+            foreach (GameObject obj in overlapping)
+            {
+                if (obj != null)
+                {
+                    groupList[i].groupedObjs.Add(obj);
+                }
+            }
+
+          /*  Group existingInactive = objectGroups.Find(existing => existing.inactiveObject == overlapping);
+
+            Debug.Log("existing inactive " + (existingInactive == null));
+            if (overlapping != null && existingInactive == null)
+            {
+
+                groupList.Add(new Group(collidables.objects[i], overlapping));
+            }
+            else
+            {
+                if (i != collidables.objects.Count - 1)
+                {
+                    if (collidables.objects[i + 1].activeSelf == false)
+                    {
+                        Group existingAnyInactive = groupList.Find(existing => existing.inactiveObject == collidables.objects[i]);
+
+                        Debug.Log("existing active " + (existingAnyInactive == null));
+                        if (existingAnyInactive == null)
+                        {
+                            groupList.Add(new Group(collidables.objects[i], collidables.objects[i + 1]));
+                        }
+                    }
+                }
+            }*/
+        }
+    }
+
+    public void ShowExtraButtons(GameObject g)   //SEEMS TO WORK, STRESS TEST
+    {
+        Group referenced = null;
+
+        for (int i = 0; i < groupList.Count; i++)
+        {
+            if (groupList[i].groupedObjs.Contains(g))
+            {
+                referenced = groupList[i];
+                break;
+            }
+        }
+
+        if (referenced != null) 
+        {
+            int index = referenced.groupedObjs.IndexOf(g);
+
+            if (index != referenced.groupedObjs.Count - 1)
+            {
+                g.SetActive(false);
+                referenced.groupedObjs[index + 1].SetActive(true);
+            }            
+        }
+      /*  Group x = groupList.Find(y => y.activeObject == g);
+
+        if (x != null && x.processed == false)
+        {
+            Debug.Log("processing " + x);
+            x.activeObject.SetActive(false);
+
+            x.inactiveObject.SetActive(true);
+
+            x.processed = true;
+        }
+        else
+        {
+            Debug.Log(" xnull");
+            /*var a = pairedObjects.Find(y => y.inactiveObject = g);
+            Debug.Log(a.inactiveObject);
+            if (a != null && a.processed == false)
+            {
+                Debug.Log("RÄÄÄRÄÄ");
+                a.activeObject.SetActive(false);
+
+                a.inactiveObject.SetActive(true);
+
+                a.processed = true;
+            }
+        }
+    */
+        /* if (extraObjs.Any() && rollover)  // all this fuckery for one extra button
+         {
+             for (int i = 0; i < extraObjs.Count; i++)
+             {
+                 var x = collidables.objects.Find(x => x.activeSelf && x.transform.localPosition == extraObjs[i].transform.localPosition);
+
+                 if (x != null && x.GetComponent<InteractableActivityManager>().interactSuccess)
+                 {
+                     if (!extraObjs[i].activeSelf && x.GetComponent<InteractableActivityManager>().moveOn)
+                     {
+                         x.SetActive(false);
+                         extraObjs[i].SetActive(true);
+
+                         if (i == 0)
+                         {
+                             if (!extraObjs[i].GetComponent<InteractableActivityManager>().interactionEventStarted && collidables.GetInteractSuccessCount() >= collidables.objects.Count - extraObjs.Count)
+                             {
+                                 extraObjs[i].GetComponent<InteractableActivityManager>().rendererToChange.material = extraObjs[i].GetComponent<InteractableActivityManager>().highlightMaterial;
+                                 StartCoroutine(extraObjs[i].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                             }
+                         }
+                     }
+                 }
+             }
+         }*/
     }
 
     public void ArrangeExtras(int index)
@@ -347,34 +487,7 @@ public class ButtonMatrix : MonoBehaviour
 
     }
 
-    public void ShowExtraButtons()
-    {
-        if (extraObjs.Any() && rollover)  // all this fuckery for one extra button
-        {
-            for (int i = 0; i < extraObjs.Count; i++)
-            {
-                var x = collidables.objects.Find(x => x.activeSelf && x.transform.localPosition == extraObjs[i].transform.localPosition);
-
-                if (x != null && x.GetComponent<InteractableActivityManager>().interactSuccess)
-                {
-                    if (!extraObjs[i].activeSelf && x.GetComponent<InteractableActivityManager>().moveOn)
-                    {
-                        x.SetActive(false);
-                        extraObjs[i].SetActive(true);
-
-                        if (i == 0)
-                        {
-                            if (!extraObjs[i].GetComponent<InteractableActivityManager>().interactionEventStarted && collidables.GetInteractSuccessCount() >= collidables.objects.Count - extraObjs.Count)
-                            {
-                                extraObjs[i].GetComponent<InteractableActivityManager>().rendererToChange.material = extraObjs[i].GetComponent<InteractableActivityManager>().highlightMaterial;
-                                StartCoroutine(extraObjs[i].GetComponent<InteractableActivityManager>().StartInteractionEvent());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+  
 
     public bool IsSetDone()
     {

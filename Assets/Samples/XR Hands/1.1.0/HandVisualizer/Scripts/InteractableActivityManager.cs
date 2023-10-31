@@ -581,7 +581,7 @@ public class InteractableActivityManager : MonoBehaviour
                 collidables.AddToInteracted(myOrderIndex);
                 AllAtOnceCheckFunction(false);
 
-                collidables.MatrixExtraButtons();
+                collidables.MatrixExtraButtons(gameObject);
             }
         }
         else
