@@ -664,11 +664,15 @@ public class InteractableActivityManager : MonoBehaviour
 
             if (myOrderIndex != collidables.objects.Count - 1) //(collidables.objects[myOrderIndex + 1] != null)
             {
-                if (collidables.objects[myOrderIndex + 1] != null)
+                if (collidables.objects[myOrderIndex + 1] != null && collidables.objects[myOrderIndex+1].activeSelf == true )
                 {
                     collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                 
                     StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
+                }
+                else
+                {
+                    Debug.Log("interaction activity to extras");
                 }
             }
             

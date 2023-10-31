@@ -57,7 +57,7 @@ public class GetSetupData : MonoBehaviour
         bogo.size = "medium";
         bogo.type = "button";
         bogo.mode = "matrix";
-        bogo.iCount = 3;
+        bogo.iCount = 2;
         sets.Add(bogo);  
        
 

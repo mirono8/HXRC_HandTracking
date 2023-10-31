@@ -19,7 +19,11 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
+<<<<<<< HEAD
   m_Title: Console
+=======
+  m_Title: Game
+>>>>>>> 60a714decacee6824d69866e93f6346d3ecb52c2
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +123,11 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
+<<<<<<< HEAD
   controlID: 86
+=======
+  controlID: 85
+>>>>>>> 60a714decacee6824d69866e93f6346d3ecb52c2
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -190,8 +198,8 @@ MonoBehaviour:
     y: 0
     width: 264
     height: 585
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -268,8 +276,8 @@ MonoBehaviour:
     y: 585
     width: 1476
     height: 362
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
@@ -295,8 +303,8 @@ MonoBehaviour:
     y: 0
     width: 444
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -475,7 +483,7 @@ MonoBehaviour:
         m_UserData: 67438
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -876,7 +884,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/Samples/XR Interaction Toolkit/2.3.1/Starter Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\HXRC - Thinkstation3\Documents\XR-Space\xr-space-hand-tracking
+  m_LastProjectPath: C:\Users\Miro\Documents\xr-space-hand-tracking
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
