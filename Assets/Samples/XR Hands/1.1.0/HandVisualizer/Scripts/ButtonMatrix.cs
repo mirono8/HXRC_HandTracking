@@ -68,8 +68,6 @@ public class ButtonMatrix : MonoBehaviour
         objsPerColumn = setData.columnCount;
         columnCount = setData.columnCount;
 
-
-
         for (int i = 0; i < objsPerColumn; i++)
         {
             columns.Add(0f);
@@ -96,6 +94,10 @@ public class ButtonMatrix : MonoBehaviour
 
 
         readyToTrack = true;
+
+
+        MatrixInteractionCheck();
+
     }
 
     void SetUpColumns()
@@ -343,6 +345,10 @@ public class ButtonMatrix : MonoBehaviour
             interactionsGoal = 10;
         }
 
+    }
+
+    public void ShowExtraButtons()
+    {
         if (extraObjs.Any() && rollover)  // all this fuckery for one extra button
         {
             for (int i = 0; i < extraObjs.Count; i++)
@@ -370,7 +376,6 @@ public class ButtonMatrix : MonoBehaviour
         }
     }
 
-
     public bool IsSetDone()
     {
         if (collidables.objects.Any())
@@ -395,11 +400,5 @@ public class ButtonMatrix : MonoBehaviour
     public bool PassFaderStatus() // passes fader status from the fader script, interactables need to wait for this to start tracking time for the interaction event
     {
         return fader.FaderStatus();
-    }
-
-    private void Update()
-    {
-        if (readyToTrack)
-            MatrixInteractionCheck();
     }
 }
