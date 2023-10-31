@@ -20,10 +20,8 @@ public class SaveManager : MonoBehaviour
     public DataWrapper combinedData;
 
     readonly float stampInterval = 0.05f;
-
-    
+  
     float timeSinceLastStamp = 0;
-
 
     SessionManager sessionManager;
 
@@ -254,7 +252,7 @@ public class SaveManager : MonoBehaviour
 
 
 
-            File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
+           File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
         
     }
     
