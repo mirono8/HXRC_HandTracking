@@ -53,12 +53,12 @@ public class GetSetupData : MonoBehaviour
 
         //uncomment for set debugging use
 
-        /*ParsedData bogo = new();
+        ParsedData bogo = new();
         bogo.size = "medium";
         bogo.type = "button";
         bogo.mode = "all";
         bogo.iCount = 10;
-        sets.Add(bogo); */
+        sets.Add(bogo); 
        
 
 
@@ -266,7 +266,8 @@ public class GetSetupData : MonoBehaviour
 
         if (timer >= 5)
         {
-            onSessionStart.SetActive(true);
+            if(onSessionStart != null)
+                onSessionStart.SetActive(true);
            /* if (!Latest())  //kommentoitu et pystyy uudelleenk‰ytt‰‰ aiempaa sessiota
             {
                 timer = 0;

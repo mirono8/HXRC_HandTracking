@@ -122,9 +122,10 @@ public class InteractableActivityManager : MonoBehaviour
 
     void Start()
     {
-       //GetMyColliders();
+        //GetMyColliders();
 
-       // collidables.ToggleColliders(false);
+        // collidables.ToggleColliders(false);
+
         originalMaterial = rendererToChange.material;
         ignoreInRaycast = LayerMask.GetMask("BlockHands");
         leftHandPos = new();
@@ -615,7 +616,6 @@ public class InteractableActivityManager : MonoBehaviour
                     {
                         collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                         StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
-
 
                     }
                     else

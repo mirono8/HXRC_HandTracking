@@ -33,7 +33,7 @@ public class UIComponent : MonoBehaviour
 
         savePos = sessionManager.GetUIDefaultTranform().position;
        // savePos =  new Vector3 (6f, 3f, 2f);
-        transform.position = savePos + offset;
+       // transform.position = savePos + offset;
 
         transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform);
     }
@@ -61,13 +61,13 @@ public class UIComponent : MonoBehaviour
 
     private void Update()
     {
-        savePos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        transform.position = sessionManager.GetUIDefaultTranform().position;
 
         offsetX = savePos.x;
         offsetY = savePos.y;
        // offsetZ = GameObject.FindGameObjectWithTag("Player").transform.forward ;
 
-        transform.localPosition = new Vector3(offsetX,offsetY *-1 +0.1f, GameObject.FindGameObjectWithTag("Player").transform.forward.z / 2);
+       // transform.localPosition = new Vector3(offsetX,offsetY *-1 +0.1f, GameObject.FindGameObjectWithTag("Player").transform.forward.z / 2);
         
 
         transform.LookAt(GameObject.FindGameObjectWithTag("MainCamera").transform);

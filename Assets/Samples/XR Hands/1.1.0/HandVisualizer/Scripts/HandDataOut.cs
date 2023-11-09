@@ -112,7 +112,7 @@ namespace HandData
                 leftHand.fingers.ring.isClosed = RingClosed(hand);
                 leftHand.fingers.little.isClosed = LittleClosed(hand);
 
-                if (saveManager.isActiveAndEnabled)
+                if (saveManager != null && saveManager.isActiveAndEnabled)
                     saveManager.SaveHandLocation(leftHand);
 
                 
@@ -139,7 +139,7 @@ namespace HandData
                 rightHand.fingers.ring.isClosed = RingClosed(hand);
                 rightHand.fingers.little.isClosed = LittleClosed(hand);
 
-                if (saveManager.isActiveAndEnabled)
+                if (saveManager != null && saveManager.isActiveAndEnabled)
                     saveManager.SaveHandLocation(rightHand);
 
                 if (track)
@@ -275,7 +275,7 @@ namespace HandData
             {
                  foreach (var fingertips in leftHand.fingerColliders)
                  {
-                     if (fingertips.colliding)
+                     if (fingertips.colliding && saveManager != null)
                      {
                          saveManager.SaveFingerCollision(leftHand, collision);
                      }
@@ -288,7 +288,7 @@ namespace HandData
             {
                 foreach (var fingertips in rightHand.fingerColliders)
                 {
-                    if (fingertips.colliding)
+                    if (fingertips.colliding && saveManager != null)
                     {
                         saveManager.SaveFingerCollision(rightHand, collision);
                     }
