@@ -23,7 +23,9 @@ public class SessionManager : States
     bool firstSet = true;
 
     FadeIn fader;
- 
+
+    [SerializeField]
+    Transform UIDefault;
 
     private void Awake()
     {
@@ -159,6 +161,11 @@ public class SessionManager : States
         }
     }
 
+    public Transform GetUIDefaultTranform()
+    {
+        return UIDefault;
+    }
+
     bool SessionActiveStatus()
     {
         return setStart.gameObject.activeSelf;
@@ -197,14 +204,15 @@ public class SessionManager : States
         }
         else if (setStart.CurrentSessionMode() == "all")
         {
-
-
-            if (setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>() != null)
+            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>() != null && setStart.collidablesReady)
             {
-                if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().collidables.GetInteractSuccessCount()
-                    == setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().collidables.objects.Count && !allClear)
+                if (setStart.currentSetGameObjs.Any() && setStart.currentGrid.GetComponent<CollidableObjects>() != null)  //collidables muka null mut eipä oo
                 {
-                    TryStartNextSet();
+                    if (setStart.currentGrid.GetComponent<CollidableObjects>().GetInteractSuccessCount()
+                        == setStart.currentGrid.GetComponent<CollidableObjects>().objects.Count && !allClear)   //setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>().collidables.GetInteractSuccessCount()
+                    {
+                        TryStartNextSet();
+                    }
                 }
             }
         }

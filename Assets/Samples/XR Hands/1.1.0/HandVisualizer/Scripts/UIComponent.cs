@@ -7,6 +7,9 @@ public class UIComponent : MonoBehaviour
     [SerializeField]
     FadeIn fadeIn;
 
+    [SerializeField]
+    SessionManager sessionManager;
+
     Vector3 savePos;
 
     [SerializeField]
@@ -20,13 +23,15 @@ public class UIComponent : MonoBehaviour
     float offsetX;
     float offsetY;
     float offsetZ;
+
     private void OnEnable()
     {
-        
-        savePos = GameObject.FindGameObjectWithTag("Player").transform.position;
+
+        // savePos = GameObject.FindGameObjectWithTag("Player").transform.position;
         //tähän joku fixed käden mitta, käytä touchpad prefab, parempi positio!
         // offset = new Vector3(0, savePos.y * -1, 0.353f);
 
+        savePos = sessionManager.GetUIDefaultTranform().position;
        // savePos =  new Vector3 (6f, 3f, 2f);
         transform.position = savePos + offset;
 

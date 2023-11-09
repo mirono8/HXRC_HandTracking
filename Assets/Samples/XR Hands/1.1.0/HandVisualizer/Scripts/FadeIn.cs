@@ -42,7 +42,6 @@ public class FadeIn : MonoBehaviour
 
     public Color infoTextColor;
 
-    
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -184,6 +183,7 @@ public class FadeIn : MonoBehaviour
     {
         infoTextColor = info.color;
         setData.text = currentSet.ToString() + "/" + setCount.ToString();
+       
     }
     private void FixedUpdate()
     {

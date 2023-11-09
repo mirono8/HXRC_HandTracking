@@ -90,16 +90,19 @@ public class CollidableObjects : MonoBehaviour
 
     public void AddToInteracted(int i)
     {
-        if(!interactedObjs.Contains(i))
+        if (!interactedObjs.Contains(i))
+        {
             interactedObjs.Add(i);
-
+           // MatrixExtraButtons(objects[i]);
+        }
+        
     }
 
-    public void MatrixExtraButtons(GameObject g)
+    public void MatrixExtraButtons(GameObject activeInteractable)
     {
         if (gameObject.GetComponent<ButtonMatrix>())
         {
-            gameObject.GetComponent<ButtonMatrix>().ShowExtraButtons(g);
+            gameObject.GetComponent<ButtonMatrix>().ShowExtraButtons(activeInteractable);
         }
     }
 

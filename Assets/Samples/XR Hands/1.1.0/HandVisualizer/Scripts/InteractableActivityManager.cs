@@ -106,7 +106,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     LayerMask ignoreInRaycast;
 
-
+    GameObject nearestNeighbor;
     private void Awake()
     {
         if (sessionMode != SessionMode.Matrix)
@@ -413,6 +413,10 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (!interactionEventStarted)
         {
+            if (randomButtons != null && !randomButtons.oneByOne)
+                nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
+              
+
             interactionEventStarted = true;
             Debug.Log("start interaction event");
 
@@ -581,7 +585,7 @@ public class InteractableActivityManager : MonoBehaviour
                 collidables.AddToInteracted(myOrderIndex);
                 AllAtOnceCheckFunction(false);
 
-                collidables.MatrixExtraButtons(gameObject);
+              //  collidables.MatrixExtraButtons(gameObject); ei t‰‰ll‰, menee loop updateen
             }
         }
         else
@@ -595,15 +599,14 @@ public class InteractableActivityManager : MonoBehaviour
         }
     } 
 
-    public void AllAtOnceCheckFunction(bool b) {
+    public void AllAtOnceCheckFunction(bool isAllAtOnce) {
 
-        if (b)
+        if (isAllAtOnce)
         {
             if (collidables.GetInteractSuccessCount() != collidables.objects.Count -1)  //if (myOrderIndex != collidables.objects.Count - 1)  
             {
                 rendererToChange.material = originalMaterial;
 
-                var nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
 
                 
                 if (myOrderIndex != collidables.objects.Count - 1)//if i am not the last
@@ -637,7 +640,7 @@ public class InteractableActivityManager : MonoBehaviour
                 else
                 {
                     Debug.Log("going for last pick");
-                    var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);
+                    var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);  
 
                     next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                     StartCoroutine(next.GetComponent<InteractableActivityManager>().StartInteractionEvent());
@@ -659,7 +662,7 @@ public class InteractableActivityManager : MonoBehaviour
 
 
         }
-        else
+        else  //it's matrix
         {
             rendererToChange.material = originalMaterial;
             Debug.Log("last order index" + myOrderIndex);

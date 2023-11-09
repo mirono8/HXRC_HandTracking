@@ -336,13 +336,13 @@ public class ButtonMatrix : MonoBehaviour
         }
     }
 
-    public void ShowExtraButtons(GameObject g)   //SEEMS TO WORK, STRESS TEST
+    public void ShowExtraButtons(GameObject activeInteractable)   //SEEMS TO WORK, STRESS TEST
     {
         Group referenced = null;
 
         for (int i = 0; i < groupList.Count; i++)
         {
-            if (groupList[i].groupedObjs.Contains(g))
+            if (groupList[i].groupedObjs.Contains(activeInteractable))
             {
                 referenced = groupList[i];
                 break;
@@ -351,11 +351,11 @@ public class ButtonMatrix : MonoBehaviour
 
         if (referenced != null) 
         {
-            int index = referenced.groupedObjs.IndexOf(g);
+            int index = referenced.groupedObjs.IndexOf(activeInteractable);
 
             if (index != referenced.groupedObjs.Count - 1)
             {
-                g.SetActive(false);
+                activeInteractable.SetActive(false);
                 referenced.groupedObjs[index + 1].SetActive(true);
             }            
         }
@@ -491,14 +491,16 @@ public class ButtonMatrix : MonoBehaviour
 
     public bool IsSetDone()
     {
-        if (collidables.objects.Any())
-        {
-            return collidables.GetInteractSuccessCount() == interactionsGoal;
-        }
-        else
-        {
-            return false; 
-        }
+        /*  if (collidables.objects.Any())
+          {
+              return collidables.GetInteractSuccessCount() == interactionsGoal;
+          }
+          else
+          {
+              return false; 
+          }*/
+
+        return false;
     }
     public bool AllocateRows()
     {

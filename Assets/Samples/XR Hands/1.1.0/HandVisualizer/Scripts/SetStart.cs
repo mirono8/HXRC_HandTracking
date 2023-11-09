@@ -34,7 +34,7 @@ public class SetStart : MonoBehaviour
     public List<GridToPanel.WarpPoint> warpPoints;
 
     [SerializeField]
-    GameObject grid;
+    public GameObject currentGrid;
 
     public FadeIn fadeIn;
 
@@ -46,6 +46,8 @@ public class SetStart : MonoBehaviour
     bool once;
 
     public bool automaticFade;
+
+    public bool collidablesReady;
 
     public TrackColliders leftHandColliders;
     public TrackColliders rightHandColliders;
@@ -66,8 +68,8 @@ public class SetStart : MonoBehaviour
     private void Start()
     {
         
-        grid = Instantiate(gridPrefab, gameObject.transform);
-        setGrid.Add(grid);
+        currentGrid = Instantiate(gridPrefab, gameObject.transform);
+        setGrid.Add(currentGrid);
     }
 
     private void Update()
@@ -87,14 +89,14 @@ public class SetStart : MonoBehaviour
         if (mode != "matrix")
         {
             //grid.GetComponent<RandomButtons>().enabled = true;
-            grid.AddComponent<RandomButtons>();
+            currentGrid.AddComponent<RandomButtons>();
 
             if(size == "large")
-                grid.GetComponent<RandomButtons>().largeSet = true;
+                currentGrid.GetComponent<RandomButtons>().largeSet = true;
 
             if (mode != "all")
             {
-                grid.GetComponent<RandomButtons>().oneByOne = true;
+                currentGrid.GetComponent<RandomButtons>().oneByOne = true;
             }
         }
         else
@@ -102,7 +104,7 @@ public class SetStart : MonoBehaviour
             //matrix stuff!!!!
             // grid.GetComponent<ButtonMatrix>().enabled = true;
             //grid.GetComponent<RandomButtons>().enabled = false;
-            grid.AddComponent<ButtonMatrix>();
+            currentGrid.AddComponent<ButtonMatrix>();
         }
 
         if (temp != null)
@@ -129,7 +131,7 @@ public class SetStart : MonoBehaviour
                         x.GetComponent<InteractableActivityManager>().SetMySize();
                     }*/
 
-                    var x = Instantiate(temp, grid.transform.GetChild(0));
+                    var x = Instantiate(temp, currentGrid.transform.GetChild(0));
                     x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                     x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                     x.GetComponent<InteractableActivityManager>().SetMySize();
@@ -161,7 +163,7 @@ public class SetStart : MonoBehaviour
                             x.GetComponent<InteractableActivityManager>().SetMySize();
                         }*/
 
-                        var x = Instantiate(temp, grid.transform.GetChild(0));
+                        var x = Instantiate(temp, currentGrid.transform.GetChild(0));
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
@@ -170,16 +172,16 @@ public class SetStart : MonoBehaviour
                     }
                 }
 
-                if (currentSetGameObjs.Count < grid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
+                if (currentSetGameObjs.Count < currentGrid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
                 {
-                    for (int i = currentSetGameObjs.Count; i < grid.GetComponent<ButtonMatrix>().interactionsGoal; i++)
+                    for (int i = currentSetGameObjs.Count; i < currentGrid.GetComponent<ButtonMatrix>().interactionsGoal; i++)
                     {
-                        var x = Instantiate(temp, grid.transform.GetChild(0));
+                        var x = Instantiate(temp, currentGrid.transform.GetChild(0));
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
 
-                        grid.GetComponent<ButtonMatrix>().extraObjs.Add(x);
+                        currentGrid.GetComponent<ButtonMatrix>().extraObjs.Add(x);
                         //x.SetActive(false);
 
                         currentSetGameObjs.Add(x);
@@ -187,30 +189,31 @@ public class SetStart : MonoBehaviour
                 }
             }
 
-            StartCoroutine(grid.GetComponent<CollidableObjects>().PopulateCollidables());
+            StartCoroutine(currentGrid.GetComponent<CollidableObjects>().PopulateCollidables());
 
             
 
             StartCoroutine(WaitForFade());
 
-            grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+            currentGrid.GetComponent<CollidableObjects>().ToggleColliders(false);
+            collidablesReady = true;
         }
     }
 
     public void ClearComponents()
     {
-        if (grid.GetComponent<RandomButtons>() != null)
+        if (currentGrid.GetComponent<RandomButtons>() != null)
         {
             Debug.Log("destroy randombuttons");
-            Destroy(grid.GetComponent<RandomButtons>());
+            Destroy(currentGrid.GetComponent<RandomButtons>());
         }
         else
         {
             Debug.Log("destroy matrix");
-            Destroy(grid.GetComponent<ButtonMatrix>());
+            Destroy(currentGrid.GetComponent<ButtonMatrix>());
         }
 
-        grid.GetComponent<CollidableObjects>().ResetRandomOrder();
+        currentGrid.GetComponent<CollidableObjects>().ResetRandomOrder();
     }
 
     public void ClearCurrentSet() // clears data from the current set after completion 
@@ -227,21 +230,21 @@ public class SetStart : MonoBehaviour
                // currentSetGameObjs[i].transform.parent = GameObject.FindGameObjectWithTag("Garbage").transform;
             }
             currentSetGameObjs.Clear();
-            grid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
+            currentGrid.GetComponent<CollidableObjects>().objects.Clear(); //first grid
 
-            
+            collidablesReady = false;
         }
     }
 
     public void GameObjectsToTrack() // starts tracking gameobjects of the current set
     {
-        var gridActual = grid.transform.GetChild(0);
+        var gridActual = currentGrid.transform.GetChild(0);
         Debug.Log("oppa");
-        if (!grid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
+        if (!currentGrid.GetComponent<CollidableObjects>().objects.Any())  //second grid if there are more
         {
             for (int i = 0; i < gridActual.childCount; i++)
             {
-                grid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
+                currentGrid.GetComponent<CollidableObjects>().objects.Add(currentSetGameObjs[i]);
             }
         }
     }
@@ -254,11 +257,11 @@ public class SetStart : MonoBehaviour
         {
             if (mode != "all")
             {
-                grid.GetComponent<RandomButtons>().oneByOne = true;
+                currentGrid.GetComponent<RandomButtons>().oneByOne = true;
             }
             else
             {
-                grid.GetComponent<RandomButtons>().oneByOne = false;
+                currentGrid.GetComponent<RandomButtons>().oneByOne = false;
             }
 
            // StartCoroutine(grid.GetComponent<RandomButtons>().ReadyForSetup()); 
@@ -301,14 +304,14 @@ public class SetStart : MonoBehaviour
             yield return new WaitWhile(fadeIn.FaderStatus);
         }
 
-        if (grid.GetComponent<RandomButtons>())
+        if (currentGrid.GetComponent<RandomButtons>())
         {
-            yield return new WaitUntil(grid.GetComponent<RandomButtons>().GetSetStatus);
+            yield return new WaitUntil(currentGrid.GetComponent<RandomButtons>().GetSetStatus);
         }
         else
         {
             //matrix stuff!!
-            yield return new WaitUntil(grid.GetComponent<ButtonMatrix>().AllocateRows);
+            yield return new WaitUntil(currentGrid.GetComponent<ButtonMatrix>().AllocateRows);
         }
 
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
@@ -331,13 +334,13 @@ public class SetStart : MonoBehaviour
     {
         if (sessionManager.CurrentState() == States.State.Paused)
         {
-            grid.GetComponent<CollidableObjects>().ToggleColliders(true);
+            currentGrid.GetComponent<CollidableObjects>().ToggleColliders(true);
             leftHandColliders.ToggleTrigger(true);
             rightHandColliders.ToggleTrigger(true);
         }
         else
         {
-            grid.GetComponent<CollidableObjects>().ToggleColliders(false);
+            currentGrid.GetComponent<CollidableObjects>().ToggleColliders(false);
             leftHandColliders.ToggleTrigger(false);
             rightHandColliders.ToggleTrigger(false);
         }
@@ -378,13 +381,13 @@ public class SetStart : MonoBehaviour
         columnCount = interactableCount;
         Debug.Log("new params " + size + type);
 
-       p.LastPanelUsed(grid.transform.parent.gameObject);
+       p.LastPanelUsed(currentGrid.transform.parent.gameObject);
 
-        Destroy(grid);
+        Destroy(currentGrid);
 
         if (!reusePanel)
         {
-            grid = setGrid[round];
+            currentGrid = setGrid[round];
         }
         else
         {
@@ -398,8 +401,8 @@ public class SetStart : MonoBehaviour
                 once = true;
             }
 
-            grid = setGrid[round];
-            grid.SetActive(true);
+            currentGrid = setGrid[round];
+            currentGrid.SetActive(true);
 
            // grid.transform.parent = GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().GiveMeAPanel().transform; //GameObject.FindGameObjectWithTag("PanelManager").GetComponent<PanelManager>().ReusePanel().transform;
             Debug.Log("reusing panel");
