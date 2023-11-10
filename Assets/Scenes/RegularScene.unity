@@ -224,6 +224,18 @@ PrefabInstance:
       propertyPath: sessionManager
       value: 
       objectReference: {fileID: 2097105950}
+    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.7264151
+      objectReference: {fileID: 0}
     - target: {fileID: 276426792414819636, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -795,6 +807,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1651633737, guid: d2f921615cd24414c8f6ee220264306f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.636
+      objectReference: {fileID: 0}
     - target: {fileID: 6480257608926865281, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_IsActive

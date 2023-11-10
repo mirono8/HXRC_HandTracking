@@ -141,36 +141,24 @@ public class SetStart : MonoBehaviour
             }
             else
             {
+                int nameIterarion = 0;
                 for (int j = 0; j < columnCount; j++)
                 {
+
                     for (int i = 0; i < interactableCount; i++)
                     {
 
-                        /*if (i != 0)
-                        {
-                            var x = Instantiate(temp, grid.transform);
-                            //x.SetActive(false);
-                            x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
-                            x.GetComponent<InteractableActivityManager>().SetMySize();
-
-
-                        }
-                        else
-                        {
-                            var x = Instantiate(temp, grid.transform);
-                            //x.SetActive(true);
-                            x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
-                            x.GetComponent<InteractableActivityManager>().SetMySize();
-                        }*/
 
                         var x = Instantiate(temp, currentGrid.transform.GetChild(0));
-                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + i;
+                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + nameIterarion;
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
 
                         currentSetGameObjs.Add(x);
+                        nameIterarion++;
                     }
+                    nameIterarion++;
                 }
 
                 if (currentSetGameObjs.Count < currentGrid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
@@ -193,7 +181,7 @@ public class SetStart : MonoBehaviour
 
             StartCoroutine(currentGrid.GetComponent<CollidableObjects>().PopulateCollidables());
 
-            
+
 
             StartCoroutine(WaitForFade());
 

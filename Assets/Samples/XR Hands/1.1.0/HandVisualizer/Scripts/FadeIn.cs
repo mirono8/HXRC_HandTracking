@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class FadeIn : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class FadeIn : MonoBehaviour
     bool start;
 
     [SerializeField]
-    bool faded;
+    bool fadedOut;
     public Image fader;
 
 
@@ -41,7 +42,6 @@ public class FadeIn : MonoBehaviour
     public GameObject UI;
 
     public Color infoTextColor;
-
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -70,7 +70,7 @@ public class FadeIn : MonoBehaviour
             if (fader.color.a <= 0)
             {
                 start = false;
-                faded = true;
+                fadedOut = true;
                 info.color = infoTextColor;
                 info.alpha = 0;
                 UI.GetComponentInChildren<UIComponent>().ResetComponents();
@@ -79,7 +79,7 @@ public class FadeIn : MonoBehaviour
 
             yield return null;
 
-        } while (!faded);
+        } while (!fadedOut);
 
 
     }
@@ -91,7 +91,7 @@ public class FadeIn : MonoBehaviour
         setData.text = currentSet.ToString() + "/" + setCount.ToString();
         do
         {
-            if (fader.color.a < 1 && faded)
+            if (fader.color.a < 1 && fadedOut)
             {
                // start = true;
 
@@ -112,7 +112,7 @@ public class FadeIn : MonoBehaviour
             }
             else
             {
-                faded = false;
+                fadedOut = false;
                 info.color = infoTextColor;
                 GameObject.FindGameObjectWithTag("CanvasCamera").GetComponent<Camera>().cullingMask = LayerMask.GetMask("CanvasFirst", "Hands");
                 //info.alpha = 0;
@@ -120,25 +120,25 @@ public class FadeIn : MonoBehaviour
 
             yield return null;
 
-        } while (faded);
+        } while (fadedOut);
 
         
     }
 
     public bool FaderStatus()
     {
-        return faded;
+        return fadedOut;
     }
 
     public void ChangeFaderStatus()
     {
-        if (!faded)
+        if (!fadedOut)
         {
-            faded = true;
+            fadedOut = true;
         }
         else
         {
-            faded = false;
+            fadedOut = false;
         }
     }
 
@@ -147,27 +147,24 @@ public class FadeIn : MonoBehaviour
         switch (s)
         {
             case "all":
-                info.text = "Interactable objects appear simultaneously on the panel.\n  Interact with the highlighted interactable.";
+                info.text = "Interactable objects appear <b><color=white>simultaneously</b></color=white> on the panel.\n  Interact with the <color=#2EDD20>highlighted</color> interactable.";
                 break;
 
             case "onebyone":
-                info.text = "Interactable objects appear one by one on the panel.\n  Interact with the highlighted interactable.";
+                info.text = "Interactable objects appear <b><color=white>one by one</b></color=white> on the panel.\n  Interact with the <color=#2EDD20>highlighted</color> interactable.";
                 break;
 
             case "matrix":
-                info.text = "Interactable objects appear in a grid on the panel.\n  Interact with the highlighted interactable.";
+                info.text = "Interactable objects appear in a <b><color=white>grid</b></color=white> on the panel.\n  Interact with the <color=#2EDD20>highlighted</color> interactable.";
                 break;
-
         }
-        
     }
 
     public void SessionEnded(float time)
     {
-        if (!faded)
+        if (fadedOut)
         {
-            
-            FadeCanvasIn();
+            StartCoroutine(FadeCanvasIn());
             countdown.text = "Session has ended";
             info.text = "Total elapsed time: " + time;
         }
@@ -210,7 +207,6 @@ public class FadeIn : MonoBehaviour
 
 
         Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetPos), ref velocity, smoothTime);
-
 
         transform.position = smoothedPosition;
 
