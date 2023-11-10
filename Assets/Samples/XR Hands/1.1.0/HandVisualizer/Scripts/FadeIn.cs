@@ -162,11 +162,21 @@ public class FadeIn : MonoBehaviour
         
     }
 
+    public void SessionEnded(float time)
+    {
+        if (!faded)
+        {
+            
+            FadeCanvasIn();
+            countdown.text = "Session has ended";
+            info.text = "Total elapsed time: " + time;
+        }
+    }
+
     public void WaitForUser()
     {
         UI.SetActive(true);
         Debug.Log("waiting for user input");
-
         
     }
 

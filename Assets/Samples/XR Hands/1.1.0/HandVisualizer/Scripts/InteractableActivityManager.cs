@@ -394,7 +394,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void ResetPosition() // resets interactable's rigidbody values in case of being interacted with out of order
     {
-        if (!MoveOn())
+        if (!GetMoveOn())
         {
 
             if (type == InteractableType.Button)
@@ -591,7 +591,7 @@ public class InteractableActivityManager : MonoBehaviour
         }
         else
         {
-            if (!MoveOn())
+            if (!GetMoveOn())
             {
                 interactSuccess = false;
                 Debug.Log("order LUL " + " from orderindex of " + myOrderIndex);
@@ -692,7 +692,7 @@ public class InteractableActivityManager : MonoBehaviour
        moveOn = b;
     }
 
-    bool MoveOn() // move to next interactable
+    public bool GetMoveOn() // move to next interactable
     {
         return moveOn;
     }

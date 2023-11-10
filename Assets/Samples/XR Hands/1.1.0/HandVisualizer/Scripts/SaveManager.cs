@@ -127,7 +127,13 @@ public class SaveManager : MonoBehaviour
         {
             combinedData.elapsedTime += Time.deltaTime;
         }
-       
+        
+        if (sessionManager.CurrentState() == States.State.End)
+        {
+            sessionManager.SetSessionEndTime(combinedData.elapsedTime);
+            Save();
+            gameObject.SetActive(false);
+        }
         
 
         if (combinedData.currentTask.isCompleted)

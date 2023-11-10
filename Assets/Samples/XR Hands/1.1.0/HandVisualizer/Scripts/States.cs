@@ -6,7 +6,7 @@ public class States : MonoBehaviour
 {
 	public enum State
 	{
-		Paused, Active
+		Paused, Active, End
 	}
 
 	[SerializeField]

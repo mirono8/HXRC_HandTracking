@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class SessionManager : States
@@ -26,6 +27,8 @@ public class SessionManager : States
 
     [SerializeField]
     Transform UIDefault;
+
+    float sessionEndTime;
 
     private void Awake()
     {
@@ -150,6 +153,8 @@ public class SessionManager : States
         {
             allClear = true;
 
+            ChangeState(State.End);
+
             foreach (PanelManager.Panel p in panelManager.panels)
             {
                 if (p.panel.GetComponentInChildren<GridToPanel>())
@@ -158,7 +163,13 @@ public class SessionManager : States
                     
                 }
             }
+            fader.SessionEnded(sessionEndTime);  //build and test
         }
+    }
+
+    public void SetSessionEndTime(float f)
+    {
+        sessionEndTime = f;
     }
 
     public Transform GetUIDefaultTranform()

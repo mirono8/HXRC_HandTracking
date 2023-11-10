@@ -439,7 +439,7 @@ public class ButtonMatrix : MonoBehaviour
             RotateByType(extraObjs[index]);
             previousPositions.Add(extraPos);
         }
-       /* else if (previousPos == Vector3.zero)
+        else if (previousPos == Vector3.zero)
         {
             Debug.Log("recursion since previous was extra, ei pit‰s en‰‰ tulla t‰nne");
            // previousVectors.Add(previousPos);
@@ -450,7 +450,7 @@ public class ButtonMatrix : MonoBehaviour
             Debug.Log("same position as previous, calling again");
 
            ArrangeExtras(index);
-        }*/
+        }
     }
 
     public void RotateByType(GameObject g)

@@ -93,17 +93,21 @@ public class CollidableObjects : MonoBehaviour
         if (!interactedObjs.Contains(i))
         {
             interactedObjs.Add(i);
-           // MatrixExtraButtons(objects[i]);
+            StartCoroutine(MatrixExtraButtons(objects[i]));
         }
         
     }
 
-    public void MatrixExtraButtons(GameObject activeInteractable)
+    public IEnumerator MatrixExtraButtons(GameObject activeInteractable)
     {
         if (gameObject.GetComponent<ButtonMatrix>())
         {
+            yield return new WaitUntil(activeInteractable.GetComponent<InteractableActivityManager>().GetMoveOn);
             gameObject.GetComponent<ButtonMatrix>().ShowExtraButtons(activeInteractable);
         }
+        else
+            yield return null;
+
     }
 
     public GameObject PickNextUnusedInteractable(int i)

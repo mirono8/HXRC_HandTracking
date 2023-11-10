@@ -66,8 +66,7 @@ public class SetStart : MonoBehaviour
     }
 
     private void Start()
-    {
-        
+    { 
         currentGrid = Instantiate(gridPrefab, gameObject.transform);
         setGrid.Add(currentGrid);
     }
@@ -132,6 +131,7 @@ public class SetStart : MonoBehaviour
                     }*/
 
                     var x = Instantiate(temp, currentGrid.transform.GetChild(0));
+                    x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + i;
                     x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                     x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                     x.GetComponent<InteractableActivityManager>().SetMySize();
@@ -164,6 +164,7 @@ public class SetStart : MonoBehaviour
                         }*/
 
                         var x = Instantiate(temp, currentGrid.transform.GetChild(0));
+                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + i;
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
@@ -177,6 +178,7 @@ public class SetStart : MonoBehaviour
                     for (int i = currentSetGameObjs.Count; i < currentGrid.GetComponent<ButtonMatrix>().interactionsGoal; i++)
                     {
                         var x = Instantiate(temp, currentGrid.transform.GetChild(0));
+                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + i;
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
