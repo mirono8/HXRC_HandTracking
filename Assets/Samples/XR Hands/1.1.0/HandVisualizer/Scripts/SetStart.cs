@@ -52,6 +52,7 @@ public class SetStart : MonoBehaviour
     public TrackColliders leftHandColliders;
     public TrackColliders rightHandColliders;
 
+    bool colliderActiveStatus;
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -322,17 +323,20 @@ public class SetStart : MonoBehaviour
 
     public void DisableCollision()
     {
-        if (sessionManager.CurrentState() == States.State.Paused)
+        if (sessionManager.CurrentState() == States.State.Paused && colliderActiveStatus == true)
         {
+
             currentGrid.GetComponent<CollidableObjects>().ToggleColliders(true);
             leftHandColliders.ToggleTrigger(true);
             rightHandColliders.ToggleTrigger(true);
+            colliderActiveStatus = false;
         }
-        else
+        else if (sessionManager.CurrentState() != States.State.Paused && colliderActiveStatus == false)
         {
             currentGrid.GetComponent<CollidableObjects>().ToggleColliders(false);
             leftHandColliders.ToggleTrigger(false);
             rightHandColliders.ToggleTrigger(false);
+            colliderActiveStatus = true;
         }
     }
 

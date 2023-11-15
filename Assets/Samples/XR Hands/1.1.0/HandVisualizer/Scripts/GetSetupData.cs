@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using System.IO;
 using SimpleJSON;
 using System;
+using System.Text;
 
 public class GetSetupData : MonoBehaviour
 {
@@ -47,20 +48,33 @@ public class GetSetupData : MonoBehaviour
         www.Dispose();
     }
 
+   
     void GoByDefault()
     {
         Debug.Log("defaulted");
 
         //uncomment for set debugging use
 
-     /*   ParsedData bogo = new();
-        bogo.size = "medium";
+      /*  ParsedData bogo = new();
+        bogo.size = "random";
         bogo.type = "button";
-        bogo.mode = "matrix";
-        bogo.iCount = 3;
-        sets.Add(bogo); */
-       
+        bogo.mode = "all";
+        bogo.iCount = 10;
+        sets.Add(bogo);
 
+        ParsedData bogo1 = new();
+        bogo1.size = "random";
+        bogo1.type = "button";
+        bogo1.mode = "all";
+        bogo1.iCount = 10;
+        sets.Add(bogo1);
+
+        ParsedData bogo3 = new();
+        bogo3.size = "random";
+        bogo3.type = "button";
+        bogo3.mode = "all";
+        bogo3.iCount = 10;
+        sets.Add(bogo3);*/
 
         //GRIDS
         for (int i = 0; i < 3; i++)

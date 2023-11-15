@@ -106,7 +106,9 @@ public class InteractableActivityManager : MonoBehaviour
 
     LayerMask ignoreInRaycast;
 
+    [SerializeField]
     GameObject nearestNeighbor;
+
     private void Awake()
     {
         if (sessionMode != SessionMode.Matrix)
@@ -414,8 +416,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (!interactionEventStarted)
         {
-            if (randomButtons != null && !randomButtons.oneByOne)
-                nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
+            
               
 
             interactionEventStarted = true;
@@ -440,6 +441,8 @@ public class InteractableActivityManager : MonoBehaviour
                 yield return new WaitUntil(randomButtons.PassFaderStatus);
             }
 
+            if (randomButtons != null && !randomButtons.oneByOne)
+                nearestNeighbor = collidables.GetNearestNeighbor(myOrderIndex);
             Debug.Log("interaction starting, fade over");
             myDuration = 0;
 
@@ -511,10 +514,6 @@ public class InteractableActivityManager : MonoBehaviour
         // split the items
         string[] sArray = sVector.Split(',',' ',System.StringSplitOptions.RemoveEmptyEntries);
 
-        foreach (string s in sArray) {
-
-            Debug.Log("split string " +s + "\n");
-        }
 
         // store as a Vector3
         Vector3 result = new Vector3(
@@ -642,6 +641,11 @@ public class InteractableActivityManager : MonoBehaviour
                     Debug.Log("going for last pick");
                     var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);  
 
+                    if(next == null)
+                    {
+                        Debug.Log("next was null, simplifying");
+                        next = collidables.PickNextUnusedInteractable(myOrderIndex);
+                    }
                     next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                     StartCoroutine(next.GetComponent<InteractableActivityManager>().StartInteractionEvent());
                 }

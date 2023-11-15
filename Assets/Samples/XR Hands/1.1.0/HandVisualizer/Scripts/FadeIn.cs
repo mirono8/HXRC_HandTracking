@@ -42,6 +42,8 @@ public class FadeIn : MonoBehaviour
     public GameObject UI;
 
     public Color infoTextColor;
+
+    bool end;
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -164,6 +166,7 @@ public class FadeIn : MonoBehaviour
     {
         if (fadedOut)
         {
+            end = true;
             StartCoroutine(FadeCanvasIn());
             countdown.text = "Session has ended";
             info.text = "Total elapsed time: " + time;
@@ -203,6 +206,10 @@ public class FadeIn : MonoBehaviour
             timer -= Time.deltaTime;
         }
 
+        if (end)
+        {
+            countdown.text = "Session has ended";
+        }
         Vector3 targetPos = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 13f));
 
 

@@ -8,6 +8,8 @@ using System;
 using Unity.XR.CoreUtils;
 using SimpleJSON;
 using UnityEngine.PlayerLoop;
+using System.Text;
+using UnityEngine.Networking;
 
 public class SaveManager : MonoBehaviour
 {
@@ -147,7 +149,18 @@ public class SaveManager : MonoBehaviour
             EventMe();*/
     }
 
-
+    IEnumerator SendSessionDataToSite(string uri, string json)   //uri = https://xrdev.edu.metropolia.fi/api/gamedata/
+    {
+        // test=?
+        byte[] rawJson = Encoding.UTF8.GetBytes(json);
+        UnityWebRequest www = new UnityWebRequest(uri, "POST");
+        www.uploadHandler = (UploadHandler)new UploadHandlerRaw(rawJson);
+        www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        www.SetRequestHeader("Content-Type", "application/json");
+        
+        yield return www.SendWebRequest();
+        Debug.Log("Status: " + www.responseCode);
+    }
 
     public DataBlock BlockMe()
     {
@@ -169,7 +182,7 @@ public class SaveManager : MonoBehaviour
 
     public void SaveHandLocation(HandDataOut.Hand hand)
     {
-        var block = new DataBlock();
+        DataBlock block = new DataBlock();
 
         if (timeSinceLastStamp > stampInterval)
         {
@@ -238,12 +251,11 @@ public class SaveManager : MonoBehaviour
         
             CheckOnNull();
 
-            Debug.Log("SAVING, elapset time " + combinedData.elapsedTime);
             //interactable events here!!!!!     //alikansio aina startissa maybe!
             
             // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
             var j = JsonUtility.ToJson(combinedData);
-
+            
             // var json = JsonUtility.ToJson(combinedData);
 
 #if UNITY_EDITOR
@@ -257,9 +269,10 @@ public class SaveManager : MonoBehaviour
 #endif
 
 
-
-           File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
-        
+       // if (sessionManager.allClear)
+      //  {
+            File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
+      //  }
     }
     
 

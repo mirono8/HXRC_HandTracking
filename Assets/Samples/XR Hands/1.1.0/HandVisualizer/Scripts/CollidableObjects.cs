@@ -33,7 +33,11 @@ public class CollidableObjects : MonoBehaviour
 
     public void AddToCounter()
     {
-        interactSuccessCount++;
+        if (interactSuccessCount < interactedObjs.Count)
+        {
+            interactSuccessCount++;
+        }
+        Debug.Log("adding to counter, its now " + interactSuccessCount);
     }
     public IEnumerator PopulateCollidables() // gathers all children (interactables) to track and starts first set
     {
@@ -125,6 +129,8 @@ public class CollidableObjects : MonoBehaviour
         }
         return null;
     }
+
+ 
     public void ToggleColliders(bool b)
     {
 
