@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "230YC01D81004H",
+    "m_SelectedDeviceId": "230YC01D86018S",
     "m_SelectedPackage": {
         "deviceId": "230YC01D81004H",
         "name": "com.HXRC.XRSpaceHandTracking",
-        "processId": 8393,
+        "processId": 10128,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -72,6 +72,12 @@
             "deviceId": "230YC01D81004H",
             "name": "com.HXRC.XRSpaceHandTracking",
             "processId": 8393,
+            "exited": true
+        },
+        {
+            "deviceId": "230YC01D81004H",
+            "name": "com.HXRC.XRSpaceHandTracking",
+            "processId": 10128,
             "exited": false
         }
     ],

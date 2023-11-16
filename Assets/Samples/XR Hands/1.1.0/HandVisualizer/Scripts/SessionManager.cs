@@ -10,6 +10,9 @@ public class SessionManager : States
     public SetStart setStart;
 
     [SerializeField]
+    SaveManager saveManager;
+
+    [SerializeField]
     int setCount;
     [SerializeField]
     int currentSet = 0;
@@ -34,6 +37,7 @@ public class SessionManager : States
     {
         setStart = GetComponentInChildren<SetStart>(true);
         panelManager = GetComponentInChildren<PanelManager>(true);
+        saveManager = GetComponentInChildren<SaveManager>(true);
     }
 
     private void Start()
@@ -163,14 +167,13 @@ public class SessionManager : States
                     
                 }
             }
-            fader.SessionEnded(sessionEndTime);  //build and test
+            
+            fader.SessionEnded(saveManager.SetSessionEndTime());
+            gameObject.SetActive(false);
         }
     }
 
-    public void SetSessionEndTime(float f)
-    {
-        sessionEndTime = f;
-    }
+
 
     public Transform GetUIDefaultTranform()
     {

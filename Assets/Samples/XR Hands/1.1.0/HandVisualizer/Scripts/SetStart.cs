@@ -282,7 +282,7 @@ public class SetStart : MonoBehaviour
         {
             Debug.Log("wait for user in setstart");
           //  fadeIn.ChangeFaderStatus();
-            fadeIn.WaitForUser();
+            StartCoroutine(fadeIn.WaitForUser(currentGrid));  
         }
  
         Debug.Log("waiting");
@@ -307,7 +307,10 @@ public class SetStart : MonoBehaviour
 
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(true);
 
-        rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+        if (currentSetNumber != 0)
+        {
+            rig.GetComponent<VrCamStartPos>().WarpToNextPanel(warpPoints[currentSetNumber]);
+        }
 
         Debug.Log("i can wait no longer");
         rig.GetComponent<VrCamStartPos>().RotateWhileTrue(false);

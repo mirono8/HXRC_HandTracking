@@ -27,6 +27,7 @@ public class SaveManager : MonoBehaviour
 
     SessionManager sessionManager;
 
+    string json;
     [SerializeField]
     public class DataWrapper
     {
@@ -119,6 +120,7 @@ public class SaveManager : MonoBehaviour
         combinedData.interactableEvents.events = new();
         sessionStartTime = data.GetDate();
 
+         json = JsonUtility.ToJson(combinedData);
     }
 
     private void Update()
@@ -132,7 +134,8 @@ public class SaveManager : MonoBehaviour
         
         if (sessionManager.CurrentState() == States.State.End)
         {
-            sessionManager.SetSessionEndTime(combinedData.elapsedTime);
+          /*  float endTime = combinedData.elapsedTime;
+            sessionManager.SetSessionEndTime(endTime);*/
             Save();
             gameObject.SetActive(false);
         }
@@ -145,14 +148,17 @@ public class SaveManager : MonoBehaviour
             sessionStartTime = data.GetDate();
         }
 
-      /*  if (Input.GetButtonDown("FunnyTestKey"))
-            EventMe();*/
+        if (Input.GetButtonDown("FunnyTestKey"))
+            StartCoroutine(SendSessionDataToSite("https://xrdev.edu.metropolia.fi/api/gamedata/createdata/", combinedData));
     }
-
-    IEnumerator SendSessionDataToSite(string uri, string json)   //uri = https://xrdev.edu.metropolia.fi/api/gamedata/
+    public float SetSessionEndTime()
+    {
+        return combinedData.elapsedTime;
+    }
+    IEnumerator SendSessionDataToSite(string uri, DataWrapper data)   //uri = https://xrdev.edu.metropolia.fi/api/gamedata/
     {
         // test=?
-        byte[] rawJson = Encoding.UTF8.GetBytes(json);
+       /* byte[] rawJson = Encoding.UTF8.GetBytes(json);
         UnityWebRequest www = new UnityWebRequest(uri, "POST");
         www.uploadHandler = (UploadHandler)new UploadHandlerRaw(rawJson);
         www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -160,6 +166,26 @@ public class SaveManager : MonoBehaviour
         
         yield return www.SendWebRequest();
         Debug.Log("Status: " + www.responseCode);
+       */
+        WWWForm form = new();
+        byte[] rawJson = Encoding.UTF8.GetBytes(json);
+
+        form.AddField("title", "xr-space-data-test");
+       // form.AddField("data", JsonUtility.ToJson(data));
+        //form.AddBinaryData("data", rawJson);
+
+        
+        UnityWebRequest www = UnityWebRequest.Post(uri, form);
+        yield return www.SendWebRequest();
+
+        if(www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete");
+        }
     }
 
     public DataBlock BlockMe()
@@ -225,6 +251,7 @@ public class SaveManager : MonoBehaviour
     {
         
         Save(); //for now
+        
     }
 
     private void OnApplicationPause(bool pause)
@@ -254,7 +281,7 @@ public class SaveManager : MonoBehaviour
             //interactable events here!!!!!     //alikansio aina startissa maybe!
             
             // var j = JsonConvert.SerializeObject(combinedData, Formatting.Indented);
-            var j = JsonUtility.ToJson(combinedData);
+            json = JsonUtility.ToJson(combinedData);
             
             // var json = JsonUtility.ToJson(combinedData);
 
@@ -271,7 +298,9 @@ public class SaveManager : MonoBehaviour
 
        // if (sessionManager.allClear)
       //  {
-            File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", j);
+            File.WriteAllText(saveFolder + "HandTrackingData-" + sessionStartTime + ".json", json);
+
+       
       //  }
     }
     

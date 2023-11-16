@@ -55,27 +55,15 @@ public class GetSetupData : MonoBehaviour
 
         //uncomment for set debugging use
 
-      /*  ParsedData bogo = new();
+     /*   ParsedData bogo = new();
         bogo.size = "random";
         bogo.type = "button";
         bogo.mode = "all";
         bogo.iCount = 10;
         sets.Add(bogo);
-
-        ParsedData bogo1 = new();
-        bogo1.size = "random";
-        bogo1.type = "button";
-        bogo1.mode = "all";
-        bogo1.iCount = 10;
-        sets.Add(bogo1);
-
-        ParsedData bogo3 = new();
-        bogo3.size = "random";
-        bogo3.type = "button";
-        bogo3.mode = "all";
-        bogo3.iCount = 10;
-        sets.Add(bogo3);*/
-
+     */
+      
+        
         //GRIDS
         for (int i = 0; i < 3; i++)
         {
@@ -100,7 +88,7 @@ public class GetSetupData : MonoBehaviour
             defaultData2.iCount = 3;
             sets.Add(defaultData2);
         }
-
+        
 
         //ONE BY ONE
         ParsedData defaultData3 = new();
@@ -165,7 +153,7 @@ public class GetSetupData : MonoBehaviour
             defaultData10.iCount = 10;
             sets.Add(defaultData10);
         }
-
+        
     }
 
     public void CreateFromJson(string s)

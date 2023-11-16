@@ -173,11 +173,22 @@ public class FadeIn : MonoBehaviour
         }
     }
 
-    public void WaitForUser()
+    public IEnumerator WaitForUser(GameObject currentSetPanel)  //currentGrid.GetComponent<RandomButtons>().GetSetStatus)
     {
-        UI.SetActive(true);
-        Debug.Log("waiting for user input");
-        
+        if (currentSetPanel.GetComponent<RandomButtons>() != null)
+        {
+            yield return new WaitUntil(currentSetPanel.GetComponent<RandomButtons>().GetSetStatus);
+            UI.SetActive(true);
+            Debug.Log("waiting for user input");
+        }
+        else
+        {
+            UI.SetActive(true);
+            Debug.Log("waiting for user input");
+            
+        }
+
+        yield return null;
     }
 
     public void SetSetCount(int i)

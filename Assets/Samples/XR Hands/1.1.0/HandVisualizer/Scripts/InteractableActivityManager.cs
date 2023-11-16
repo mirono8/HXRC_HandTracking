@@ -613,6 +613,7 @@ public class InteractableActivityManager : MonoBehaviour
                 {
                     if (nearestNeighbor != collidables.objects[myOrderIndex + 1]) // if my nearest neighbor is not next in order  
                     {
+                        Debug.Log("picking next in order");
                         collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                         StartCoroutine(collidables.objects[myOrderIndex + 1].GetComponent<InteractableActivityManager>().StartInteractionEvent());
 
@@ -621,6 +622,7 @@ public class InteractableActivityManager : MonoBehaviour
                     {
                         if (nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex != collidables.objects.Count - 1) //if nearest is not last in order
                         {
+                            Debug.Log("nearest was next in order, picking another unused interactable");
                             var next = collidables.PickNextUnusedInteractable(nearestNeighbor.GetComponent<InteractableActivityManager>().myOrderIndex);
 
                             next.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
@@ -629,7 +631,7 @@ public class InteractableActivityManager : MonoBehaviour
                         }
                         else
                         {
-
+                            Debug.Log("nearest was next in order, but it is the last interactable");
                             nearestNeighbor.GetComponent<InteractableActivityManager>().rendererToChange.material = highlightMaterial;
                             StartCoroutine(nearestNeighbor.GetComponent<InteractableActivityManager>().StartInteractionEvent());
 
