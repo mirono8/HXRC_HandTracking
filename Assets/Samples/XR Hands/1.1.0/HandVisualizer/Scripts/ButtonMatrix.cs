@@ -336,7 +336,7 @@ public class ButtonMatrix : MonoBehaviour
         }
     }
 
-    public void ShowExtraButtons(GameObject activeInteractable)   //SEEMS TO WORK, STRESS TEST
+    public void ShowExtraButtons(GameObject activeInteractable)   
     {
         Group referenced = null;
 

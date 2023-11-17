@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
-
 public class FadeIn : MonoBehaviour
 {
     [SerializeField]
@@ -187,6 +186,9 @@ public class FadeIn : MonoBehaviour
             Debug.Log("waiting for user input");
             
         }
+
+        countdown.text = "Break";
+        info.text = "Touch the continue button when you are ready";
 
         yield return null;
     }
