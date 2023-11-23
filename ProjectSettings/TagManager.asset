@@ -12,6 +12,7 @@ TagManager:
   - SessionManager
   - Fade
   - CanvasCamera
+  - VisualObject
   layers:
   - Default
   - TransparentFX

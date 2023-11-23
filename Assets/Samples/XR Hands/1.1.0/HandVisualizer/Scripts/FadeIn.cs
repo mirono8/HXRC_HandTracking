@@ -75,7 +75,10 @@ public class FadeIn : MonoBehaviour
                 info.color = infoTextColor;
                 info.alpha = 0;
                 UI.GetComponentInChildren<UIComponent>().ResetComponents();
-                GameObject.FindGameObjectWithTag("CanvasCamera").GetComponent<Camera>().cullingMask = LayerMask.GetMask("CanvasFirst");
+                if (canvasCamera.activeSelf)
+                {
+                    GameObject.FindGameObjectWithTag("CanvasCamera").GetComponent<Camera>().cullingMask = LayerMask.GetMask("CanvasFirst");
+                }
             }
 
             yield return null;
@@ -85,10 +88,9 @@ public class FadeIn : MonoBehaviour
 
     }
 
-    public IEnumerator FadeCanvasIn()
+    public IEnumerator FadeCanvasIn(string headerText = "Initializing next set..")
     {
         Debug.Log("Fading in");
-
         setData.text = currentSet.ToString() + "/" + setCount.ToString();
         do
         {
@@ -96,9 +98,7 @@ public class FadeIn : MonoBehaviour
             {
                // start = true;
 
-                countdown.text = "Initializing next set..";
-
-                
+                countdown.text = headerText;
 
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
 
@@ -187,7 +187,7 @@ public class FadeIn : MonoBehaviour
             
         }
 
-        countdown.text = "Break";
+        countdown.text = "Break time";
         info.text = "Touch the continue button when you are ready";
 
         yield return null;

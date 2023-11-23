@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class SetStart : MonoBehaviour
+public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON START
 {
     public GetSetupData setupData;
 

@@ -7,7 +7,11 @@ using UnityEngine.EventSystems;
 public class AdjustHeight : MonoBehaviour
 {
     bool colliding;
-    bool clamped;
+
+    [SerializeField]
+    bool clampedUpper;
+    [SerializeField]
+    bool clampedLower;
    // public Slider slider;
 
     public float sliderValue;
@@ -67,20 +71,20 @@ public class AdjustHeight : MonoBehaviour
         {
             float clamp = Mathf.Clamp(handle.transform.localPosition.y, (constraints * -1), constraints);
             handle.transform.localPosition = new Vector3(0, clamp, -0.017f);
-            clamped = true;
+            clampedUpper = true;
 
         }
         else
-         clamped = false;
+         clampedUpper = false;
 
         if (handle.transform.localPosition.y <= (constraints * -1))
         {
             float clamp = Mathf.Clamp(handle.transform.localPosition.y, (constraints * -1), constraints);
             handle.transform.localPosition = new Vector3(0, clamp, -0.017f);
-            clamped = true;
+            clampedLower = true;
         }
         else
-            clamped = false;
+            clampedLower = false;
 
         target.transform.position = adjustedPosition;
         lobby.SetPanelHeight(adjustedPosition.y);
@@ -119,7 +123,7 @@ public class AdjustHeight : MonoBehaviour
         {
             handle.transform.localPosition = new Vector3(0, other.transform.position.y, -0.017f);
 
-            if(!clamped)
+            if(!clampedUpper && !clampedLower)
                 adjustedPosition = new Vector3(target.transform.position.x, handle.transform.localPosition.y, target.transform.position.z);
         }
     }

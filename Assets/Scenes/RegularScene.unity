@@ -224,28 +224,6 @@ PrefabInstance:
       propertyPath: sessionManager
       value: 
       objectReference: {fileID: 2097105950}
-    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.7264151
-      objectReference: {fileID: 0}
-    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.7264151
-      objectReference: {fileID: 0}
-    - target: {fileID: 1221301710, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.7264151
-      objectReference: {fileID: 0}
-    - target: {fileID: 276426792414819636, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1262970632353794131, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4108124381048770941, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_RootOrder
@@ -310,56 +288,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RequestedTrackingOriginMode
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039814030523065852, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_CameraType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5039814030523065852, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_AllowXRRendering
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7249354229092416202, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_AllowXRRendering
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7249354230105494427, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8597679242028701369, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8597679242028701369, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694959058205135808, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694959058205135808, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_PositionInput.m_UseReference
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694959058205135808, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_RotationInput.m_UseReference
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694959058205135808, guid: 457a0d2628fbf2b4986b3c4f009100a3,
-        type: 3}
-      propertyPath: m_TrackingStateInput.m_UseReference
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}
@@ -814,27 +742,57 @@ PrefabInstance:
     - target: {fileID: 390789696082011608, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387677331689762357, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
       objectReference: {fileID: 0}
     - target: {fileID: 2751743959935812963, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3467332507407355534, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183094340390242672, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
       objectReference: {fileID: 0}
     - target: {fileID: 4183094340390242687, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4922957497308349440, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926244004086264262, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
       objectReference: {fileID: 0}
     - target: {fileID: 4926244004086264265, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642639224545211960, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
       objectReference: {fileID: 0}
     - target: {fileID: 6368360888295030229, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6480257608926865281, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
@@ -939,7 +897,12 @@ PrefabInstance:
     - target: {fileID: 7422492350043214194, guid: d2f921615cd24414c8f6ee220264306f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422492350043214205, guid: d2f921615cd24414c8f6ee220264306f,
+        type: 3}
+      propertyPath: m_TagString
+      value: VisualObject
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2f921615cd24414c8f6ee220264306f, type: 3}

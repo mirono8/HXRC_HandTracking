@@ -6,12 +6,9 @@ using UnityEngine.SceneManagement;
 public class LobbyStart : MonoBehaviour
 {
 
-    public void Start()
-    {
-        StartCoroutine(StartRegularScene());
-    }
 
-    IEnumerator StartRegularScene()
+
+    public IEnumerator StartRegularScene()
     {
         yield return new WaitForSeconds(5f);
         Debug.Log(PlayerConfigs.panelHeight);

@@ -95,6 +95,14 @@ public class SessionManager : States
             setStart.warpPoints.Add(setStart.setGrid[i].GetComponent<GridToPanel>().warpPoint);
         }
 
+        var adjustableObjects = GameObject.FindGameObjectsWithTag("VisualObject");
+
+        for (int i = 0; i < adjustableObjects.Length; i++)
+        {
+            adjustableObjects[i].transform.position = new Vector3(adjustableObjects[i].transform.position.x, PlayerConfigs.panelHeight, adjustableObjects[i].transform.position.z);
+        }
+
+
         panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
 
         setStart.SetupInteractables();

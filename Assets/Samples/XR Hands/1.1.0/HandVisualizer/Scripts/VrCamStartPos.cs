@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR;
-
+using UnityEngine.XR.Management;
 public class VrCamStartPos : MonoBehaviour
 {
+
     [SerializeField]
     Camera cam;
 
@@ -16,24 +18,68 @@ public class VrCamStartPos : MonoBehaviour
 
     [SerializeField]
     bool rotate;
+
+    XROrigin xROrigin;
     void Start()
     {
-        StartCoroutine(ResetHead());
+        xROrigin = GetComponent<XROrigin>();
+
+        var xrSettings = XRGeneralSettings.Instance;
+        if (xrSettings == null)
+        {
+            Debug.Log("xrsettings is null");
+            return;
+
+        }
+
+        var xrManager = xrSettings.Manager;
+        if (xrManager == null)
+        {
+            Debug.Log($"XRManagerSettings is null.");
+            return;
+        }
+
+        var xrLoader = xrManager.activeLoader;
+        if (xrLoader == null)
+        {
+            Debug.Log($"XRLoader is null.");
+            return;
+        }
+
+        Debug.Log($"Loaded XR Device: {xrLoader.name}");
+
+        var xrDisplay = xrLoader.GetLoadedSubsystem<XRDisplaySubsystem>();
+        Debug.Log($"XRDisplay: {xrDisplay != null}");
+
+
+        var xrInput = xrLoader.GetLoadedSubsystem<XRInputSubsystem>();
+        Debug.Log($"XRInput: {xrInput != null}");
+
+        StartCoroutine(ResetHead(xrInput));
     }
 
-    IEnumerator ResetHead()
+
+
+    IEnumerator ResetHead(XRInputSubsystem input)
     {
+
+
         yield return new WaitForSeconds(5f);
+        xROrigin.MoveCameraToWorldLocation(defaultPos.position);
+        Debug.Log(input.TryRecenter());
 
-        var rotAngleY = defaultPos.rotation.y - cam.transform.rotation.y;
+    /* 
 
-        gameObject.transform.Rotate(0, rotAngleY, 0);
+     var offset = defaultPos.position - cam.transform.position;
 
-        var offset = defaultPos.position - cam.transform.position;
+     gameObject.transform.position = offset;
+     var rotAngleY = defaultPos.rotation.y - cam.transform.rotation.y - gameObject.transform.rotation.y;
 
-        gameObject.transform.position = offset; 
+     gameObject.transform.Rotate(0, rotAngleY, 0); //rotangle y
+     Debug.Log("rotangle" + rotAngleY);
+     Debug.Log(offset + " offset");
 
-        Debug.Log(offset + " offset");
+         */
     }
 
     public void RotateWhileTrue(bool b)
