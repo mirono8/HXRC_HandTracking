@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 public class AdjustHeight : MonoBehaviour
 {
     bool colliding;
-
-    public Slider slider;
+    bool clamped;
+   // public Slider slider;
 
     public float sliderValue;
 
@@ -18,12 +18,18 @@ public class AdjustHeight : MonoBehaviour
     [SerializeField]
     Vector3 adjustedPosition;
 
+    float constraints = 0.25f;
 
+    [SerializeField]
+    GameObject handle;
+
+    [SerializeField]
+    LobbyStart lobby;
     private void Start()
     {
         //slider = GetComponent<Slider>();
 
-        slider.onValueChanged.AddListener(delegate { SetFloat(slider.value); });
+      //  slider.onValueChanged.AddListener(delegate { SetFloat(slider.value); });
         
     }
     private void OnTriggerEnter(Collider other)
@@ -41,7 +47,7 @@ public class AdjustHeight : MonoBehaviour
                 {
                     hand.leftHand.isGrabbing = true;
                     colliding = true;
-                    Debug.Log("collided with ghostwall");
+                    Debug.Log("collided with handle");
 
                 }
                 else if ((int)hand.rightHand.myHandedness == (int)finger.GetMyHandedness(finger))
@@ -49,28 +55,45 @@ public class AdjustHeight : MonoBehaviour
                     hand.rightHand.isGrabbing = true;
                     colliding = true;
 
-                    Debug.Log("collided with ghostwall");
+                    Debug.Log("collided with handle");
                 }
             }
         }
     }
+
     private void Update()
     {
-        SetFloat(slider.value);
-    }
+        if (handle.transform.localPosition.y >= constraints)
+        {
+            float clamp = Mathf.Clamp(handle.transform.localPosition.y, (constraints * -1), constraints);
+            handle.transform.localPosition = new Vector3(0, clamp, -0.017f);
+            clamped = true;
 
-    private void FixedUpdate()
-    {
+        }
+        else
+         clamped = false;
+
+        if (handle.transform.localPosition.y <= (constraints * -1))
+        {
+            float clamp = Mathf.Clamp(handle.transform.localPosition.y, (constraints * -1), constraints);
+            handle.transform.localPosition = new Vector3(0, clamp, -0.017f);
+            clamped = true;
+        }
+        else
+            clamped = false;
+
         target.transform.position = adjustedPosition;
+        lobby.SetPanelHeight(adjustedPosition.y);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("FingerCollider"))
         {
             TrackColliders finger = other.gameObject.GetComponentInParent<TrackColliders>();
 
             HandDataOut hand = FindObjectOfType<HandDataOut>();
+
 
             if ((int)hand.leftHand.myHandedness == (int)finger.GetMyHandedness(finger))
             {
@@ -83,9 +106,21 @@ public class AdjustHeight : MonoBehaviour
             {
                 hand.rightHand.isGrabbing = false;
                 colliding = false;
-                adjustedPosition = target.transform.position + new Vector3(target.transform.position.x, sliderValue, target.transform.position.z);
+              
 
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        if (other.CompareTag("FingerCollider"))
+        {
+            handle.transform.localPosition = new Vector3(0, other.transform.position.y, -0.017f);
+
+            if(!clamped)
+                adjustedPosition = new Vector3(target.transform.position.x, handle.transform.localPosition.y, target.transform.position.z);
         }
     }
 
@@ -93,4 +128,6 @@ public class AdjustHeight : MonoBehaviour
     {
         sliderValue = value;
     }
+
+    
 }

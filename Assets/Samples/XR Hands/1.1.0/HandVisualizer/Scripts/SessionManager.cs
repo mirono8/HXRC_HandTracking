@@ -46,7 +46,7 @@ public class SessionManager : States
 
         fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
 
-        
+        Debug.Log("session start, height" + PlayerConfigs.panelHeight);
     }
 
     IEnumerator GetInitialState() // loads intial state of the session from the scene

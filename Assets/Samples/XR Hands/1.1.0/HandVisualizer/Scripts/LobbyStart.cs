@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LobbyStart : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public void Start()
     {
         StartCoroutine(StartRegularScene());
     }
@@ -14,6 +14,12 @@ public class LobbyStart : MonoBehaviour
     IEnumerator StartRegularScene()
     {
         yield return new WaitForSeconds(5f);
+        Debug.Log(PlayerConfigs.panelHeight);
         SceneManager.LoadSceneAsync("RegularScene");
+    }
+
+    public void SetPanelHeight(float value)
+    {
+        PlayerConfigs.panelHeight = value;
     }
 }
