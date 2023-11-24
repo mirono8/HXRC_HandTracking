@@ -18,8 +18,7 @@ public class FadeIn : MonoBehaviour
     int setCount;
     int currentSet;
 
-    [SerializeField]
-    float timer;
+    public float timer;
 
     [SerializeField]
     bool start;
@@ -34,6 +33,7 @@ public class FadeIn : MonoBehaviour
     public float smoothRotationTime = 0.5f;
 
     // The current velocity of the movement
+    [SerializeField]
     private Vector3 velocity;
 
     public GameObject canvasCamera;
@@ -43,6 +43,14 @@ public class FadeIn : MonoBehaviour
     public Color infoTextColor;
 
     bool end;
+    bool freeze;
+
+    [SerializeField]
+    GameObject BGBox;
+
+    [SerializeField]
+    Image[] images;
+
     public IEnumerator FadeCanvasOut()
     {
         Debug.Log("Fading out");
@@ -60,11 +68,16 @@ public class FadeIn : MonoBehaviour
 
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - (0.02f * 1f));  //kerroin hidastaa
 
+                foreach (var image in images)
+                {
+                    image.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
+                }
+
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a - (0.02f * 1f));
 
                 info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a - (0.02f * 1f));
 
-                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, setData.color.a - (0.02f * 1f));
+                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, fader.color.a - (0.02f * 1f));
 
             }
 
@@ -102,11 +115,16 @@ public class FadeIn : MonoBehaviour
 
                 fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
 
+                foreach (var image in images)
+                {
+                    image.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + (0.02f * 1f));
+                }
+
                 countdown.color = new Color(countdown.color.r, countdown.color.g, countdown.color.b, fader.color.a + (0.02f *1f));
 
                 info.color = new Color(info.color.r, info.color.g, info.color.b, fader.color.a + (0.02f * 1f));
 
-                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, setData.color.a + (0.02f * 1f));
+                setData.color = new Color(setData.color.r, setData.color.g, setData.color.b, fader.color.a + (0.02f * 1f));
                 //gameObject.SetActive(false);
 
 
@@ -126,7 +144,7 @@ public class FadeIn : MonoBehaviour
         
     }
 
-    public bool FaderStatus()
+    public bool FaderisFadedOut()
     {
         return fadedOut;
     }
@@ -172,7 +190,7 @@ public class FadeIn : MonoBehaviour
         }
     }
 
-    public IEnumerator WaitForUser(GameObject currentSetPanel)  //currentGrid.GetComponent<RandomButtons>().GetSetStatus)
+    public IEnumerator WaitForUser(GameObject currentSetPanel, bool modeChanged)  //currentGrid.GetComponent<RandomButtons>().GetSetStatus)
     {
         if (currentSetPanel.GetComponent<RandomButtons>() != null)
         {
@@ -186,10 +204,11 @@ public class FadeIn : MonoBehaviour
             Debug.Log("waiting for user input");
             
         }
-
-        countdown.text = "Break time";
-        info.text = "Touch the continue button when you are ready";
-
+        if (!modeChanged)
+        {
+            countdown.text = "Break time";
+            info.text = "Touch the continue button when you are ready";
+        }
         yield return null;
     }
 
@@ -202,11 +221,45 @@ public class FadeIn : MonoBehaviour
     {
         currentSet = i;
     }
+
+    public void Freeze(bool freezeCanvas)
+    {
+
+        freeze = freezeCanvas;
+        //transform.position = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 13f);
+
+        if (freeze)
+        {
+            countdown.alpha = 0;
+
+            info.alpha = 0;
+
+            setData.alpha = 0;
+        }
+        else
+        {
+            countdown.alpha = 1;
+
+            info.alpha = 1;
+
+            setData.alpha = 1;
+
+            transform.position = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 13f));
+        }
+    }
     private void Start()
     {
         infoTextColor = info.color;
         setData.text = currentSet.ToString() + "/" + setCount.ToString();
-       
+        transform.position = GameObject.FindGameObjectWithTag("Player").transform.forward;
+
+        images = new Image[BGBox.transform.childCount];
+
+        for (int i = 0; i < images.Length; i++)
+        {
+            images[i] = BGBox.transform.GetChild(i).GetComponent<Image>();
+        }
+        
     }
     private void FixedUpdate()
     {
@@ -225,10 +278,17 @@ public class FadeIn : MonoBehaviour
         }
         Vector3 targetPos = canvasCamera.transform.TransformPoint(new Vector3(0, 0, 13f));
 
+       
+        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
 
-        Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, (targetPos), ref velocity, smoothTime);
-
-        transform.position = smoothedPosition;
+        if (freeze)
+        {
+            transform.position = transform.position;
+        }
+        else
+        {
+            transform.position = smoothedPosition;
+        }
 
         var lookAtPosition = new Vector3(canvasCamera.transform.position.x, canvasCamera.transform.position.y, canvasCamera.transform.position.z);
         transform.LookAt(lookAtPosition);

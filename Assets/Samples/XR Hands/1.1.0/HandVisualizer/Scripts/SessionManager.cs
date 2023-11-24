@@ -42,17 +42,19 @@ public class SessionManager : States
 
     private void Start()
     {
+        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
         StartCoroutine(GetInitialState());
 
-        fader = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
+
 
         Debug.Log("session start, height" + PlayerConfigs.panelHeight);
     }
 
     IEnumerator GetInitialState() // loads intial state of the session from the scene
     {
+        fader.Freeze(true);
         yield return new WaitUntil(SessionActiveStatus);
-
+        fader.Freeze(false);
         setCount = setStart.setupData.sets.Count;
         InjectSetCount();
 
@@ -116,7 +118,8 @@ public class SessionManager : States
 
     public void TryStartNextSet() // tries to start the next set if there are multiple
     {
-        
+        var oldMode = setStart.CurrentSessionMode();
+
         currentSet++;
         InjectCurrentSet();
 
@@ -151,8 +154,17 @@ public class SessionManager : States
                 setStart.automaticFade = true;
             }
 
-            
+            var newMode = setStart.CurrentSessionMode();
 
+            if (newMode != oldMode)
+            {
+                setStart.ModeHasChanged(true);
+            }
+            else
+            {
+                setStart.ModeHasChanged(false);
+            }
+            
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
 
@@ -195,7 +207,7 @@ public class SessionManager : States
 
     public bool FaderStatus()
     {
-        return fader.FaderStatus();
+        return fader.FaderisFadedOut();
     }
 
     public void InjectSetCount()
@@ -209,7 +221,7 @@ public class SessionManager : States
     }
     private void Update()
     {
-        if (fader.FaderStatus())
+        if (fader.FaderisFadedOut())
         {
             ChangeState(State.Active);
         }

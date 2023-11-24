@@ -241,7 +241,7 @@ public class RandomButtons : MonoBehaviour
 
     public bool PassFaderStatus() // passes fader status from the fader script, interactables need to wait for this to start tracking time for the interaction event
     {
-        return fader.FaderStatus();
+        return fader.FaderisFadedOut();
     }
 
     public IEnumerator LoopingIntersectSetter() // iterates through interactables that intersect each other

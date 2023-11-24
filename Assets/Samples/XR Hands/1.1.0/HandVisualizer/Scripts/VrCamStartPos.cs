@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 public class VrCamStartPos : MonoBehaviour
@@ -19,10 +21,14 @@ public class VrCamStartPos : MonoBehaviour
     [SerializeField]
     bool rotate;
 
-    XROrigin xROrigin;
+    XROrigin xrOrigin;
+    XRInputSubsystem xrInput;
+    FadeIn fadeIn;
+
     void Start()
     {
-        xROrigin = GetComponent<XROrigin>();
+        xrOrigin = GetComponent<XROrigin>();
+      //  fadeIn = GameObject.FindGameObjectWithTag("Fade").GetComponent<FadeIn>();
 
         var xrSettings = XRGeneralSettings.Instance;
         if (xrSettings == null)
@@ -52,36 +58,50 @@ public class VrCamStartPos : MonoBehaviour
         Debug.Log($"XRDisplay: {xrDisplay != null}");
 
 
-        var xrInput = xrLoader.GetLoadedSubsystem<XRInputSubsystem>();
+        xrInput = xrLoader.GetLoadedSubsystem<XRInputSubsystem>();
         Debug.Log($"XRInput: {xrInput != null}");
 
-        StartCoroutine(ResetHead(xrInput));
+        StartCoroutine(ResetHeadAtStart());
     }
 
 
 
-    IEnumerator ResetHead(XRInputSubsystem input)
+    IEnumerator ResetHeadAtStart()
     {
+        /*if (fadeIn != null)
+        {
+            fadeIn.transform.position = xROrigin.transform.forward;
+        }*/
+        //BUILD TEST
+        Scene scene = SceneManager.GetActiveScene();
+        
+        if (scene.name != "Lobby")
+        {
+            yield return new WaitForSeconds(5f);
+        }
+        else
+        {
+            yield return new WaitForEndOfFrame();
+        }
 
-
-        yield return new WaitForSeconds(5f);
-        xROrigin.MoveCameraToWorldLocation(defaultPos.position);
-        Debug.Log(input.TryRecenter());
-
-    /* 
-
-     var offset = defaultPos.position - cam.transform.position;
-
-     gameObject.transform.position = offset;
-     var rotAngleY = defaultPos.rotation.y - cam.transform.rotation.y - gameObject.transform.rotation.y;
-
-     gameObject.transform.Rotate(0, rotAngleY, 0); //rotangle y
-     Debug.Log("rotangle" + rotAngleY);
-     Debug.Log(offset + " offset");
-
-         */
+        ResetHead(defaultPos);
     }
 
+    public void ResetHead(Transform target)
+    {
+        xrInput.TryRecenter();
+        xrOrigin.MoveCameraToWorldLocation(target.position);
+        Debug.Log("moved");
+
+        Vector3 targetForward = target.forward;
+        targetForward.y = 0;
+        Vector3 camForward = cam.transform.forward;
+        camForward.y = 0;
+
+        float angle = Vector3.SignedAngle(camForward, targetForward, Vector3.up);
+
+        xrOrigin.transform.RotateAround(cam.transform.position, Vector3.up, angle);
+    }
     public void RotateWhileTrue(bool b)
     {
         rotate = b;
@@ -105,10 +125,11 @@ public class VrCamStartPos : MonoBehaviour
 
             if (wp.lookHere != null || wp.warpHere != null)
             {
-                gameObject.transform.position = wp.warpHere.position;
+               /* gameObject.transform.position = wp.warpHere.position;
+                
                 gameObject.transform.Rotate(0, wp.warpHere.transform.rotation.y, 0);
 
-                gameObject.transform.position = new Vector3(transform.position.x, keepYPos, transform.position.z);
+                gameObject.transform.position = new Vector3(transform.position.x, keepYPos, transform.position.z);*/
 
                 /*  if (rotate) 
                   {
@@ -122,10 +143,14 @@ public class VrCamStartPos : MonoBehaviour
 
 
                   }*/
-                gameObject.transform.rotation = wp.warpHere.rotation;
+                ResetHead(wp.warpHere);
+                transform.position = new Vector3(transform.position.x, keepYPos, transform.position.z);
+
+                //  gameObject.transform.rotation = wp.warpHere.rotation;
 
 
             }
+            
         }
         else
         {

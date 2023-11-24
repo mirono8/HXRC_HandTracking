@@ -53,6 +53,8 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
     public TrackColliders rightHandColliders;
 
     bool colliderActiveStatus;
+
+    bool modeChanged = true;
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -76,9 +78,14 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
     {
         DisableCollision();
     }
+    public void ModeHasChanged(bool isTrue)
+    {
+        modeChanged = isTrue;
+    }
 
     public void SetupInteractables() // sets the interactables for current set active and adjusts them based on loaded values
     {
+        
         var temp = interactablePrefabs.Find(x => x.name.ToString().ToLower().Contains(type));
         Debug.Log(temp);
         InteractableActivityManager.InteractableSize sizeAsEnum = (InteractableActivityManager.InteractableSize)Enum.Parse(typeof(InteractableActivityManager.InteractableSize), size, true);
@@ -142,7 +149,7 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
             }
             else
             {
-                int nameIterarion = 0;
+                int nameIteration = 0;
                 for (int j = 0; j < columnCount; j++)
                 {
 
@@ -151,15 +158,15 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
 
 
                         var x = Instantiate(temp, currentGrid.transform.GetChild(0));
-                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + nameIterarion;
+                        x.name = x.GetComponent<InteractableActivityManager>().type.ToString() + nameIteration;
                         x.GetComponent<InteractableActivityManager>().sessionMode = modeEnum;
                         x.GetComponent<InteractableActivityManager>().size = sizeAsEnum;
                         x.GetComponent<InteractableActivityManager>().SetMySize();
 
                         currentSetGameObjs.Add(x);
-                        nameIterarion++;
+                        nameIteration++;
                     }
-                    nameIterarion++;
+                    nameIteration++;
                 }
 
                 if (currentSetGameObjs.Count < currentGrid.GetComponent<ButtonMatrix>().interactionsGoal)  //if grid is smaller than 10 objects total, add hidden objects to roll over in the matrix
@@ -271,7 +278,7 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
 
     public IEnumerator WaitForFade() // suspends operation until set has loaded and calls the method to possibly adjust camera position
     {
-        fadeIn.FaderInfoText(mode);
+        fadeIn.FaderInfoText(mode);  //tarkista t‰‰
 
         
         StartCoroutine(fadeIn.FadeCanvasIn());
@@ -280,19 +287,20 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
 
         if (!automaticFade)
         {
+            
             Debug.Log("wait for user in setstart");
           //  fadeIn.ChangeFaderStatus();
-            StartCoroutine(fadeIn.WaitForUser(currentGrid));  
+            StartCoroutine(fadeIn.WaitForUser(currentGrid, modeChanged));  
         }
  
         Debug.Log("waiting");
         if (!automaticFade)
         {
-            yield return new WaitUntil(fadeIn.FaderStatus);
+            yield return new WaitUntil(fadeIn.FaderisFadedOut);
         }
         else
         {
-            yield return new WaitWhile(fadeIn.FaderStatus);
+            yield return new WaitWhile(fadeIn.FaderisFadedOut);
         }
 
         if (currentGrid.GetComponent<RandomButtons>())
