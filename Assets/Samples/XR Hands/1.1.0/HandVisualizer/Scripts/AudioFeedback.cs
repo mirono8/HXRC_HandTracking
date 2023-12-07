@@ -20,15 +20,21 @@ public class AudioFeedback : MonoBehaviour
     {
         if (audioSource != null)
         {
-            if (!audioSource.isPlaying)
+            switch (type)  //needs testing whether isplaying clause is needed
             {
-                switch (type)
-                {
-                    case "hand": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId]); break;
+                case "hand": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId]); break;
 
-                    case "button": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]); break;
-                }
+                case "button": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]); break;
             }
+            /* if (!audioSource.isPlaying)
+             {
+                 switch (type)
+                 {
+                     case "hand": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId]); break;
+
+                     case "button": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]); break;
+                 }
+             }*/
         }
     }
 

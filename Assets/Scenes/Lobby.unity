@@ -1400,6 +1400,8 @@ GameObject:
   - component: {fileID: 1763209655}
   - component: {fileID: 1763209656}
   - component: {fileID: 1763209657}
+  - component: {fileID: 1763209658}
+  - component: {fileID: 1763209659}
   m_Layer: 0
   m_Name: DefaultPos
   m_TagString: Untagged
@@ -1531,6 +1533,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &1763209658
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763209654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1763209659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763209654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c490e8663bb03e942b15c3690fde3bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorTripped: 0
 --- !u!1001 &2639903620928555694
 PrefabInstance:
   m_ObjectHideFlags: 0
