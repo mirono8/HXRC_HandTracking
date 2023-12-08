@@ -14,10 +14,13 @@ public class ProximitySensor : MonoBehaviour
     [SerializeField]
     List<Collider> collidingWith;
 
+    SessionManager sessionManager;
     private void Start()
     {
-        audioFeedback = GetComponentInParent<AudioFeedback>();   
+        audioFeedback = GetComponentInParent<AudioFeedback>();
+        sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (enableSensor)

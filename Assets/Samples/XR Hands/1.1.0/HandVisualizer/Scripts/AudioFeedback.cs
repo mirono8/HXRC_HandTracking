@@ -12,6 +12,7 @@ public class AudioFeedback : MonoBehaviour
     [SerializeField]
     List<AudioClip> queue;
 
+    bool disableAfter;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,10 +53,18 @@ public class AudioFeedback : MonoBehaviour
                     audioSource.PlayOneShot(clip);
                     break;
             }
-            
         }
     }
 
+    public void PlayAndDisable(int clipId)
+    {
+        if (audioSource != null && !audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]);
+            disableAfter = true;
+        }
+
+    }
     public void AddToQueue(AudioClip clip)
     {
         queue.Add(clip);
@@ -68,5 +77,13 @@ public class AudioFeedback : MonoBehaviour
             audioSource.PlayOneShot(queue[0]);
             queue.Clear();
        }
+
+        if (disableAfter)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.mute = true;
+            }
+        }
     }
 }

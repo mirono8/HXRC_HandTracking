@@ -63,6 +63,11 @@ public class RandomButtons : MonoBehaviour
         }
         else
         {
+            foreach (GameObject x in collidables.objects)
+            {
+                x.GetComponent<InteractableActivityManager>().proximityCollider.enabled = true;
+            }
+
             setReady = true;
         }
     }
@@ -301,6 +306,8 @@ public class RandomButtons : MonoBehaviour
             yield return new WaitForEndOfFrame();
 
             obj.GetComponent<InteractableActivityManager>().ToggleKinematic(false);
+
+            obj.GetComponent<InteractableActivityManager>().proximityCollider.enabled = true;
         }
     }
 

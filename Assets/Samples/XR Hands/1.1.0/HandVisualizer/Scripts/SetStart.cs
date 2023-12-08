@@ -55,6 +55,8 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
     bool colliderActiveStatus;
 
     bool modeChanged = true;
+    //GATHER AUDIOSOURCES AND WAIT UNTIL NONE IS PLAYING
+
     private void OnEnable()
     {
         size = setupData.ReturnSize(0);
@@ -145,6 +147,7 @@ public class SetStart : MonoBehaviour  // GAMEOBJECT HAS TO BE UNENABLED ON STAR
                     x.GetComponent<InteractableActivityManager>().SetMySize();
 
                     currentSetGameObjs.Add(x);
+                    
                 }
             }
             else

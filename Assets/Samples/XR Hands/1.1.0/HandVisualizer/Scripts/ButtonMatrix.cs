@@ -285,6 +285,11 @@ public class ButtonMatrix : MonoBehaviour
         }
 
         AssignOverlappingPairs();
+
+        foreach (GameObject x in collidables.objects)
+        {
+            x.GetComponent<InteractableActivityManager>().proximityCollider.enabled = true;
+        }
     }
 
     public void AssignOverlappingPairs()

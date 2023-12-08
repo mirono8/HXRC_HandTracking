@@ -111,6 +111,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     ProximitySensor proximitySensor;
 
+    public Collider proximityCollider;
     AudioFeedback audioFeedback;
     private void Awake()
     {
@@ -561,9 +562,9 @@ public class InteractableActivityManager : MonoBehaviour
 
     public void OneByOneSuccesscheck() // continuous check for interaction success, for sets where interactables show up one by one
     {
-        if (interactSuccess)
-        {
-            audioFeedback.PlaySoundClip(0, "button");
+        /*if (interactSuccess)
+        {*/
+           
             if (myOrderIndex != collidables.objects.Count - 1)
             {
                 collidables.objects[myOrderIndex + 1].SetActive(true);
@@ -576,7 +577,7 @@ public class InteractableActivityManager : MonoBehaviour
 
             if (gameObject.activeSelf == true)
                 gameObject.SetActive(false);
-        }
+       // }
     }
 
     public void AllAtOnceSuccessCheck() // same as above but for sets where all interactables show up at once
@@ -595,7 +596,6 @@ public class InteractableActivityManager : MonoBehaviour
                 collidables.AddToInteracted(myOrderIndex);
                 AllAtOnceCheckFunction(false);
 
-              //  collidables.MatrixExtraButtons(gameObject); ei t‰‰ll‰, menee loop updateen
             }
         }
         else
@@ -947,7 +947,7 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void Update()  // all checks and other things are being run in here (yrjist‰)
     {
-        if (highlighted)
+        if (highlighted && sessionManager.CurrentState() == States.State.Active)
         {
             proximitySensor.enableSensor = true;
         }
@@ -993,7 +993,13 @@ public class InteractableActivityManager : MonoBehaviour
             if (randomButtons.oneByOne)
             {
                 if (interactSuccess)
-                    OneByOneSuccesscheck();
+                {
+                    interactSuccess = false;
+
+                    audioFeedback.PlayAndDisable(0);
+
+                    Invoke(nameof(OneByOneSuccesscheck),0.2f);
+                }
             }
             else
             {

@@ -33,6 +33,7 @@ public class SessionManager : States
 
     float sessionEndTime;
 
+    bool stopUpdate;
     private void Awake()
     {
         setStart = GetComponentInChildren<SetStart>(true);
@@ -72,11 +73,11 @@ public class SessionManager : States
                     setStart.setGrid[i].SetActive(true);
                 }
             }
-            setStart.setGrid[setCount-1].SetActive(false);
+            setStart.setGrid[setCount - 1].SetActive(false);
 
         }
         else
-        { 
+        {
             Debug.Log("no sets?");//setStart.setGrid.Add(Instantiate(setStart.gridPrefab, setStart.gameObject.transform));
         }
 
@@ -111,13 +112,14 @@ public class SessionManager : States
 
         setStart.GameObjectsToTrack();
 
-       
+
 
         firstSet = false;
     }
 
     public void TryStartNextSet() // tries to start the next set if there are multiple
     {
+        
         var oldMode = setStart.CurrentSessionMode();
 
         currentSet++;
@@ -125,13 +127,14 @@ public class SessionManager : States
 
         ChangeState(State.Paused);
 
+        stopUpdate = false;
         if (currentSet < setCount)
         {
 
             setStart.ClearComponents();
 
             //currentSet++;
-            if (currentSet < panelManager.panels.Count )
+            if (currentSet < panelManager.panels.Count)
             {
                 panelManager.ToggleHighlighting(panelManager.panels[currentSet].panel);
                 setStart.AssignSetParams(currentSet);
@@ -139,7 +142,7 @@ public class SessionManager : States
             }
             else
             {
-               // panelManager.ToggleHighlighting(panelManager.ReusePanel());       //use freethispanel!
+                // panelManager.ToggleHighlighting(panelManager.ReusePanel());       //use freethispanel!
                 setStart.AssignSetParams(currentSet, true);
                 setStart.GetCurrentSetNumber(currentSet);
             }
@@ -164,11 +167,11 @@ public class SessionManager : States
             {
                 setStart.ModeHasChanged(false);
             }
-            
+
             setStart.ClearCurrentSet();
             setStart.SetupInteractables();
 
-        
+
 
             setStart.GameObjectsToTrack();
             StartCoroutine(setStart.RunSet());
@@ -184,13 +187,14 @@ public class SessionManager : States
                 if (p.panel.GetComponentInChildren<GridToPanel>())
                 {
                     p.panel.GetComponentInChildren<GridToPanel>().gameObject.SetActive(false);
-                    
+
                 }
             }
-            
+
             fader.SessionEnded(saveManager.SetSessionEndTime());
             gameObject.SetActive(false);
         }
+        
     }
 
 
@@ -230,35 +234,44 @@ public class SessionManager : States
             ChangeState(State.Paused);
         }
 
-        if (setStart.CurrentSessionMode() == "onebyone")
+        if (!stopUpdate) //need this because of the invoke
         {
-            // starts next set, there's probably a better way to do this :)
-            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear)
-                TryStartNextSet();
-        }
-        else if (setStart.CurrentSessionMode() == "all")
-        {
-            if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>() != null && setStart.collidablesReady)
+            if (setStart.CurrentSessionMode() == "onebyone")
             {
-                if (setStart.currentSetGameObjs.Any() && setStart.currentGrid.GetComponent<CollidableObjects>() != null)  //collidables muka null mut eipä oo
+                // starts next set, there's probably a better way to do this :)
+                if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.Last().GetComponent<InteractableActivityManager>().interactSuccess && !allClear)
                 {
-                    if (setStart.currentGrid.GetComponent<CollidableObjects>().GetInteractSuccessCount()
-                        == setStart.currentGrid.GetComponent<CollidableObjects>().objects.Count && !allClear)   //setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>().collidables.GetInteractSuccessCount()
+                    Invoke(nameof(TryStartNextSet), 0.2f);
+                    stopUpdate = true;
+                }
+            }
+            else if (setStart.CurrentSessionMode() == "all")
+            {
+                if (setStart.currentSetGameObjs.Any() && setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>() != null && setStart.collidablesReady)
+                {
+                    if (setStart.currentSetGameObjs.Any() && setStart.currentGrid.GetComponent<CollidableObjects>() != null)
                     {
-                        TryStartNextSet();
+                        if (setStart.currentGrid.GetComponent<CollidableObjects>().GetInteractSuccessCount()
+                            == setStart.currentGrid.GetComponent<CollidableObjects>().objects.Count && !allClear)   //setStart.currentSetGameObjs.FirstOrDefault().GetComponent<InteractableActivityManager>().collidables.GetInteractSuccessCount()
+                        {
+
+                            Invoke(nameof(TryStartNextSet), 0.2f);
+                            stopUpdate = true;
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            if (!firstSet)  
+            else
             {
-                if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
+                if (!firstSet)
                 {
-                    if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())
+                    if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>())
                     {
-                        TryStartNextSet();
+                        if (setStart.setGrid[currentSet].GetComponent<ButtonMatrix>().IsSetDone())
+                        {
+                            Invoke(nameof(TryStartNextSet), 0.2f);
+                            stopUpdate = true;
+                        }
                     }
                 }
             }

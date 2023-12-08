@@ -53,7 +53,7 @@ public class CollidableObjects : MonoBehaviour
 
             obj.GetComponent<InteractableActivityManager>().GetMyColliders();
 
-
+            
         }
 
         if (gameObject.GetComponent<RandomButtons>())
