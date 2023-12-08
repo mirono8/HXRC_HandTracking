@@ -9,6 +9,9 @@ public class AudioFeedback : MonoBehaviour
     [SerializeField]
     SoundClips soundClips;
 
+    [SerializeField]
+    List<AudioClip> queue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,30 +23,50 @@ public class AudioFeedback : MonoBehaviour
     {
         if (audioSource != null)
         {
+            AudioClip clip = null;
+
             switch (type)  //needs testing whether isplaying clause is needed
             {
-                case "hand": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId]); break;
+                case "hand": clip = soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId];
 
-                case "button": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]); break;
+                    if (audioSource.isPlaying)
+                    {
+                        if (queue.Count == 0)
+                        {
+                            AddToQueue(clip);
+                        }
+                        else
+                        {
+                            queue.Clear();
+                            AddToQueue(clip);
+                        }
+                    }
+                    else
+                    {
+                        audioSource.PlayOneShot(clip);
+                    }
+                    break;
+
+                case "button": clip = soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId];
+                    queue.Clear();
+                    audioSource.PlayOneShot(clip);
+                    break;
             }
-            /* if (!audioSource.isPlaying)
-             {
-                 switch (type)
-                 {
-                     case "hand": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "HandProximitySound").audioClips[clipId]); break;
-
-                     case "button": audioSource.PlayOneShot(soundClips.audioCategories.Find(x => x.name == "ButtonPress").audioClips[clipId]); break;
-                 }
-             }*/
+            
         }
+    }
+
+    public void AddToQueue(AudioClip clip)
+    {
+        queue.Add(clip);
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("FunnyTestKey"))
-        {
-            Debug.Log("pressedtestkey");
-            PlaySoundClip(0,"button");
-        }
+       if(queue.Count > 0 && !audioSource.isPlaying)
+       {
+            audioSource.PlayOneShot(queue[0]);
+            queue.Clear();
+       }
     }
 }

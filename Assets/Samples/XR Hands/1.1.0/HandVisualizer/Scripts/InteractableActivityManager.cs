@@ -109,6 +109,9 @@ public class InteractableActivityManager : MonoBehaviour
     [SerializeField]
     GameObject nearestNeighbor;
 
+    ProximitySensor proximitySensor;
+
+    AudioFeedback audioFeedback;
     private void Awake()
     {
         if (sessionMode != SessionMode.Matrix)
@@ -134,6 +137,9 @@ public class InteractableActivityManager : MonoBehaviour
         rightHandPos = new();
 
         sessionManager = GameObject.FindGameObjectWithTag("SessionManager").GetComponent<SessionManager>();
+
+        proximitySensor = GetComponentInChildren<ProximitySensor>();
+        audioFeedback = GetComponent<AudioFeedback>();
 
         if (type == InteractableType.Button)
         {
@@ -282,6 +288,7 @@ public class InteractableActivityManager : MonoBehaviour
 
         if (myRigidbody.gameObject.transform.localPosition.y <= downPosition)
         {
+            
             // myInteractableCollider.gameObject.GetComponent<Animator>().SetFloat("force", force);
             if (sessionMode != SessionMode.Matrix)
             {
@@ -556,6 +563,7 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (interactSuccess)
         {
+            audioFeedback.PlaySoundClip(0, "button");
             if (myOrderIndex != collidables.objects.Count - 1)
             {
                 collidables.objects[myOrderIndex + 1].SetActive(true);
@@ -575,6 +583,8 @@ public class InteractableActivityManager : MonoBehaviour
     {
         if (highlighted)
         {
+            audioFeedback.PlaySoundClip(0, "button");
+
             if (sessionMode != SessionMode.Matrix)
             {
                 collidables.AddToInteracted(myOrderIndex);
@@ -937,6 +947,15 @@ public class InteractableActivityManager : MonoBehaviour
 
     private void Update()  // all checks and other things are being run in here (yrjistä)
     {
+        if (highlighted)
+        {
+            proximitySensor.enableSensor = true;
+        }
+        else
+        {
+            proximitySensor.enableSensor = false;
+        }
+
         if (!interactSuccess && sessionManager.CurrentState() == States.State.Active)
         {
             myDuration += Time.deltaTime;

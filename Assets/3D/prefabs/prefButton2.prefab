@@ -480,8 +480,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 0.05, y: 0.075, z: 0.05}
+  m_Center: {x: 0, y: 0.048, z: 0}
 --- !u!114 &4748627459015366632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +495,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensorTripped: 0
+  enableSensor: 0
+  collidingWith: []
 --- !u!1 &7978586539983675760
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundClips: {fileID: 11400000, guid: 70c0a49131dba354187df160df50dfe6, type: 2}
+  queue: []
 --- !u!1 &8826246123928689155
 GameObject:
   m_ObjectHideFlags: 0

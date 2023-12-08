@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,39 +9,64 @@ public class ProximitySensor : MonoBehaviour
     bool sensorTripped;
     AudioFeedback audioFeedback;
 
+    public bool enableSensor;
+
+    [SerializeField]
+    List<Collider> collidingWith;
+
     private void Start()
     {
-     audioFeedback = GetComponentInParent<AudioFeedback>();   
+        audioFeedback = GetComponentInParent<AudioFeedback>();   
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null)
+        if (enableSensor)
         {
-            if (other.gameObject.activeSelf)
+            if (other != null)
             {
-                if (other.CompareTag("FingerCollider") && !sensorTripped)
+                if (other.gameObject.activeSelf)
                 {
-                    Debug.Log("sensor tripped");
-                    sensorTripped = true;
+                    if (other.CompareTag("FingerCollider") )
+                    {
+                        if (collidingWith.Count == 0)
+                            audioFeedback.PlaySoundClip(0);
 
-                    audioFeedback.PlaySoundClip(0);
+                        if (!collidingWith.Contains(other))
+                            collidingWith.Add(other);
+
+                      /*  Debug.Log("sensor tripped");
+                        sensorTripped = true;*/
+
+                        
+                    }
                 }
             }
         }
     }
 
+
     private void OnTriggerExit(Collider other)
     {
-        if (other != null)
+        if (enableSensor)
         {
-            if (other.gameObject.activeSelf)
+            if (other != null)
             {
-                if (other.CompareTag("FingerCollider") && sensorTripped)
+                if (other.gameObject.activeSelf)
                 {
-                    Debug.Log("sensor no longer tripped");
-                    sensorTripped = false;
+                    if (other.CompareTag("FingerCollider"))
+                    {
+                        if (collidingWith.Contains(other))
+                            collidingWith.Remove(other);
 
-                    audioFeedback.PlaySoundClip(1);
+                        Debug.Log("sensor no longer tripped");
+
+                        if (collidingWith.Count == 0)
+                        {
+                           // sensorTripped = false;
+                            audioFeedback.PlaySoundClip(1);
+                        }
+
+                    }
                 }
             }
         }
