@@ -124,6 +124,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &676131241 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1262970633346161733, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1409799677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &676131248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676131241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dc13af67540f5459c9c3cc79df7b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisHand: 1
+  trackColliders: {fileID: 0}
+  handVisualizerGameObject: {fileID: 1362825880}
+  wristRoot: {fileID: 0}
+--- !u!1 &926149195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1262970632283854088, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1409799677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &926149201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926149195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dc13af67540f5459c9c3cc79df7b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisHand: 0
+  trackColliders: {fileID: 0}
+  handVisualizerGameObject: {fileID: 1362825880}
+  wristRoot: {fileID: 0}
 --- !u!1 &1308025002
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +257,12 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1362825880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1262970632353794131, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1409799677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1409799677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -240,6 +290,26 @@ PrefabInstance:
       propertyPath: defaultPos
       value: 
       objectReference: {fileID: 1552034428}
+    - target: {fileID: 274546917943368258, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_UIScrollAction.m_Action.m_Id
+      value: be7a5ece-48ca-4955-a4b4-05d68128aa0a
+      objectReference: {fileID: 0}
+    - target: {fileID: 274546917943368258, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_IsTrackedAction.m_Action.m_Id
+      value: 8309c80a-3857-4764-9336-dbf0649280ed
+      objectReference: {fileID: 0}
+    - target: {fileID: 274546917943368258, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleDeltaAction.m_Action.m_Id
+      value: 94e780a2-b878-49c9-bb1a-76a32cbb327e
+      objectReference: {fileID: 0}
+    - target: {fileID: 274546917943368258, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleToggleAction.m_Action.m_Id
+      value: f1f77177-2359-4b01-a493-bfb7489694f2
+      objectReference: {fileID: 0}
     - target: {fileID: 276426792414819636, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -264,6 +334,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153251698234978495, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_UIScrollAction.m_Action.m_Id
+      value: 5b27e189-671f-42d0-8fd7-f86206170254
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153251698234978495, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_IsTrackedAction.m_Action.m_Id
+      value: 21b7e4b6-6184-43f4-bb19-212ffaa90c7a
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153251698234978495, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleDeltaAction.m_Action.m_Id
+      value: f558ebad-c13d-4276-8536-a90f03f761c0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153251698234978495, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleToggleAction.m_Action.m_Id
+      value: 70bdfcdb-df14-471d-b8d4-dfd9a2aaa7ad
       objectReference: {fileID: 0}
     - target: {fileID: 4108124381048770941, guid: 457a0d2628fbf2b4986b3c4f009100a3,
         type: 3}
@@ -324,6 +414,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Origin HandsHXRC
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262799223455587559, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_UIScrollAction.m_Action.m_Id
+      value: 2a42da45-e187-4503-a23b-3a19086e2461
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262799223455587559, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_IsTrackedAction.m_Action.m_Id
+      value: 05516a55-9320-486f-9567-70857a9cf1c6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262799223455587559, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleDeltaAction.m_Action.m_Id
+      value: cabc7709-2c7c-46ac-9b75-dbc7cb971fc4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262799223455587559, guid: 457a0d2628fbf2b4986b3c4f009100a3,
+        type: 3}
+      propertyPath: m_ScaleToggleAction.m_Action.m_Id
+      value: d4b09ce9-bdf2-4cf5-bab8-0400dfaebc8f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 457a0d2628fbf2b4986b3c4f009100a3, type: 3}

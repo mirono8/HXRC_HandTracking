@@ -15,7 +15,6 @@ public class TrackColliders : MonoBehaviour
                                                              //USED IN
     public List<SphereCollider> proximalSphereColliders;     //LEVER GRABBING
 
-
     public List<SphereCollider> physicsColliders = new();
 
     [HideInInspector]

@@ -344,6 +344,7 @@ namespace UnityEngine.XR.Hands.Samples.VisualizerSample
                 }
                 else
                 {
+                   // wristRootXform.gameObject.AddComponent<HandVisualOffset>(); //added to offset visuals during interaction
                     AssignJoint(XRHandJointID.Wrist, wristRootXform, m_DrawJointsParent.transform);
                     for (int childIndex = 0; childIndex < wristRootXform.childCount; ++childIndex)
                     {
