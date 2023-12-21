@@ -146,6 +146,8 @@ MonoBehaviour:
   trackColliders: {fileID: 0}
   handVisualizerGameObject: {fileID: 1362825880}
   wristRoot: {fileID: 0}
+  collisionDetectors: []
+  activeCollisions: []
 --- !u!1 &926149195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1262970632283854088, guid: 457a0d2628fbf2b4986b3c4f009100a3,
@@ -168,6 +170,8 @@ MonoBehaviour:
   trackColliders: {fileID: 0}
   handVisualizerGameObject: {fileID: 1362825880}
   wristRoot: {fileID: 0}
+  collisionDetectors: []
+  activeCollisions: []
 --- !u!1 &1308025002
 GameObject:
   m_ObjectHideFlags: 0

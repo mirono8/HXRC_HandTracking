@@ -26,6 +26,7 @@ public class HandVisualOffset : MonoBehaviour
     List<FingerCollisionDetector> collisionDetectors;
     [SerializeField]
     List<FingerCollisionDetector> activeCollisions;
+
     void Start()
     {
        /* sortThroughColliders = FindObjectsOfType<TrackColliders>();
@@ -106,6 +107,7 @@ public class HandVisualOffset : MonoBehaviour
             
             }
         }
+
     }
 
     public void CheckActiveCollisions()
@@ -130,7 +132,6 @@ public class HandVisualOffset : MonoBehaviour
         {
             if (activeCollisions.Any())
             {
-
                 if (activeCollisions.Contains(inactive))
                 {
                     activeCollisions.Remove(inactive);
@@ -138,15 +139,13 @@ public class HandVisualOffset : MonoBehaviour
             }
         }
     }
-    void Update()
+
+    void Update()   //WIP. DISABLE THIS UODATE IF YOU DONT WANT TO FIX IT
     {
         CheckActiveCollisions();
         if (activeCollisions.Any())
         {
-            
-            
-        
-            wristRoot.position += activeCollisions[0].GetCollisionOffset();
+            wristRoot.position += activeCollisions[0].GetCollisionOffset(); //.GetChild(4)
             ClearInactiveCollisions();
         }
       //  wristRoot.position =

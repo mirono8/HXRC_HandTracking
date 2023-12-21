@@ -9,7 +9,7 @@ using System.Text;
 
 public class GetSetupData : MonoBehaviour
 {
-    //h ttps://xrdev.edu.metropolia.fi/gamedata/getdata/xr-space-testi
+
 
     public bool overrideWithDefaults;
     public float timer = 0f;
@@ -167,7 +167,7 @@ public class GetSetupData : MonoBehaviour
         {
             for (int i = 0; i < node.Count; i++)
             {
-                if (latestId < node[i]["id"] && node[i]["title"] == "xr-space-testi")
+                if (latestId < node[i]["id"] && node[i]["title"] == "your-url-here")
                 {
                     latestId = node[i]["id"];
                     indexOfLatest = i;
@@ -197,7 +197,7 @@ public class GetSetupData : MonoBehaviour
 
 
 
-                //LISÄÄ REACT JA SIT UNCOMMENT   vvvvv NÄÄ ON PLACEHOLDER
+                //LISï¿½ï¿½ REACT JA SIT UNCOMMENT   vvvvv Nï¿½ï¿½ ON PLACEHOLDER
                 sets[i].mode = "all";
 
                 //int iCount = node[indexOfLatest]["gameData"]["setsList"][i][3].ToInt()
@@ -235,7 +235,7 @@ public class GetSetupData : MonoBehaviour
         sets = new();
         if (!overrideWithDefaults)
         {
-            StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+            StartCoroutine(GetSetupDataFromSite("your-url-here"));
         }
         else
             GoByDefault();
@@ -270,10 +270,10 @@ public class GetSetupData : MonoBehaviour
         {
             if(onSessionStart != null)
                 onSessionStart.SetActive(true);
-           /* if (!Latest())  //kommentoitu et pystyy uudelleenkäyttää aiempaa sessiota
+           /* if (!Latest())  //kommentoitu et pystyy uudelleenkï¿½yttï¿½ï¿½ aiempaa sessiota
             {
                 timer = 0;
-                StartCoroutine(GetSetupDataFromSite("https://xrdev.edu.metropolia.fi/api/gamedata/getdata/xr-space-testi"));
+                StartCoroutine(GetSetupDataFromSite("your-url-here));
             }
             else
             {

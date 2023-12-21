@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using HandData;
 using System;
+using static UnityEngine.GraphicsBuffer;
 
 public class FingerCollisionDetector : MonoBehaviour
 {
@@ -29,6 +30,13 @@ public class FingerCollisionDetector : MonoBehaviour
     [SerializeField]
     bool activeVisualCollision;
 
+    Collider currentlyCollidingWith;
+
+    [SerializeField]
+    bool staying;
+
+    [SerializeField]
+    Vector3 othersVector;
     private void Start()
     {
         handData = GameObject.FindGameObjectWithTag("HandData").GetComponent<HandDataOut>();
@@ -66,7 +74,7 @@ public class FingerCollisionDetector : MonoBehaviour
         {
             if (!other.CompareTag("IgnoreCollisionSaves"))
             {
-                if (other.gameObject.GetComponentInParent<CollidableObjects>() && sessionManager.CurrentState() == States.State.Active)
+                if (other.gameObject.GetComponentInParent<CollidableObjects>() && sessionManager.CurrentState() == States.State.Active && !staying)
                 {
 
                     if (colliders.handedness == TrackColliders.Hand.left)
@@ -89,6 +97,7 @@ public class FingerCollisionDetector : MonoBehaviour
                                     //fingerTipColliderTip = colliders.fingertips[i];
                                     fingertipListIndex = i;
                                     // Debug.Log(fingerTipColliderTip.finger);
+                                    currentlyCollidingWith = other;
                                     collisionEvent = new()
                                     {
                                         startTime = DateTime.Now.ToString("HH-mm-ss"),
@@ -113,19 +122,33 @@ public class FingerCollisionDetector : MonoBehaviour
 
                                 if (handData.rightHand.fingers.trackColliders.tipSphereColliders[i].Equals(collision))
                                 {
+                                    Vector3 tip = handData.rightHand.fingerColliders[i].fingerTipPosition;
                                     activeVisualCollision = true;
-                                    float distance = Vector3.Distance(transform.position, other.transform.position);
-                                    collisionOffset = new Vector3(transform.position.x + distance, transform.position.y + distance, transform.position.z + distance);
+                                    float distance = Vector3.Distance(tip, other.transform.position);
+                                    float floatX = tip.x - other.transform.position.x;
+                                    float floatY = tip.y - other.transform.position.y;
+                                    float floatZ = tip.z - other.transform.position.z;
+
+                                    //var y = Vector3.MoveTowards(tip, other.transform.position, 1);
+                                    //var x = handData.rightHand.fingers.trackColliders.tipSphereColliders[i].radius;
+                                    collisionOffset = new Vector3(floatX, floatY, floatZ);
+
+                                    
+                                    Debug.Log("collision offset " + collisionOffset);
+                                   // Debug.Log(tip + " is the tip position");
+                                    //Debug.Log(floatX + ", " + floatY + ", " + floatZ  + " is the distance between tip and other collider");
+                                    //collisionOffset = new Vector3(tip.x + distance, tip.y + distance, tip.z + distance);
                                     //handData.leftHand.fingers.trackColliders.tipColliders[i].colliding = true;
                                     handData.rightHand.fingerColliders[i].colliding = true;
                                     //fingerTipColliderTip = colliders.fingertips[i];
                                     fingertipListIndex = i;
+                                    currentlyCollidingWith = other;
                                     // Debug.Log(fingerTipColliderTip.finger);
                                     Debug.Log("SAVING NEW COLLISION EVENT TO JSON");
                                     collisionEvent = new()
                                     {
                                         startTime = DateTime.Now.ToString("HH-mm-ss"),
-                                        collidingFinger = handData.leftHand.fingerColliders[i].fingerName,
+                                        collidingFinger = handData.rightHand.fingerColliders[i].fingerName,
                                         otherCollider = other.gameObject.name
                                     };
                                 }
@@ -174,8 +197,7 @@ public class FingerCollisionDetector : MonoBehaviour
         }
     }
 
-
-
+    
 
     private void OnTriggerExit(Collider other)
     {
@@ -187,6 +209,7 @@ public class FingerCollisionDetector : MonoBehaviour
             {
                 if (other.gameObject.transform.GetComponentInParent<CollidableObjects>() && sessionManager.CurrentState() == States.State.Active)
                 {
+                    staying = false;
                     activeVisualCollision = false;
                     collisionOffset = Vector3.zero;
                     // colliders.tipColliders[fingertipListIndex].colliding = false;
