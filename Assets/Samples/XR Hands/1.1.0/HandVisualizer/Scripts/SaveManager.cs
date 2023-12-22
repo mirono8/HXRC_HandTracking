@@ -149,13 +149,13 @@ public class SaveManager : MonoBehaviour
         }
 
         if (Input.GetButtonDown("FunnyTestKey"))
-            StartCoroutine(SendSessionDataToSite("https://xrdev.edu.metropolia.fi/api/gamedata/createdata/", combinedData));
+            StartCoroutine(SendSessionDataToSite("your-url", combinedData));
     }
     public float SetSessionEndTime()
     {
         return combinedData.elapsedTime;
     }
-    IEnumerator SendSessionDataToSite(string uri, DataWrapper data)   //uri = https://xrdev.edu.metropolia.fi/api/gamedata/
+    IEnumerator SendSessionDataToSite(string uri, DataWrapper data)   //uri = 
     {
         // test=?
        /* byte[] rawJson = Encoding.UTF8.GetBytes(json);
@@ -170,7 +170,7 @@ public class SaveManager : MonoBehaviour
         WWWForm form = new();
         byte[] rawJson = Encoding.UTF8.GetBytes(json);
 
-        form.AddField("title", "xr-space-data-test");
+        form.AddField("title", "formname");
        // form.AddField("data", JsonUtility.ToJson(data));
         //form.AddBinaryData("data", rawJson);
 
